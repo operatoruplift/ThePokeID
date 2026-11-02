@@ -44,14 +44,13 @@ export function Favourite() {
   const selected = picked ? cardById(picked) : null;
 
   return (
-    <section id="favourite" className="scroll-mt-24 bg-paper">
-      <div className="pointer-events-none h-16 bg-gradient-to-b from-stage to-paper" />
-      <div className="mx-auto max-w-6xl px-5 pt-8 pb-20 md:pb-28">
+    <section id="favourite" className="scroll-mt-24 bg-stage">
+      <div className="mx-auto max-w-6xl px-5 py-16 md:py-24">
         <p className="text-xs font-bold uppercase tracking-[0.22em] text-brand">04 — The question</p>
         <h2 className="mt-3 max-w-3xl font-display text-5xl leading-[0.92] tracking-tight md:text-7xl">
           What&apos;s your favourite?
         </h2>
-        <p className="mt-4 max-w-lg text-base leading-relaxed text-mist">
+        <p className="mt-4 max-w-lg text-base leading-relaxed text-paper/70">
           The banner already asks. Lock a sample card on this device. It does not post anywhere.
         </p>
 
@@ -74,7 +73,7 @@ export function Favourite() {
                   Locked in
                 </p>
                 <p className="mt-3 font-display text-3xl leading-none">{selected.name}</p>
-                <p className="mt-1 text-sm text-mist">
+                <p className="mt-1 text-sm text-paper/60">
                   #{selected.number} · {selected.rarity}
                 </p>
                 <button
@@ -86,10 +85,10 @@ export function Favourite() {
                 </button>
               </>
             ) : (
-              <div className="grid aspect-[63/88] place-items-center rounded-[14px] border-2 border-dashed border-ink/20 bg-white px-6 text-center">
+              <div className="grid aspect-[63/88] place-items-center rounded-[14px] border-2 border-dashed border-white/25 bg-white/5 px-6 text-center">
                 <div>
-                  <p className="font-hand text-4xl text-brand">Pick one.</p>
-                  <p className="mt-2 text-sm text-mist">Pikachu is the banner. Charizard is allowed.</p>
+                  <p className="font-hand text-4xl text-sun">Pick one.</p>
+                  <p className="mt-2 text-sm text-paper/60">Pikachu is the banner. Charizard is allowed.</p>
                 </div>
               </div>
             )}
@@ -109,7 +108,7 @@ export function Favourite() {
                     <span
                       className={cn(
                         "relative block aspect-[63/88] overflow-hidden rounded-xl bg-white",
-                        pressed ? "ring-4 ring-brand ring-offset-2 ring-offset-paper" : "ring-1 ring-ink/10",
+                        pressed ? "ring-4 ring-sun ring-offset-2 ring-offset-stage" : "ring-1 ring-white/15",
                       )}
                     >
                       <CardFace card={card} sizes="120px" />

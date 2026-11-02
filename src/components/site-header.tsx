@@ -17,11 +17,11 @@ import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const LINKS = [
+  { href: "/#packs", id: "packs", label: "Packs" },
   { href: "/#floor", id: "floor", label: "Floor" },
   { href: "/#rip", id: "rip", label: "Rip" },
   { href: "/#binder", id: "binder", label: "Binder" },
   { href: "/#favourite", id: "favourite", label: "Favourite" },
-  { href: "/#drops", id: "drops", label: "Drops" },
   { href: "/#list", id: "list", label: "List" },
 ];
 
@@ -68,7 +68,7 @@ export function SiteHeader() {
       <header
         className={cn(
           "fixed inset-x-0 top-0 z-40 transition-colors",
-          scrolled ? "border-b border-line bg-paper/90 backdrop-blur-md" : "bg-transparent",
+          scrolled ? "border-b border-white/10 bg-stage/90 text-paper backdrop-blur-md" : "bg-transparent",
         )}
       >
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5">
@@ -88,8 +88,8 @@ export function SiteHeader() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "text-xs font-bold uppercase tracking-[0.16em] text-mist hover:text-ink",
-                  active === link.id && "text-brand",
+                  "text-xs font-bold uppercase tracking-[0.16em] text-paper/55 hover:text-paper",
+                  active === link.id && "text-sun",
                 )}
                 aria-current={active === link.id ? "true" : undefined}
               >

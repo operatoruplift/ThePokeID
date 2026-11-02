@@ -10,7 +10,7 @@
   --stage: #110d12;
   --mist: #6e5960;
   --line: #f0e2da;
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -24,7 +24,8 @@
   --color-mist: var(--mist);
   --color-line: var(--line);
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-bricolage), var(--font-geist), sans-serif;
+  --font-display: var(--font-pokemon-solid), var(--font-bricolage), sans-serif;
+  --font-hollow: var(--font-pokemon-hollow), sans-serif;
   --font-hand: var(--font-schoolbell), cursive;
 }
 
@@ -33,8 +34,8 @@ html {
 }
 
 body {
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--stage);
+  color: var(--paper);
 }
 
 ::selection {
@@ -384,6 +385,41 @@ body {
   }
 }
 
+.fan-card {
+  animation: fan-float 4.8s ease-in-out infinite;
+}
+
+@keyframes fan-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.pack-glow {
+  animation: pack-pulse 3.4s ease-in-out infinite;
+}
+
+@keyframes pack-pulse {
+  50% {
+    opacity: 0.4;
+    transform: scale(1.18);
+  }
+}
+
+.slab {
+  border-radius: 18px;
+  padding: 12px 12px 14px;
+  background: linear-gradient(180deg, #2c3140, #0c0e14);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 24px 50px rgba(0, 0, 0, 0.45),
+    0 0 48px rgba(225, 6, 0, 0.28);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .rise,
   .float-ball,
@@ -395,7 +431,9 @@ body {
   .is-shaking,
   .stamp,
   .spark,
-  .tear-line {
+  .tear-line,
+  .fan-card,
+  .pack-glow {
     animation: none;
   }
 

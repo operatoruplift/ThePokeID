@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Geist, Schoolbell } from "next/font/google";
+import localFont from "next/font/local";
 
 import { ScrollProgress } from "@/components/scroll-progress";
 import { SiteFooter } from "@/components/site-footer";
@@ -22,6 +23,20 @@ const hand = Schoolbell({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-schoolbell",
+});
+
+const pokemonSolid = localFont({
+  src: "../fonts/PokemonSolid.ttf",
+  variable: "--font-pokemon-solid",
+  display: "swap",
+  adjustFontFallback: false,
+});
+
+const pokemonHollow = localFont({
+  src: "../fonts/PokemonHollow.ttf",
+  variable: "--font-pokemon-hollow",
+  display: "swap",
+  adjustFontFallback: false,
 });
 
 const siteUrl = getSiteUrl();
@@ -86,9 +101,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${sans.variable} ${display.variable} ${hand.variable} h-full antialiased`}
+      className={`${sans.variable} ${display.variable} ${hand.variable} ${pokemonSolid.variable} ${pokemonHollow.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-paper font-sans text-ink">
+      <body className="min-h-full bg-stage font-sans text-paper">
         <a href="#main" className="skip-link">
           Skip to content
         </a>

@@ -96,7 +96,7 @@ export function Gallery() {
         </div>
 
         <p className="mt-5 text-xs font-bold uppercase tracking-[0.16em] text-paper/60">
-          {shown.length} example {shown.length === 1 ? "card" : "cards"}
+          {shown.length} {shown.length === 1 ? "card" : "cards"}
         </p>
 
         {shown.length === 0 ? (

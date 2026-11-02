@@ -12,7 +12,7 @@ const buttonVariants = cva(
         lip: "lip bg-brand text-white [--lip:var(--brand-deep)]",
         sun: "lip bg-sun text-ink [--lip:#c9a400]",
         outline:
-          "border-2 border-ink bg-transparent text-ink hover:bg-ink hover:text-paper",
+          "border-2 border-white/30 bg-transparent text-paper hover:bg-paper hover:text-ink",
         ghost: "bg-transparent text-inherit hover:bg-ink/5",
         inverse: "lip bg-paper text-ink [--lip:#d9cfc6]",
       },

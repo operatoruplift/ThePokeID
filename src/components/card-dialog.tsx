@@ -25,10 +25,7 @@ export function CardDialog({
               <CardFace card={card} large sizes="240px" />
             </div>
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-brand">
-                Example card
-              </p>
-              <DialogTitle className="mt-2">{card.name}</DialogTitle>
+              <DialogTitle>{card.name}</DialogTitle>
               <DialogDescription>
                 {card.setName} · #{card.number} · {card.rarity}
                 {card.artist ? ` · ${card.artist}` : ""}
@@ -56,7 +53,7 @@ export function CardDialog({
             </div>
           </div>
         ) : (
-          <DialogTitle className="sr-only">Example card</DialogTitle>
+          <DialogTitle className="sr-only">Card</DialogTitle>
         )}
       </DialogContent>
     </Dialog>

@@ -29,7 +29,7 @@ export function HoloCard({
   const reduce = useReducedMotion();
   const [hot, setHot] = useState(false);
   const tier = foilTier(card.rarity);
-  const label = `${card.name}. ${card.setName} number ${card.number}. Example ${card.rarity}.`;
+  const label = `${card.name}. ${card.setName} number ${card.number}. ${card.rarity}.`;
 
   function move(event: PointerEvent<HTMLDivElement>) {
     if (reduce || event.pointerType === "touch") return;
@@ -70,9 +70,6 @@ export function HoloCard({
         <span className="holo-foil" />
         <span className="holo-spark" />
         <span className="holo-glare" />
-        <span className="absolute top-2 left-2 z-10 rounded-full bg-ink/80 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.14em] text-sun">
-          Example
-        </span>
       </div>
     </div>
   );

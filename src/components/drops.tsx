@@ -9,32 +9,24 @@ import { DROPS, type DropStory, type DropTone } from "@/data/desk";
 import { cn } from "@/lib/utils";
 
 const toneClass: Record<DropTone, string> = {
-  paper: "bg-paper text-ink",
-  sun: "bg-sun text-ink",
+  paper: "bg-[#10131c] text-paper",
+  sun: "bg-[#24180a] text-paper",
   brand: "bg-brand text-white",
 };
 
 function StoryCopy({ story }: { story: DropStory }) {
   const card = cardById(story.cardId);
-  const onBrand = story.tone === "brand";
   return (
     <div>
-      <p
-        className={cn(
-          "text-xs font-bold uppercase tracking-[0.2em]",
-          onBrand ? "text-sun" : "text-brand",
-        )}
-      >
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-sun">
         {story.index} — {story.kicker}
       </p>
-      <h3 className="mt-3 font-display text-5xl leading-[0.9] tracking-tight md:text-6xl">
+      <h3 className="mt-3 font-display text-5xl leading-[0.9] tracking-tight text-current md:text-6xl">
         {story.title}
       </h3>
-      <p className={cn("mt-4 max-w-md text-base leading-relaxed", onBrand ? "text-white/85" : "text-ink/75")}>
-        {story.body}
-      </p>
-      <p className={cn("mt-4 text-xs font-bold uppercase tracking-[0.16em]", onBrand ? "text-white/70" : "text-mist")}>
-        Example · {card.name} · #{card.number}
+      <p className="mt-4 max-w-md text-base leading-relaxed text-current/80">{story.body}</p>
+      <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-current/60">
+        {card.name} · #{card.number}
       </p>
     </div>
   );
@@ -72,7 +64,7 @@ function ScrubStories() {
 
   return (
     <div ref={ref} className="relative h-[300vh]">
-      <div className="sticky top-0 h-screen overflow-hidden bg-paper">
+      <div className="sticky top-0 h-screen overflow-hidden bg-stage">
         <motion.div style={{ x }} className="flex h-full w-[300%]">
           {DROPS.map((story) => {
             const card = cardById(story.cardId);
@@ -89,7 +81,7 @@ function ScrubStories() {
             );
           })}
         </motion.div>
-        <p className="absolute right-8 bottom-8 rounded-full bg-paper/90 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-ink">
+        <p className="absolute right-8 bottom-8 rounded-full border border-white/15 bg-stage/90 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-paper">
           Scroll to slide
         </p>
       </div>
@@ -101,7 +93,7 @@ export function Drops() {
   const reduce = useReducedMotion();
 
   return (
-    <section id="drops" className="scroll-mt-24 bg-paper pb-16 md:pb-0">
+    <section id="drops" className="scroll-mt-24 bg-stage pb-16 md:pb-0">
       <h2 className="sr-only">05 — From the desk. Example drops, not confirmed sales.</h2>
       {reduce ? (
         <div className="py-8">

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { siteConfig } from "@/lib/site";
 
 const LINKS = [
+  { href: "/#packs", label: "Packs" },
   { href: "/#floor", label: "Floor" },
   { href: "/#rip", label: "Rip" },
   { href: "/#binder", label: "Binder" },

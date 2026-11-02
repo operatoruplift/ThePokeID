@@ -32,7 +32,6 @@ export function IdentityPlate({ card }: { card: ExampleCard }) {
         </div>
       </div>
       <div className="px-3 py-2">
-        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-brand">Example</p>
         <p className="text-xs">{card.rarity}</p>
       </div>
     </div>
@@ -48,9 +47,6 @@ export function CardBack() {
           ID
         </div>
       </div>
-      <p className="absolute inset-x-0 bottom-3 text-center text-[10px] font-bold uppercase tracking-[0.22em]">
-        Example
-      </p>
     </div>
   );
 }

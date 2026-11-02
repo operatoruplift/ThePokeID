@@ -63,7 +63,7 @@ function PackArt() {
         letterSpacing="3"
         fill="#1a0b0d"
       >
-        EXAMPLE PACK
+        DESK PACK
       </text>
       <text
         x="115"
@@ -178,14 +178,14 @@ export function PackRip() {
   const away = phase === "tearing" || showCards;
   const status =
     phase === "open"
-      ? "Example pull. Tilt a card, or rip another."
+      ? "Tilt a card, or rip another."
       : phase === "sealed"
         ? "Five cards. The last one is the hit."
         : "Hold on.";
 
   return (
     <section id="rip" className="relative scroll-mt-24 overflow-hidden bg-stage text-paper">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-paper to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-stage to-transparent" />
       <div
         className="pointer-events-none absolute inset-0"
         style={{
