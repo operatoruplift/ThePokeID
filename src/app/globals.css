@@ -1,0 +1,455 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #1a0b0d;
+  --paper: #fff8f3;
+  --brand: #e10600;
+  --brand-deep: #8e0500;
+  --sun: #ffd000;
+  --bolt: #2454e6;
+  --stage: #110d12;
+  --mist: #6e5960;
+  --line: #f0e2da;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+  --color-sun: var(--sun);
+  --color-bolt: var(--bolt);
+  --color-stage: var(--stage);
+  --color-mist: var(--mist);
+  --color-line: var(--line);
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-pokemon-solid), var(--font-bricolage), sans-serif;
+  --font-hollow: var(--font-pokemon-hollow), sans-serif;
+  --font-hand: var(--font-schoolbell), cursive;
+}
+
+html {
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  background: var(--stage);
+  color: var(--paper);
+}
+
+::selection {
+  background: var(--sun);
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 70;
+  border-radius: 0.75rem;
+  background: var(--sun);
+  color: var(--ink);
+  padding: 0.6rem 0.9rem;
+  font-weight: 700;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.lip {
+  box-shadow: 0 4px 0 var(--lip, var(--brand-deep));
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.08s ease;
+}
+
+.lip:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.lip:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--lip, var(--brand-deep));
+}
+
+.rise {
+  animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.rise-2 {
+  animation-delay: 0.08s;
+}
+
+.rise-3 {
+  animation-delay: 0.16s;
+}
+
+.rise-4 {
+  animation-delay: 0.24s;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.float-ball {
+  animation: float-ball 5.5s ease-in-out infinite;
+}
+
+@keyframes float-ball {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.gleam {
+  position: absolute;
+  inset: 6%;
+  border-radius: 999px;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.72) 48%,
+    transparent 60%
+  );
+  background-size: 220% 100%;
+  mix-blend-mode: soft-light;
+  animation: gleam 4.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes gleam {
+  0%,
+  35% {
+    background-position: 130% 0;
+  }
+  70%,
+  100% {
+    background-position: -30% 0;
+  }
+}
+
+.marquee {
+  animation: marquee 32s linear infinite;
+}
+
+.marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.card-wall {
+  animation: card-wall 36s linear infinite;
+}
+
+.card-wall:hover {
+  animation-play-state: paused;
+}
+
+@keyframes card-wall {
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+.floor-mask {
+  mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 92%, transparent);
+}
+
+.holo {
+  --px: 0.5;
+  --py: 0.32;
+  --rx: 0deg;
+  --ry: 0deg;
+  position: relative;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+  transition: transform 0.12s ease-out;
+  will-change: transform;
+}
+
+.holo-foil,
+.holo-spark,
+.holo-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.holo-foil {
+  background-image: linear-gradient(
+    115deg,
+    transparent 8%,
+    rgba(255, 208, 0, 0.55) 26%,
+    rgba(36, 84, 230, 0.5) 42%,
+    rgba(225, 6, 0, 0.42) 56%,
+    rgba(255, 255, 255, 0.75) 72%,
+    transparent 88%
+  );
+  background-size: 220% 100%;
+  mix-blend-mode: soft-light;
+  opacity: 0.2;
+  animation: foil-drift 8s linear infinite;
+}
+
+.foil-soft .holo-foil {
+  opacity: 0.08;
+}
+
+.foil-holo .holo-foil {
+  opacity: 0.28;
+}
+
+.foil-rare .holo-foil,
+.foil-chase .holo-foil {
+  opacity: 0.42;
+}
+
+.holo.is-hot .holo-foil {
+  mix-blend-mode: color-dodge;
+  opacity: 0.72;
+  animation: none;
+}
+
+.holo-spark {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0.6px, transparent 1px);
+  background-size: 7px 7px;
+  background-position: calc(var(--px) * 28px) calc(var(--py) * 28px);
+  mix-blend-mode: overlay;
+  opacity: 0;
+}
+
+.foil-chase .holo-spark {
+  opacity: 0.22;
+}
+
+.holo.is-hot.foil-rare .holo-spark,
+.holo.is-hot.foil-chase .holo-spark {
+  opacity: 0.65;
+}
+
+.holo-glare {
+  background: radial-gradient(
+    farthest-corner circle at calc(var(--px) * 100%) calc(var(--py) * 100%),
+    rgba(255, 255, 255, 0.78),
+    rgba(255, 255, 255, 0.12) 24%,
+    transparent 52%
+  );
+  mix-blend-mode: soft-light;
+  opacity: 0;
+}
+
+.holo.is-hot .holo-glare {
+  opacity: 1;
+}
+
+@keyframes foil-drift {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 200% 50%;
+  }
+}
+
+.deal-flip {
+  animation: deal-flip 0.78s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-style: preserve-3d;
+}
+
+@keyframes deal-flip {
+  0% {
+    opacity: 0;
+    transform: translateY(28px) rotateY(180deg);
+  }
+  28% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateY(0deg);
+  }
+}
+
+.pack-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.pack-back {
+  transform: rotateY(180deg);
+}
+
+.is-shaking {
+  animation: shake 0.12s linear 4;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(-2.4deg) translateX(-4px);
+  }
+  75% {
+    transform: rotate(2.4deg) translateX(4px);
+  }
+}
+
+.is-away {
+  transform: translateY(-90px) scale(0.94);
+  opacity: 0;
+  transition:
+    transform 0.45s ease,
+    opacity 0.45s ease;
+}
+
+.tear-line {
+  height: 3px;
+  background: white;
+  box-shadow: 0 0 18px white;
+  transform-origin: left center;
+  animation: slash 0.35s ease forwards;
+}
+
+@keyframes slash {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.stamp {
+  animation: stamp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes stamp {
+  0% {
+    opacity: 0;
+    transform: rotate(-16deg) scale(1.35);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(-8deg) scale(1);
+  }
+}
+
+.spark {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--sun);
+  animation: spark 0.7s ease-out both;
+}
+
+@keyframes spark {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-36px) scale(0.4);
+  }
+}
+
+.fan-card {
+  animation: fan-float 4.8s ease-in-out infinite;
+}
+
+@keyframes fan-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.pack-glow {
+  animation: pack-pulse 3.4s ease-in-out infinite;
+}
+
+@keyframes pack-pulse {
+  50% {
+    opacity: 0.4;
+    transform: scale(1.18);
+  }
+}
+
+.slab {
+  border-radius: 18px;
+  padding: 12px 12px 14px;
+  background: linear-gradient(180deg, #2c3140, #0c0e14);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 24px 50px rgba(0, 0, 0, 0.45),
+    0 0 48px rgba(225, 6, 0, 0.28);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .float-ball,
+  .gleam,
+  .marquee,
+  .card-wall,
+  .holo-foil,
+  .deal-flip,
+  .is-shaking,
+  .stamp,
+  .spark,
+  .tear-line,
+  .fan-card,
+  .pack-glow {
+    animation: none;
+  }
+
+  .holo {
+    transform: none;
+  }
+
+  .floor-mask {
+    mask-image: none;
+  }
+
+  .is-duplicate {
+    display: none;
+  }
+
+  .is-away {
+    transition: none;
+  }
+}
