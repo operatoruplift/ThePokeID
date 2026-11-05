@@ -3,7 +3,7 @@
 import { CardFace } from "@/components/card-face";
 import { cardById } from "@/data/cards";
 
-const FAN_IDS = ["me55-30", "me55c-4", "me55-149", "me55-154", "me55-156"] as const;
+const FAN_IDS = ["xy12-35", "base1-2", "base1-4", "ecard3-H30", "ex15-100"] as const;
 
 const POSES = [
   { rotate: -20, x: -92, y: 28, z: 1 },

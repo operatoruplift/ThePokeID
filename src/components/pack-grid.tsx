@@ -55,28 +55,28 @@ export function PackGrid() {
     <div id="packs" className="scroll-mt-28">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.22em] text-sun">Newest packs</p>
-          <h2 className="mt-2 font-display text-4xl leading-none tracking-tight md:text-5xl">
-            Glow on. Price is a sample.
+          <p className="text-sm font-bold text-[#1b6b9e]">Explore the desk</p>
+          <h2 className="mt-2 font-display text-[28px] leading-tight md:text-[32px]">
+            Discover the desk packs
           </h2>
         </div>
-        <p className="hidden max-w-[12rem] text-right text-xs leading-relaxed text-paper/60 sm:block">
+        <p className="hidden max-w-[12rem] text-right text-xs leading-relaxed text-mist sm:block">
           Original wrappers. Nothing here is for sale.
         </p>
       </div>
       <ul className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
         {PACKS.map((pack) => (
           <li key={pack.name}>
-            <article className="group flex h-full flex-col rounded-2xl border border-white/10 bg-[#12141c] p-3">
-              <div className="relative grid flex-1 place-items-center overflow-hidden rounded-xl bg-black/40 py-4">
+            <article className="group flex h-full flex-col overflow-hidden rounded-[5px] border border-line bg-[#f2f2f2] p-3">
+              <div className="relative grid flex-1 place-items-center overflow-hidden rounded-[3px] bg-white py-4">
                 <span
-                  className="pack-glow absolute size-28 rounded-full blur-2xl"
+                  className="absolute size-28 rounded-full opacity-30 blur-2xl"
                   style={{ background: pack.glow }}
                 />
                 <PackGlyph top={pack.top} />
               </div>
-              <h3 className="mt-3 font-display text-2xl leading-none">{pack.name}</h3>
-              <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.14em] text-paper/50">
+              <h3 className="mt-3 font-display text-xl leading-tight text-ink">{pack.name}</h3>
+              <p className="mt-1 text-xs text-mist">
                 {pack.line}
               </p>
               <Button asChild variant="sun" size="sm" className="mt-3 w-full">

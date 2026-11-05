@@ -1,7 +1,7 @@
 "use client";
 
 import { useReducedMotion } from "framer-motion";
-import { useState, type PointerEvent } from "react";
+import { useRef, useState, type PointerEvent } from "react";
 
 import { CardFace } from "@/components/card-face";
 import { foilTier, type ExampleCard } from "@/data/cards";
@@ -28,6 +28,8 @@ export function HoloCard({
 }: HoloCardProps) {
   const reduce = useReducedMotion();
   const [hot, setHot] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const frameRef = useRef<HTMLDivElement>(null);
   const tier = foilTier(card.rarity);
   const label = `${card.name}. ${card.setName} number ${card.number}. ${card.rarity}.`;
 
@@ -35,8 +37,8 @@ export function HoloCard({
     if (reduce || event.pointerType === "touch") return;
     const el = event.currentTarget;
     const rect = el.getBoundingClientRect();
-    const px = (event.clientX - rect.left) / rect.width;
-    const py = (event.clientY - rect.top) / rect.height;
+    const px = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+    const py = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
     el.style.setProperty("--px", px.toFixed(4));
     el.style.setProperty("--py", py.toFixed(4));
     el.style.setProperty("--rx", `${(0.5 - py) * 12}deg`);
@@ -44,8 +46,9 @@ export function HoloCard({
     setHot(true);
   }
 
-  function leave(event: PointerEvent<HTMLDivElement>) {
-    const el = event.currentTarget;
+  function resetTilt() {
+    const el = frameRef.current;
+    if (!el) return;
     el.style.setProperty("--rx", "0deg");
     el.style.setProperty("--ry", "0deg");
     el.style.setProperty("--px", "0.5");
@@ -55,12 +58,13 @@ export function HoloCard({
 
   const frame = (
     <div
-      className={cn("holo w-full", fill ? "h-full" : "aspect-[63/88]", `foil-${tier}`, hot && "is-hot")}
+      ref={frameRef}
+      className={cn("holo w-full", fill ? "h-full" : "aspect-[63/88]", `foil-${tier}`, (hot || focused) && "is-hot")}
       onPointerMove={move}
-      onPointerLeave={leave}
-      onPointerCancel={leave}
+      onPointerLeave={resetTilt}
+      onPointerCancel={resetTilt}
     >
-      <div className="absolute inset-0 overflow-hidden rounded-[14px] bg-stage shadow-[0_16px_30px_rgba(0,0,0,0.28)]">
+      <div className="absolute inset-0 overflow-hidden rounded-[8px] bg-stage shadow-[0_5px_12px_rgba(0,0,0,0.15)]">
         <CardFace
           card={card}
           large={large}
@@ -77,7 +81,7 @@ export function HoloCard({
   const meta = showMeta ? (
     <div className="mt-3">
       <p className="font-display text-xl leading-none tracking-tight text-current">{card.name}</p>
-      <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-current/60">
+      <p className="mt-1 text-xs leading-snug text-current/70">
         #{card.number} · {card.rarity}
       </p>
     </div>
@@ -88,8 +92,14 @@ export function HoloCard({
       <button
         type="button"
         onClick={onSelect}
+        onFocus={() => setFocused(true)}
+        onBlur={() => {
+          setFocused(false);
+          resetTilt();
+        }}
         aria-label={label}
-        className={cn("block w-full text-left", className)}
+        aria-haspopup="dialog"
+        className={cn("holo-card-trigger block w-full rounded-lg text-left focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-bolt", className)}
       >
         {frame}
         {meta}
@@ -98,7 +108,7 @@ export function HoloCard({
   }
 
   return (
-    <div className={cn("w-full", className)}>
+    <div className={cn("relative w-full", className)}>
       {showMeta ? null : <span className="sr-only">{label}</span>}
       {frame}
       {meta}

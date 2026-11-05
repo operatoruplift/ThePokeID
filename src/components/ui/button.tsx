@@ -5,16 +5,16 @@ import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold uppercase tracking-[0.14em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bolt disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[5px] text-sm font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bolt disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4",
   {
     variants: {
       variant: {
-        lip: "lip bg-brand text-white [--lip:var(--brand-deep)]",
-        sun: "lip bg-sun text-ink [--lip:#c9a400]",
+        lip: "bg-[#1b6b9e] text-white hover:bg-[#14547d]",
+        sun: "bg-sun text-ink hover:bg-[#d1aa25]",
         outline:
-          "border-2 border-white/30 bg-transparent text-paper hover:bg-paper hover:text-ink",
+          "border border-line bg-white text-ink hover:bg-[#f2f2f2]",
         ghost: "bg-transparent text-inherit hover:bg-ink/5",
-        inverse: "lip bg-paper text-ink [--lip:#d9cfc6]",
+        inverse: "bg-white text-ink hover:bg-[#f2f2f2]",
       },
       size: {
         default: "h-12 px-5",

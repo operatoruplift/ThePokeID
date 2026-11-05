@@ -1,77 +1,65 @@
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, BookOpen } from "lucide-react";
+
 import { CardFan } from "@/components/card-fan";
 import { Button } from "@/components/ui/button";
-import { siteConfig } from "@/lib/site";
-
-const STATS = [
-  { value: "29", label: "Cards" },
-  { value: "8", label: "Pulls" },
-  { value: "4", label: "Desk packs" },
-  { value: "1", label: "Question" },
-];
+import { EXAMPLE_CARDS } from "@/data/cards";
 
 export function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden bg-stage pt-24">
-      <div className="mx-auto max-w-6xl px-5 pb-6">
-        <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[#0e121b]">
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(ellipse 55% 80% at 78% 45%, rgba(225,6,0,0.45), transparent 60%), radial-gradient(ellipse 40% 50% at 20% 80%, rgba(255,208,0,0.12), transparent 70%)",
-            }}
-            aria-hidden
-          />
-          <div className="relative grid items-center gap-6 px-6 py-8 md:px-10 md:py-12 lg:grid-cols-[1.05fr_0.95fr]">
-            <div>
-              <p className="rise text-xs font-bold uppercase tracking-[0.22em] text-sun">
-                Welcome to the desk
-              </p>
-              <h1 className="rise rise-2 relative mt-3 font-display text-[clamp(3.4rem,7.4vw,6.4rem)] leading-[0.84] tracking-tight uppercase">
-                <span
-                  aria-hidden
-                  className="font-hollow pointer-events-none absolute inset-0 text-transparent"
-                  style={{ WebkitTextStroke: "2px #ffd000" }}
-                >
-                  Show me
-                  <br />
-                  the card.
-                </span>
-                <span className="relative">
-                  Show me
-                  <br />
-                  the card.
-                </span>
-              </h1>
-              <p className="rise rise-3 mt-5 max-w-md text-base leading-relaxed text-paper/70 md:text-lg">
-                Brandon Sim&apos;s card brand. Rip an example pack, name the hit, and keep the
-                question going. The real ones land on X.
-              </p>
-              <div className="rise rise-4 mt-8 flex flex-wrap gap-3">
-                <Button asChild size="lg">
-                  <a href="#rip">Rip packs</a>
-                </Button>
-                <Button asChild variant="outline" size="lg">
-                  <a href={siteConfig.x} target="_blank" rel="noreferrer">
-                    Follow {siteConfig.handle}
-                  </a>
-                </Button>
-              </div>
-            </div>
-            <CardFan />
+    <section id="top" className="scroll-mt-28 px-5 pt-6 pb-2 md:px-8 md:pt-8">
+      <div className="grid gap-4 md:grid-cols-[1.65fr_1fr]">
+        <article className="overflow-hidden rounded-[5px] bg-[#1b6b9e]">
+          <Link href="/#favourite" className="group relative block aspect-[3/1] overflow-hidden bg-[#f2f2f2]">
+            <Image src="/brand/banner.jpg" alt="What's your favourite? Pikachu and a colourful world of Pokémon." fill priority sizes="(max-width: 768px) 100vw, 660px" className="object-cover transition-transform duration-300 group-hover:scale-[1.025] motion-reduce:transition-none" />
+          </Link>
+          <div className="p-5 text-white md:p-6">
+            <p className="mb-2 text-sm font-medium text-white/85">Welcome to ThePokeID</p>
+            <h1 className="font-display text-[30px] leading-tight md:text-[34px]">Show me the card.</h1>
+            <p className="mt-3 max-w-lg text-[15px] leading-relaxed text-white/90">
+              A favourite worth finding. A pack worth opening. Explore ThePokeID&apos;s
+              Pokémon collection and see what catches your eye.
+            </p>
+            <Button asChild variant="inverse" className="mt-5">
+              <a href="#rip">Try a sample pack <ArrowRight aria-hidden /></a>
+            </Button>
           </div>
-        </div>
-        <dl className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4">
-          {STATS.map((stat) => (
-            <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-              <dt className="text-[10px] font-bold uppercase tracking-[0.16em] text-paper/50">
-                {stat.label}
-              </dt>
-              <dd className="mt-1 font-display text-3xl leading-none text-sun">{stat.value}</dd>
+        </article>
+
+        <div className="grid gap-4">
+          <Link href="/#binder" className="group overflow-hidden rounded-[5px] bg-[#4dad5b]">
+            <div className="hero-card-art overflow-hidden bg-[#eef2ed]">
+              <CardFan />
             </div>
-          ))}
-        </dl>
+            <div className="px-5 py-4 text-[#16351b]">
+              <h2 className="font-display text-[23px] leading-tight">A binder full of possibilities</h2>
+              <p className="mt-2 text-sm">Discover {EXAMPLE_CARDS.length} real cards, from familiar faces to the chase.</p>
+            </div>
+          </Link>
+          <Link href="/#favourite" className="group flex items-center gap-4 rounded-[5px] bg-[#ee6b2f] px-5 py-4 text-[#342015] transition-colors hover:bg-[#e36126]">
+            <BookOpen className="size-10 shrink-0" strokeWidth={1.5} aria-hidden />
+            <div>
+              <h2 className="font-display text-xl leading-tight">Which card is your favourite?</h2>
+              <p className="mt-1 text-sm">Make your pick. Keep it on your desk.</p>
+            </div>
+            <ArrowRight className="ml-auto size-5 shrink-0 transition-transform group-hover:translate-x-1 motion-reduce:transition-none" aria-hidden />
+          </Link>
+        </div>
       </div>
+      <dl className="mt-4 grid grid-cols-2 rounded-[5px] bg-[#f2f2f2] sm:grid-cols-4">
+        {[
+          [String(EXAMPLE_CARDS.length), "Cards to explore"],
+          ["8", "Desk pulls"],
+          ["4", "Sample packs"],
+          ["1", "Favourite to find"],
+        ].map(([value, label]) => (
+          <div key={label} className="flex items-center gap-3 px-4 py-3">
+            <dd className="font-display text-2xl text-[#1b6b9e]">{value}</dd>
+            <dt className="text-sm text-mist">{label}</dt>
+          </div>
+        ))}
+      </dl>
     </section>
   );
 }

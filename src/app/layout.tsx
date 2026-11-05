@@ -1,28 +1,26 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Geist, Schoolbell } from "next/font/google";
 import localFont from "next/font/local";
 
-import { ScrollProgress } from "@/components/scroll-progress";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { getSiteUrl, siteConfig } from "@/lib/site";
 
 import "./globals.css";
 
-const sans = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist",
+const sans = localFont({
+  src: "../fonts/roboto-latin-wght-normal.woff2",
+  weight: "100 900",
+  display: "swap",
+  variable: "--font-roboto",
 });
 
-const display = Bricolage_Grotesque({
-  subsets: ["latin"],
-  variable: "--font-bricolage",
-});
-
-const hand = Schoolbell({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-schoolbell",
+const display = localFont({
+  src: [
+    { path: "../fonts/lato-latin-400-normal.woff2", weight: "400" },
+    { path: "../fonts/lato-latin-700-normal.woff2", weight: "700" },
+  ],
+  display: "swap",
+  variable: "--font-lato",
 });
 
 const pokemonSolid = localFont({
@@ -101,13 +99,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${sans.variable} ${display.variable} ${hand.variable} ${pokemonSolid.variable} ${pokemonHollow.variable} h-full antialiased`}
+      className={`${sans.variable} ${display.variable} ${pokemonSolid.variable} ${pokemonHollow.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-stage font-sans text-paper">
+      <body className="min-h-full font-sans text-ink">
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <ScrollProgress />
         <SiteHeader />
         {children}
         <SiteFooter />

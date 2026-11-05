@@ -1,12 +1,4 @@
-/**
- * EXAMPLE DATA — not ThePokeID inventory.
- *
- * Metadata is a curated snapshot of the public Pokémon TCG API
- * (https://pokemontcg.io) for the 30th Celebration sets. Card images are
- * remote URLs on that API's CDN. They are not vendored in this repo.
- * Desk notes are original sample copy.
- */
-
+/** Verified Pokémon TCG reference cards. Scans are bundled locally; not inventory. */
 export type ExampleCard = {
   id: string;
   name: string;
@@ -16,19 +8,22 @@ export type ExampleCard = {
   types: string[];
   rarity: string;
   setName: string;
+  setId: string;
+  releaseDate: string;
   number: string;
   artist?: string;
   image: string;
   imageLarge: string;
-  /** Original sample caption. Not a quote from a sale or a social post. */
+  /** Editorial highlights, separate from the card's printed rarity. */
+  chase: boolean;
   note: string;
 };
 
 export const EXAMPLE_CARDS: ExampleCard[] = [
   {
-    "id": "me55-30",
+    "id": "xy12-35",
     "name": "Pikachu",
-    "supertype": "Pok\u00e9mon",
+    "supertype": "Pokémon",
     "subtypes": [
       "Basic"
     ],
@@ -36,563 +31,271 @@ export const EXAMPLE_CARDS: ExampleCard[] = [
     "types": [
       "Lightning"
     ],
-    "rarity": "Pikachu Rare",
-    "setName": "30th Celebration",
-    "number": "30",
-    "artist": "DOM",
-    "image": "https://images.scrydex.com/pokemon/me55-30/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-30/large",
-    "note": "Number 30. The banner already answered, and the desk still asks."
-  },
-  {
-    "id": "me55-23",
-    "name": "Pikachu",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Basic"
-    ],
-    "hp": "70",
-    "types": [
-      "Lightning"
-    ],
-    "rarity": "Pikachu Rare",
-    "setName": "30th Celebration",
-    "number": "23",
-    "artist": "Ken Sugimori",
-    "image": "https://images.scrydex.com/pokemon/me55-23/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-23/large",
-    "note": "A Pikachu rare with the classic face. Sample, not a listing."
-  },
-  {
-    "id": "me55-35",
-    "name": "Pikachu",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Basic"
-    ],
-    "hp": "60",
-    "types": [
-      "Lightning"
-    ],
-    "rarity": "Pikachu Rare",
-    "setName": "30th Celebration",
+    "rarity": "Common",
+    "setName": "Evolutions",
+    "setId": "xy12",
+    "releaseDate": "2016-11-02",
     "number": "35",
-    "artist": "Susumu Maeya",
-    "image": "https://images.scrydex.com/pokemon/me55-35/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-35/large",
-    "note": "Another 30 in the Pikachu run. The set is full of them on purpose."
+    "artist": "Mitsuhiro Arita",
+    "image": "/cards/xy12-35.png",
+    "imageLarge": "/cards/xy12-35.png",
+    "chase": false,
+    "note": "The familiar Pikachu, reprinted in Evolutions with artwork by Mitsuhiro Arita. Number 35 of 108."
   },
   {
-    "id": "me55-42",
-    "name": "Pikachu",
-    "supertype": "Pok\u00e9mon",
+    "id": "base1-4",
+    "name": "Charizard",
+    "supertype": "Pokémon",
     "subtypes": [
-      "Basic"
-    ],
-    "hp": "60",
-    "types": [
-      "Lightning"
-    ],
-    "rarity": "Pikachu Rare",
-    "setName": "30th Celebration",
-    "number": "42",
-    "artist": "Akira Komayama",
-    "image": "https://images.scrydex.com/pokemon/me55-42/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-42/large",
-    "note": "Pikachu rare, different illustrator, same question."
-  },
-  {
-    "id": "me55-53",
-    "name": "Pikachu ex",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Basic",
-      "ex"
-    ],
-    "hp": "190",
-    "types": [
-      "Lightning"
-    ],
-    "rarity": "Double Rare",
-    "setName": "30th Celebration",
-    "number": "53",
-    "artist": "5ban Graphics",
-    "image": "https://images.scrydex.com/pokemon/me55-53/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-53/large",
-    "note": "Pikachu ex, double rare. The ex frame before the illustration chase."
-  },
-  {
-    "id": "me55-149",
-    "name": "Pikachu ex",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Basic",
-      "ex"
-    ],
-    "hp": "190",
-    "types": [
-      "Lightning"
-    ],
-    "rarity": "Special Illustration Rare",
-    "setName": "30th Celebration",
-    "number": "149",
-    "artist": "kantaro",
-    "image": "https://images.scrydex.com/pokemon/me55-149/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-149/large",
-    "note": "Special illustration Pikachu ex. The table goes quiet for this one."
-  },
-  {
-    "id": "me55-150",
-    "name": "Pikachu ex",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Basic",
-      "ex"
-    ],
-    "hp": "190",
-    "types": [
-      "Lightning"
-    ],
-    "rarity": "Special Illustration Rare",
-    "setName": "30th Celebration",
-    "number": "150",
-    "artist": "kantaro",
-    "image": "https://images.scrydex.com/pokemon/me55-150/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-150/large",
-    "note": "The other special illustration Pikachu ex. People argue which is the one."
-  },
-  {
-    "id": "me55-151",
-    "name": "Mewtwo ex",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Basic",
-      "ex"
-    ],
-    "hp": "230",
-    "types": [
-      "Psychic"
-    ],
-    "rarity": "Special Illustration Rare",
-    "setName": "30th Celebration",
-    "number": "151",
-    "artist": "Yano Keiji",
-    "image": "https://images.scrydex.com/pokemon/me55-151/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-151/large",
-    "note": "Mewtwo ex, special illustration. The identity plate writes itself."
-  },
-  {
-    "id": "me55-152",
-    "name": "Mew ex",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Basic",
-      "ex"
-    ],
-    "hp": "160",
-    "types": [
-      "Psychic"
-    ],
-    "rarity": "Special Illustration Rare",
-    "setName": "30th Celebration",
-    "number": "152",
-    "artist": "Kuroimori",
-    "image": "https://images.scrydex.com/pokemon/me55-152/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-152/large",
-    "note": "Mew ex, special illustration. Small pokemon, loud card."
-  },
-  {
-    "id": "me55-153",
-    "name": "Sylveon ex",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Stage 1",
-      "ex"
-    ],
-    "hp": "270",
-    "types": [
-      "Psychic"
-    ],
-    "rarity": "Special Illustration Rare",
-    "setName": "30th Celebration",
-    "number": "153",
-    "artist": "You Iribi",
-    "image": "https://images.scrydex.com/pokemon/me55-153/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-153/large",
-    "note": "Sylveon ex, special illustration. Ribbon light, sample binder."
-  },
-  {
-    "id": "me55-154",
-    "name": "Gengar ex",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Stage 2",
-      "ex"
-    ],
-    "hp": "280",
-    "types": [
-      "Darkness"
-    ],
-    "rarity": "Special Illustration Rare",
-    "setName": "30th Celebration",
-    "number": "154",
-    "artist": "CHORISO",
-    "image": "https://images.scrydex.com/pokemon/me55-154/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-154/large",
-    "note": "Gengar ex, special illustration. Mean in the best way."
-  },
-  {
-    "id": "me55-155",
-    "name": "Jirachi ex",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Basic",
-      "ex"
-    ],
-    "hp": "160",
-    "types": [
-      "Metal"
-    ],
-    "rarity": "Special Illustration Rare",
-    "setName": "30th Celebration",
-    "number": "155",
-    "artist": "AKIRA EGAWA",
-    "image": "https://images.scrydex.com/pokemon/me55-155/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-155/large",
-    "note": "Jirachi ex, special illustration. A wish, filed under example."
-  },
-  {
-    "id": "me55-156",
-    "name": "Salamence ex",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Stage 2",
-      "ex"
-    ],
-    "hp": "330",
-    "types": [
-      "Dragon"
-    ],
-    "rarity": "Special Illustration Rare",
-    "setName": "30th Celebration",
-    "number": "156",
-    "artist": "Ryota Murayama",
-    "image": "https://images.scrydex.com/pokemon/me55-156/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-156/large",
-    "note": "Salamence ex, special illustration. The dragon of this sample desk."
-  },
-  {
-    "id": "me55-148",
-    "name": "Greninja ex",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Stage 2",
-      "ex"
-    ],
-    "hp": "300",
-    "types": [
-      "Water"
-    ],
-    "rarity": "Special Illustration Rare",
-    "setName": "30th Celebration",
-    "number": "148",
-    "artist": "GIDORA",
-    "image": "https://images.scrydex.com/pokemon/me55-148/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-148/large",
-    "note": "Greninja ex, special illustration. Water hit, marked example."
-  },
-  {
-    "id": "me55-157",
-    "name": "Mewtwo ex",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Basic",
-      "ex"
-    ],
-    "hp": "230",
-    "types": [
-      "Psychic"
-    ],
-    "rarity": "Futuristic Rare",
-    "setName": "30th Celebration",
-    "number": "157",
-    "artist": "YOSHIROTTEN",
-    "image": "https://images.scrydex.com/pokemon/me55-157/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-157/large",
-    "note": "Futuristic rare Mewtwo. Looks like it arrived from the next drop."
-  },
-  {
-    "id": "me55-158",
-    "name": "Mew ex",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Basic",
-      "ex"
-    ],
-    "hp": "160",
-    "types": [
-      "Psychic"
-    ],
-    "rarity": "Futuristic Rare",
-    "setName": "30th Celebration",
-    "number": "158",
-    "artist": "YOSHIROTTEN",
-    "image": "https://images.scrydex.com/pokemon/me55-158/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-158/large",
-    "note": "Futuristic rare Mew. The foil reads like a screen."
-  },
-  {
-    "id": "me55-131",
-    "name": "Lapras",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Basic"
-    ],
-    "hp": "130",
-    "types": [
-      "Water"
-    ],
-    "rarity": "Illustration Rare",
-    "setName": "30th Celebration",
-    "number": "131",
-    "artist": "Amelicart",
-    "image": "https://images.scrydex.com/pokemon/me55-131/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-131/large",
-    "note": "Illustration rare Lapras. Calm art, sample copy."
-  },
-  {
-    "id": "me55-133",
-    "name": "Zapdos",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Basic"
-    ],
-    "hp": "120",
-    "types": [
-      "Lightning"
-    ],
-    "rarity": "Illustration Rare",
-    "setName": "30th Celebration",
-    "number": "133",
-    "artist": "mashu",
-    "image": "https://images.scrydex.com/pokemon/me55-133/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-133/large",
-    "note": "Illustration rare Zapdos. Lightning for the favourite section's cousins."
-  },
-  {
-    "id": "me55-130",
-    "name": "Moltres",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Basic"
+      "Stage 2"
     ],
     "hp": "120",
     "types": [
       "Fire"
     ],
-    "rarity": "Illustration Rare",
-    "setName": "30th Celebration",
-    "number": "130",
-    "artist": "mashu",
-    "image": "https://images.scrydex.com/pokemon/me55-130/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-130/large",
-    "note": "Illustration rare Moltres. The fire bird in the sample binder."
+    "rarity": "Rare Holo",
+    "setName": "Base",
+    "setId": "base1",
+    "releaseDate": "1999-01-09",
+    "number": "4",
+    "artist": "Mitsuhiro Arita",
+    "image": "/cards/base1-4.webp",
+    "imageLarge": "/cards/base1-4.webp",
+    "chase": true,
+    "note": "The Base Set Charizard. Mitsuhiro Arita’s illustration and the original 120 HP are part of the card’s identity."
   },
   {
-    "id": "me55-132",
-    "name": "Articuno",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "Basic"
-    ],
-    "hp": "120",
-    "types": [
-      "Water"
-    ],
-    "rarity": "Illustration Rare",
-    "setName": "30th Celebration",
-    "number": "132",
-    "artist": "mashu",
-    "image": "https://images.scrydex.com/pokemon/me55-132/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-132/large",
-    "note": "Illustration rare Articuno. The third bird, still an example."
-  },
-  {
-    "id": "me55-143",
-    "name": "Kommo-o",
-    "supertype": "Pok\u00e9mon",
+    "id": "base1-2",
+    "name": "Blastoise",
+    "supertype": "Pokémon",
     "subtypes": [
       "Stage 2"
     ],
-    "hp": "180",
+    "hp": "100",
     "types": [
-      "Dragon"
+      "Water"
     ],
-    "rarity": "Illustration Rare",
-    "setName": "30th Celebration",
-    "number": "143",
-    "artist": "Gemi",
-    "image": "https://images.scrydex.com/pokemon/me55-143/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-143/large",
-    "note": "Illustration rare Kommo-o. Scales, clang, sample slot."
+    "rarity": "Rare Holo",
+    "setName": "Base",
+    "setId": "base1",
+    "releaseDate": "1999-01-09",
+    "number": "2",
+    "artist": "Ken Sugimori",
+    "image": "/cards/base1-2.webp",
+    "imageLarge": "/cards/base1-2.webp",
+    "chase": false,
+    "note": "Base Set Blastoise: Ken Sugimori’s artwork, Rain Dance, and Hydro Pump."
   },
   {
-    "id": "me55-142",
-    "name": "Gholdengo",
-    "supertype": "Pok\u00e9mon",
+    "id": "ecard3-H30",
+    "name": "Umbreon",
+    "supertype": "Pokémon",
     "subtypes": [
       "Stage 1"
     ],
-    "hp": "130",
+    "hp": "70",
     "types": [
-      "Metal"
+      "Darkness"
     ],
-    "rarity": "Illustration Rare",
-    "setName": "30th Celebration",
-    "number": "142",
-    "artist": "toriyufu",
-    "image": "https://images.scrydex.com/pokemon/me55-142/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55-142/large",
-    "note": "Illustration rare Gholdengo. Coin stack energy."
+    "rarity": "Rare Holo",
+    "setName": "Skyridge",
+    "setId": "ecard3",
+    "releaseDate": "2003-05-12",
+    "number": "H30",
+    "artist": "Atsuko Nishida",
+    "image": "/cards/ecard3-H30.webp",
+    "imageLarge": "/cards/ecard3-H30.webp",
+    "chase": false,
+    "note": "Umbreon from Skyridge, illustrated by Atsuko Nishida. Its printed card number is H30."
   },
   {
-    "id": "me55c-4",
-    "name": "Charizard",
-    "supertype": "Pok\u00e9mon",
+    "id": "ecard3-H31",
+    "name": "Vaporeon",
+    "supertype": "Pokémon",
+    "subtypes": [
+      "Stage 1"
+    ],
+    "hp": "70",
+    "types": [
+      "Water"
+    ],
+    "rarity": "Rare Holo",
+    "setName": "Skyridge",
+    "setId": "ecard3",
+    "releaseDate": "2003-05-12",
+    "number": "H31",
+    "artist": "Naoyo Kimura",
+    "image": "/cards/ecard3-H31.webp",
+    "imageLarge": "/cards/ecard3-H31.webp",
+    "chase": false,
+    "note": "Vaporeon from Skyridge, illustrated by Naoyo Kimura. The e-Reader border is part of the original scan."
+  },
+  {
+    "id": "ex15-100",
+    "name": "Charizard ★ δ",
+    "supertype": "Pokémon",
+    "subtypes": [
+      "Basic",
+      "Star"
+    ],
+    "hp": "90",
+    "types": [
+      "Darkness"
+    ],
+    "rarity": "Rare Holo Star",
+    "setName": "Dragon Frontiers",
+    "setId": "ex15",
+    "releaseDate": "2006-11-01",
+    "number": "100",
+    "artist": "Masakazu Fukuda",
+    "image": "/cards/ex15-100.webp",
+    "imageLarge": "/cards/ex15-100.webp",
+    "chase": true,
+    "note": "Charizard ★ δ from Dragon Frontiers. The Gold Star, Darkness type, and Masakazu Fukuda artwork are all on the original card."
+  },
+  {
+    "id": "gym2-2",
+    "name": "Blaine's Charizard",
+    "supertype": "Pokémon",
     "subtypes": [
       "Stage 2"
     ],
-    "hp": "120",
+    "hp": "100",
     "types": [
       "Fire"
     ],
     "rarity": "Rare Holo",
-    "setName": "30th Celebration: Classic Collection",
-    "number": "4",
-    "artist": "Mitsuhiro Arita",
-    "image": "https://images.scrydex.com/pokemon/me55c-4/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55c-4/large",
-    "note": "Classic collection Charizard. The holo still does the thing."
+    "setName": "Gym Challenge",
+    "setId": "gym2",
+    "releaseDate": "2000-10-16",
+    "number": "2",
+    "artist": "Ken Sugimori",
+    "image": "/cards/gym2-2.webp",
+    "imageLarge": "/cards/gym2-2.webp",
+    "chase": false,
+    "note": "Blaine’s Charizard from Gym Challenge, illustrated by Ken Sugimori. A different Charizard, a different set."
   },
   {
-    "id": "me55c-85",
-    "name": "Rayquaza-EX",
-    "supertype": "Pok\u00e9mon",
+    "id": "pop5-16",
+    "name": "Espeon ★",
+    "supertype": "Pokémon",
     "subtypes": [
       "Basic",
-      "EX"
+      "Star"
     ],
-    "hp": "170",
-    "types": [
-      "Dragon"
-    ],
-    "rarity": "Rare Holo EX",
-    "setName": "30th Celebration: Classic Collection",
-    "number": "85",
-    "artist": "Eske Yoshinob",
-    "image": "https://images.scrydex.com/pokemon/me55c-85/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55c-85/large",
-    "note": "Rayquaza-EX from the classic collection slice. Example only."
-  },
-  {
-    "id": "me55c-114",
-    "name": "Mew VMAX",
-    "supertype": "Pok\u00e9mon",
-    "subtypes": [
-      "VMAX"
-    ],
-    "hp": "310",
+    "hp": "70",
     "types": [
       "Psychic"
     ],
-    "rarity": "Holo Rare VMAX",
-    "setName": "30th Celebration: Classic Collection",
-    "number": "114",
-    "artist": "5ban Graphics",
-    "image": "https://images.scrydex.com/pokemon/me55c-114/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55c-114/large",
-    "note": "Mew VMAX, classic collection. A different era in the same binder."
+    "rarity": "Rare",
+    "setName": "POP Series 5",
+    "setId": "pop5",
+    "releaseDate": "2007-03-01",
+    "number": "16",
+    "artist": "Masakazu Fukuda",
+    "image": "/cards/pop5-16.webp",
+    "imageLarge": "/cards/pop5-16.webp",
+    "chase": true,
+    "note": "Espeon ★ from POP Series 5, illustrated by Masakazu Fukuda. This Gold Star card is printed as a non-holo rare."
   },
   {
-    "id": "me55c-101",
-    "name": "N",
-    "supertype": "Trainer",
+    "id": "ru1-7",
+    "name": "Pikachu",
+    "supertype": "Pokémon",
     "subtypes": [
-      "Supporter"
+      "Basic"
     ],
-    "types": [],
-    "rarity": "Rare Ultra",
-    "setName": "30th Celebration: Classic Collection",
-    "number": "101",
-    "artist": "Ken Sugimori",
-    "image": "https://images.scrydex.com/pokemon/me55c-101/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55c-101/large",
-    "note": "Trainer N, ultra rare. Yes, a trainer can be the pull."
+    "hp": "60",
+    "types": [
+      "Lightning"
+    ],
+    "rarity": "Promo",
+    "setName": "Pokémon Rumble",
+    "setId": "ru1",
+    "releaseDate": "2009-12-02",
+    "number": "7",
+    "artist": "Pokemon Rumble",
+    "image": "/cards/ru1-7.webp",
+    "imageLarge": "/cards/ru1-7.webp",
+    "chase": false,
+    "note": "Pikachu from Pokémon Rumble. The artwork and the 7/16 card number come from that promotional collection."
   },
   {
-    "id": "me55c-18",
-    "name": "Misty",
-    "supertype": "Trainer",
-    "subtypes": [],
-    "types": [],
-    "rarity": "Rare Holo",
-    "setName": "30th Celebration: Classic Collection",
-    "number": "18",
-    "artist": "Ken Sugimori",
-    "image": "https://images.scrydex.com/pokemon/me55c-18/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55c-18/large",
-    "note": "Misty, rare holo trainer. Sample from the classic collection."
+    "id": "si1-13",
+    "name": "Exeggutor",
+    "supertype": "Pokémon",
+    "subtypes": [
+      "Stage 1"
+    ],
+    "hp": "70",
+    "types": [
+      "Grass"
+    ],
+    "rarity": "Promo",
+    "setName": "Southern Islands",
+    "setId": "si1",
+    "releaseDate": "2001-07-31",
+    "number": "13",
+    "artist": "Naoyo Kimura",
+    "image": "/cards/si1-13.webp",
+    "imageLarge": "/cards/si1-13.webp",
+    "chase": false,
+    "note": "Exeggutor from Southern Islands. Naoyo Kimura’s tropical illustration is printed across this original card."
   },
   {
-    "id": "me55c-203",
-    "name": "Magikarp",
-    "supertype": "Pok\u00e9mon",
+    "id": "sv8-1",
+    "name": "Exeggcute",
+    "supertype": "Pokémon",
     "subtypes": [
       "Basic"
     ],
     "hp": "30",
     "types": [
-      "Water"
+      "Grass"
     ],
-    "rarity": "Illustration Rare",
-    "setName": "30th Celebration: Classic Collection",
-    "number": "203",
-    "artist": "Shinji Kanda",
-    "image": "https://images.scrydex.com/pokemon/me55c-203/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55c-203/large",
-    "note": "Illustration rare Magikarp. The splash is the whole joke."
+    "rarity": "Common",
+    "setName": "Surging Sparks",
+    "setId": "sv8",
+    "releaseDate": "2024-11-08",
+    "number": "1",
+    "artist": "Tetsu Kayama",
+    "image": "/cards/sv8-1.webp",
+    "imageLarge": "/cards/sv8-1.webp",
+    "chase": false,
+    "note": "Exeggcute from Surging Sparks, illustrated by Tetsu Kayama. A modern common alongside the classic cards."
   },
   {
-    "id": "me55c-149",
-    "name": "Lugia",
-    "supertype": "Pok\u00e9mon",
+    "id": "xy12-74",
+    "name": "Brock's Grit",
+    "supertype": "Trainer",
     "subtypes": [
-      "Basic"
+      "Supporter"
     ],
-    "hp": "80",
-    "types": [
-      "Colorless"
-    ],
-    "rarity": "Rare Secret",
-    "setName": "30th Celebration: Classic Collection",
-    "number": "149",
-    "artist": "Naoyo Kimura",
-    "image": "https://images.scrydex.com/pokemon/me55c-149/small",
-    "imageLarge": "https://images.scrydex.com/pokemon/me55c-149/large",
-    "note": "Secret rare Lugia. Big wings, example tag."
+    "types": [],
+    "rarity": "Uncommon",
+    "setName": "Evolutions",
+    "setId": "xy12",
+    "releaseDate": "2016-11-02",
+    "number": "74",
+    "artist": "Ken Sugimori",
+    "image": "/cards/xy12-74.png",
+    "imageLarge": "/cards/xy12-74.png",
+    "chase": false,
+    "note": "Brock’s Grit from Evolutions, illustrated by Ken Sugimori. A real Trainer card, number 74 of 108."
   }
 ];
 
 export const CHASE_RARITIES = new Set([
-  "Special Illustration Rare",
-  "Futuristic Rare",
-  "Rare Secret",
-  "Rare Ultra",
+  "Rare Holo Star", "Rare Secret", "Rare Ultra", "Special Illustration Rare",
 ]);
+
+export function isChase(card: ExampleCard): boolean {
+  return card.chase || CHASE_RARITIES.has(card.rarity);
+}
 
 export function cardById(id: string): ExampleCard {
   const card = EXAMPLE_CARDS.find((entry) => entry.id === id);
-  if (!card) throw new Error(`Unknown example card ${id}`);
+  if (!card) throw new Error(`Unknown reference card ${id}`);
   return card;
 }
 
@@ -618,12 +321,12 @@ function pickFrom<T>(items: T[], count: number, rand: () => number): T[] {
   return chosen;
 }
 
-/** Deterministic example pack. The last card is always a chase rarity. */
+/** Deterministic mixed-set demo. The last card is an editorial chase selection. */
 export function dealPack(seed: number): ExampleCard[] {
   const rand = mulberry32(seed);
-  const chase = EXAMPLE_CARDS.filter((card) => CHASE_RARITIES.has(card.rarity));
+  const chase = EXAMPLE_CARDS.filter((card) => isChase(card));
   const fillers = EXAMPLE_CARDS.filter(
-    (card) => card.supertype === "Pokémon" && !CHASE_RARITIES.has(card.rarity),
+    (card) => card.supertype === "Pokémon" && !isChase(card),
   );
   const hit = pickFrom(chase, 1, rand);
   const rest = pickFrom(fillers, 4, rand);
@@ -634,10 +337,8 @@ export function foilTier(rarity: string): "soft" | "holo" | "rare" | "chase" {
   if (CHASE_RARITIES.has(rarity)) return "chase";
   if (rarity === "Illustration Rare") return "rare";
   if (
-    rarity === "Pikachu Rare" ||
     rarity === "Double Rare" ||
-    rarity.includes("Holo") ||
-    rarity.includes("Rare")
+    rarity.includes("Holo")
   ) {
     return "holo";
   }

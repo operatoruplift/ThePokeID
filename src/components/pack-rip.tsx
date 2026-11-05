@@ -158,10 +158,7 @@ export function PackRip() {
   function rip() {
     if (phase === "shaking" || phase === "tearing" || phase === "revealing") return;
     if (phase === "open") {
-      clearTimers();
       setSeed((value) => value + 1);
-      setPhase("sealed");
-      return;
     }
     if (reduce) {
       setPhase("open");
@@ -184,29 +181,29 @@ export function PackRip() {
         : "Hold on.";
 
   return (
-    <section id="rip" className="relative scroll-mt-24 overflow-hidden bg-stage text-paper">
+    <section id="rip" className="relative scroll-mt-28 overflow-hidden border-y border-line bg-[#f2f2f2] text-ink">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-stage to-transparent" />
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 55% 45% at 50% 58%, rgba(225,6,0,0.38), transparent 70%)",
+            "radial-gradient(ellipse 55% 45% at 50% 58%, rgba(48,167,215,0.14), transparent 70%)",
         }}
         aria-hidden
       />
-      <div className="relative mx-auto max-w-6xl px-5 py-20 md:py-28">
-        <p className="text-xs font-bold uppercase tracking-[0.22em] text-sun">02 — The rip</p>
+      <div className="relative mx-auto max-w-6xl px-5 py-12 md:px-8 md:py-16">
+        <p className="text-sm font-bold text-[#1b6b9e]">The sample pack</p>
         <div className="mt-3 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <h2 className="max-w-xl font-display text-5xl leading-[0.92] tracking-tight md:text-6xl">
+          <h2 className="max-w-xl font-display text-[28px] leading-tight md:text-[36px]">
             Five cards. One breath. Then the hit.
           </h2>
-          <p className="max-w-sm text-sm leading-relaxed text-paper/70">
-            The wrapper is original PokeID art. The cards are example scans from the public
-            Pokémon TCG API. Seed {String(seed).padStart(2, "0")} deals the same pack on every reload.
+          <p className="max-w-sm text-sm leading-relaxed text-mist">
+            Real cards from different sets, dealt in a five-card demo. The wrapper is PokeID
+            art; this is not an official pack or a promise of pull rates. Seed {String(seed).padStart(2, "0")} repeats the same deal.
           </p>
         </div>
 
-        <div className="relative mt-12 grid min-h-[460px] place-items-center">
+        <div className="relative mt-8 grid min-h-[400px] min-w-0 grid-cols-[minmax(0,1fr)] place-items-center">
           <div
             className={cn(
               "relative col-start-1 row-start-1",
@@ -225,7 +222,7 @@ export function PackRip() {
           </div>
 
           {showCards ? (
-            <ul className="col-start-1 row-start-1 flex w-full snap-x items-end justify-start gap-3 overflow-x-auto px-1 pt-10 pb-2 sm:justify-center">
+            <ul className="col-start-1 row-start-1 flex w-full min-w-0 snap-x items-end justify-start gap-3 overflow-x-auto px-1 pt-10 pb-2 lg:justify-center">
               {cards.map((card, index) => (
                 <PackCard
                   key={`${seed}-${card.id}`}
@@ -251,7 +248,7 @@ export function PackRip() {
         </div>
 
         <div className="mt-8 flex flex-col items-center gap-4 text-center">
-          <p className="text-sm text-paper/75">{status}</p>
+          <p role="status" className="text-sm text-mist">{status}</p>
           <Button
             variant="sun"
             size="lg"

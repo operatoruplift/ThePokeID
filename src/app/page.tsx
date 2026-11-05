@@ -10,7 +10,7 @@ import { Waitlist } from "@/components/waitlist";
 
 export default function Home() {
   return (
-    <main id="main">
+    <main id="main" className="site-content">
       <Hero />
       <section className="bg-stage">
         <div className="mx-auto grid max-w-6xl gap-8 px-5 py-12 lg:grid-cols-[minmax(0,1fr)_320px] lg:py-16">

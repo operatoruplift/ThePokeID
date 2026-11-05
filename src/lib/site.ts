@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "ThePokeID",
   title: "ThePokeID — Show me the card",
   description:
-    "Brandon Sim's Pokémon card brand. Sample pulls, pointer-driven holo shine, and an example pack rip. The real hits land on X @thepokeID.",
+    "ThePokeID's Pokémon card collection. Authentic card artwork, interactive holo shine, and an example pack rip. Follow @thepokeID on X.",
   x: "https://x.com/thepokeID",
   handle: "@thepokeID",
 };

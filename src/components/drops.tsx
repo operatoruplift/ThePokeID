@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useSyncExternalStore } from "react";
 
 import { HoloCard } from "@/components/holo-card";
 import { cardById } from "@/data/cards";
@@ -9,23 +9,39 @@ import { DROPS, type DropStory, type DropTone } from "@/data/desk";
 import { cn } from "@/lib/utils";
 
 const toneClass: Record<DropTone, string> = {
-  paper: "bg-[#10131c] text-paper",
-  sun: "bg-[#24180a] text-paper",
-  brand: "bg-brand text-white",
+  paper: "bg-[#f2f2f2] text-ink",
+  sun: "bg-[#bd4c1b] text-white",
+  brand: "bg-[#14799f] text-white",
 };
+
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribeReducedMotion(listener: () => void) {
+  const query = window.matchMedia(REDUCED_MOTION_QUERY);
+  query.addEventListener("change", listener);
+  return () => query.removeEventListener("change", listener);
+}
+
+function getReducedMotionSnapshot() {
+  return window.matchMedia(REDUCED_MOTION_QUERY).matches;
+}
+
+function getServerReducedMotionSnapshot() {
+  return false;
+}
 
 function StoryCopy({ story }: { story: DropStory }) {
   const card = cardById(story.cardId);
   return (
     <div>
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-sun">
+      <p className="text-sm font-bold text-current">
         {story.index} — {story.kicker}
       </p>
-      <h3 className="mt-3 font-display text-5xl leading-[0.9] tracking-tight text-current md:text-6xl">
+      <h3 className="mt-3 font-display text-3xl leading-tight text-current md:text-4xl">
         {story.title}
       </h3>
-      <p className="mt-4 max-w-md text-base leading-relaxed text-current/80">{story.body}</p>
-      <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-current/60">
+      <p className="mt-4 max-w-md text-base leading-relaxed text-current">{story.body}</p>
+      <p className="mt-4 text-sm font-bold text-current">
         {card.name} · #{card.number}
       </p>
     </div>
@@ -41,7 +57,7 @@ function SnapStories() {
           <article
             key={story.id}
             className={cn(
-              "flex w-[86vw] max-w-md shrink-0 snap-center flex-col justify-between gap-6 rounded-3xl p-6 sm:w-[70vw]",
+              "flex w-[82%] max-w-md shrink-0 snap-center flex-col justify-between gap-6 rounded-md p-6 sm:w-[70%]",
               toneClass[story.tone],
             )}
           >
@@ -73,7 +89,7 @@ function ScrubStories() {
                 key={story.id}
                 className={cn("flex h-full w-1/3 items-center", toneClass[story.tone])}
               >
-                <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-12 lg:grid-cols-[1.1fr_240px] lg:px-16">
+                <div className="mx-auto grid w-full max-w-6xl items-center gap-8 px-8 md:grid-cols-[1.1fr_200px] lg:px-12">
                   <StoryCopy story={story} />
                   <HoloCard card={card} showMeta={false} className="mx-auto w-full max-w-[240px]" />
                 </div>
@@ -81,7 +97,7 @@ function ScrubStories() {
             );
           })}
         </motion.div>
-        <p className="absolute right-8 bottom-8 rounded-full border border-white/15 bg-stage/90 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-paper">
+        <p className="absolute right-6 bottom-6 rounded-md border border-line bg-white px-3 py-2 text-xs font-bold text-ink">
           Scroll to slide
         </p>
       </div>
@@ -90,10 +106,15 @@ function ScrubStories() {
 }
 
 export function Drops() {
-  const reduce = useReducedMotion();
+  // Hydrate the server's layout first, then apply the browser preference.
+  const reduce = useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotionSnapshot,
+    getServerReducedMotionSnapshot,
+  );
 
   return (
-    <section id="drops" className="scroll-mt-24 bg-stage pb-16 md:pb-0">
+    <section id="drops" className="scroll-mt-24 bg-stage pb-8 md:pb-0">
       <h2 className="sr-only">05 — From the desk. Example drops, not confirmed sales.</h2>
       {reduce ? (
         <div className="py-8">

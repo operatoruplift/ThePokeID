@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --ink: #1a0b0d;
-  --paper: #fff8f3;
-  --brand: #e10600;
-  --brand-deep: #8e0500;
-  --sun: #ffd000;
-  --bolt: #2454e6;
-  --stage: #110d12;
-  --mist: #6e5960;
-  --line: #f0e2da;
-  color-scheme: dark;
+  --ink: #313131;
+  --paper: #ffffff;
+  --brand: #e3350d;
+  --brand-deep: #b72a09;
+  --sun: #e6bc2f;
+  --bolt: #1b53ba;
+  --stage: #ffffff;
+  --mist: #616161;
+  --line: #dedede;
+  color-scheme: light;
 }
 
 @theme inline {
@@ -23,19 +23,269 @@
   --color-stage: var(--stage);
   --color-mist: var(--mist);
   --color-line: var(--line);
-  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-pokemon-solid), var(--font-bricolage), sans-serif;
+  --font-sans: var(--font-roboto), Arial, sans-serif;
+  --font-display: var(--font-lato), Arial, sans-serif;
+  --font-brand: var(--font-lato), Arial, sans-serif;
   --font-hollow: var(--font-pokemon-hollow), sans-serif;
-  --font-hand: var(--font-schoolbell), cursive;
+  --font-hand: var(--font-lato), Arial, sans-serif;
+}
+
+@layer utilities {
+  .font-display {
+    font-weight: 700;
+  }
 }
 
 html {
-  scroll-padding-top: 5.5rem;
+  scroll-padding-top: 7.5rem;
 }
 
 body {
-  background: var(--stage);
-  color: var(--paper);
+  background-color: #e8e8e8;
+  background-image: repeating-linear-gradient(135deg, transparent 0 5px, #00000003 5px 7px);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.site-content {
+  max-width: 1120px;
+  margin-inline: auto;
+  background: white;
+  box-shadow: 0 0 0 1px #00000005;
+}
+
+.site-header {
+  --brand-strip-height: 72px;
+  position: sticky;
+  top: calc(-1 * var(--brand-strip-height));
+  z-index: 40;
+  box-shadow: 0 2px 5px #00000014;
+}
+
+.brand-strip {
+  height: var(--brand-strip-height);
+  border-bottom: 2px solid #d7d7d7;
+  background: #f5f5f5;
+}
+
+.brand-strip-inner {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1fr 1fr;
+  height: 100%;
+  max-width: 1040px;
+  margin-inline: auto;
+}
+
+.brand-home,
+.brand-feature {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 8px 18px;
+  border-inline: 1px solid #dedede;
+  color: #525252;
+  transition: background-color 160ms ease;
+}
+
+.brand-home {
+  background: white;
+  font-family: var(--font-lato), sans-serif;
+  font-size: 23px;
+  font-weight: 700;
+  box-shadow: 0 0 5px #0000000d;
+}
+
+.brand-home img {
+  width: 45px;
+  height: 45px;
+}
+
+.brand-name, .brand-tagline, .brand-feature-title, .brand-feature-subtitle { display: block; }
+.brand-tagline { margin-top: 1px; color: #777; font-family: var(--font-roboto), sans-serif; font-size: 11px; font-weight: 400; }
+.brand-feature-subtitle { margin-top: 3px; color: #737373; font-size: 11px; font-weight: 400; }
+.brand-feature-packs .brand-feature-icon { color: #e3350d; }
+.brand-feature-binder .brand-feature-icon { color: #4dad5b; }
+.brand-feature-social .brand-feature-icon { color: #1b53ba; }
+.mobile-nav-home { display: flex; align-items: center; gap: 8px; }
+.mobile-nav-home svg { width: 19px; height: 19px; }
+.mobile-nav-list { margin-top: 20px; }
+.mobile-social-link { display: flex; gap: 8px; align-items: center; margin: 20px 14px; color: #1b53ba; font-size: 14px; font-weight: 700; }
+.mobile-social-link svg { width: 16px; height: 16px; }
+.hero-card-art > div { height: 230px; }
+.hero-card-art .fan-card > div { box-shadow: 0 5px 12px #0000001a; }
+.hero-card-art .fan-card { animation: none; }
+
+.brand-feature {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.brand-feature svg {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  color: #777;
+}
+
+.brand-feature:hover,
+.brand-feature:focus-visible {
+  background: #e7e7e7;
+}
+
+.main-nav {
+  background: white;
+}
+
+.main-nav-inner {
+  max-width: 1040px;
+  margin-inline: auto;
+}
+
+.nav-tiles {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.nav-tile {
+  --nav-foreground: white;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: 98px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 12px 5px 15px;
+  border-bottom: 6px solid var(--nav-color);
+  color: #686868;
+  overflow: hidden;
+  font-family: var(--font-lato), sans-serif;
+  font-size: 15px;
+  transition: color 180ms ease;
+}
+
+.nav-tile:first-child {
+  border-bottom-left-radius: 6px;
+}
+
+.nav-tile:last-child {
+  border-bottom-right-radius: 6px;
+}
+
+.nav-tile::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  background: var(--nav-color);
+  transform: translateY(100%);
+  transition: transform 220ms ease;
+}
+
+.nav-tile:nth-child(1),
+.nav-tile:nth-child(3),
+.nav-tile:nth-child(4),
+.nav-tile:nth-child(5),
+.nav-tile:nth-child(6) {
+  --nav-foreground: #242424;
+}
+
+.nav-tile:is(:hover, :focus-visible, .is-active) {
+  color: var(--nav-foreground);
+}
+
+.nav-tile:is(:hover, :focus-visible, .is-active)::before {
+  transform: translateY(0);
+}
+
+.nav-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.nav-tile:is(:hover, :focus-visible) .nav-icon {
+  animation: nav-hop 480ms ease both;
+}
+
+.brand-feature:is(:hover, :focus-visible) .brand-feature-icon {
+  animation: nav-hop 480ms ease both;
+}
+
+.nav-label {
+  position: relative;
+  line-height: 1.25;
+}
+
+@keyframes nav-hop {
+  0%, 100% { transform: translateY(0); }
+  35% { transform: translateY(-7px) rotate(-5deg); }
+  65% { transform: translateY(1px) rotate(3deg); }
+}
+
+.nav-tile:focus-visible,
+.brand-home:focus-visible,
+.brand-feature:focus-visible {
+  outline: 3px solid #1b53ba;
+  outline-offset: -3px;
+}
+
+.mobile-nav-controls {
+  display: none;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-left: 5px solid var(--nav-color);
+  padding: 14px;
+  border-bottom: 1px solid #e5e5e5;
+  color: var(--ink);
+  font-family: var(--font-lato), sans-serif;
+  font-size: 18px;
+}
+
+.mobile-nav-link:is(:hover, :focus-visible, .is-active) {
+  background: #f2f2f2;
+}
+
+.mobile-nav-link .nav-icon {
+  color: var(--nav-color);
+  width: 24px;
+  height: 24px;
+}
+
+@media (max-width: 767px) {
+  html { scroll-padding-top: 5rem; }
+  .site-header { --brand-strip-height: 64px; }
+  .brand-strip-inner { display: flex; }
+  .brand-home { flex: 1; font-size: 23px; }
+  .brand-feature { display: none; }
+  .nav-tiles { display: none; }
+  .mobile-nav-controls {
+    display: flex;
+    height: 56px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-inline: 20px;
+    border-bottom: 4px solid #30a7d7;
+  }
+  .mobile-nav-home { color: #616161; font-size: 14px; }
+  .mobile-menu-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    color: #313131;
+    font-family: var(--font-lato), sans-serif;
+    font-weight: 700;
+  }
+  .mobile-menu-trigger svg { width: 22px; height: 22px; }
 }
 
 ::selection {
@@ -66,7 +316,7 @@ body {
 }
 
 .lip {
-  box-shadow: 0 4px 0 var(--lip, var(--brand-deep));
+  box-shadow: none;
   transition:
     transform 0.08s ease,
     box-shadow 0.08s ease;
@@ -77,8 +327,7 @@ body {
 }
 
 .lip:active:not(:disabled) {
-  transform: translateY(4px);
-  box-shadow: 0 0 0 var(--lip, var(--brand-deep));
+  transform: translateY(1px);
 }
 
 .rise {
@@ -411,13 +660,12 @@ body {
 }
 
 .slab {
-  border-radius: 18px;
+  border-radius: 8px;
   padding: 12px 12px 14px;
-  background: linear-gradient(180deg, #2c3140, #0c0e14);
+  background: linear-gradient(180deg, #414141, #252525);
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.14),
-    0 24px 50px rgba(0, 0, 0, 0.45),
-    0 0 48px rgba(225, 6, 0, 0.28);
+    0 0 0 1px rgba(0, 0, 0, 0.12),
+    0 5px 12px rgba(0, 0, 0, 0.15);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -434,6 +682,18 @@ body {
   .tear-line,
   .fan-card,
   .pack-glow {
+    animation: none;
+  }
+
+  .nav-tile::before,
+  .nav-tile {
+    transition: none;
+  }
+
+  .nav-tile .nav-icon,
+  .nav-tile:is(:hover, :focus-visible) .nav-icon,
+  .brand-feature .brand-feature-icon,
+  .brand-feature:is(:hover, :focus-visible) .brand-feature-icon {
     animation: none;
   }
 

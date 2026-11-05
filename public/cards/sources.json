@@ -1,0 +1,83 @@
+{
+  "metadataSource": "https://github.com/PokemonTCG/pokemon-tcg-data/tree/39a26a144c8b6ef6c2fb17b2c29d0bb7121e3a11",
+  "artworkCopyright": "Pokémon / Nintendo / Creatures / GAME FREAK. Source repository licenses do not transfer ownership of card artwork.",
+  "assets": [
+    {
+      "cardId": "xy12-35",
+      "file": "xy12-35.png",
+      "source": "https://github.com/NolanAmblard/Pokemon-Card-Scanner/blob/e16aa5a0c96331a4fbc8a12179fee7b2ac39cedc/evolutionsCardsImages/035.png",
+      "sha256": "833c8e1fda02cc56d1e2f4634530868b97bc30adc2b7a48cac77c18debf95c82"
+    },
+    {
+      "cardId": "base1-4",
+      "file": "base1-4.webp",
+      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/base1-4.webp",
+      "sha256": "81d81f318757f3c1fe583f46ca2accb20f3e9bed1031c4c04c28001234d06574"
+    },
+    {
+      "cardId": "base1-2",
+      "file": "base1-2.webp",
+      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/base1-2.webp",
+      "sha256": "eaffd8881951e0e51f9d0013d7577fec43edb882d6e1b3927597e4c2ebf85bcd"
+    },
+    {
+      "cardId": "ecard3-H30",
+      "file": "ecard3-H30.webp",
+      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/ecard3-H30.webp",
+      "sha256": "370d8fb7ae70fb68eb8f84e73b523b73317f6f967f9f570f8e748b91eafa198a"
+    },
+    {
+      "cardId": "ecard3-H31",
+      "file": "ecard3-H31.webp",
+      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/ecard3-H31.webp",
+      "sha256": "7baf4d7d6d317e0b73b17059b38b759381ab04d8365984bdeb405877b0a00a7f"
+    },
+    {
+      "cardId": "ex15-100",
+      "file": "ex15-100.webp",
+      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/ex15-100.webp",
+      "sha256": "d73a3c4bd06632159c6d85da8ac77138d0f054d9083c7954b1a4949373722144"
+    },
+    {
+      "cardId": "gym2-2",
+      "file": "gym2-2.webp",
+      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/gym2-2.webp",
+      "sha256": "9d7cc8b1e75f079617c33d7a67a9f398424f3339ac8ed1473ddbdf34bb607c0c"
+    },
+    {
+      "cardId": "pop5-16",
+      "file": "pop5-16.webp",
+      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/pop5-16.webp",
+      "sha256": "18b40f1757d6a4f7f3991e4558fd09480c0e15b9f15265b4763fe59764f3ad0e"
+    },
+    {
+      "cardId": "ru1-7",
+      "file": "ru1-7.webp",
+      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/ru1-7.webp",
+      "sha256": "b411e3a694c74aaa6e439ba79cb8448405d98fdda2dc7be5316db45aa9ab9521"
+    },
+    {
+      "cardId": "si1-13",
+      "file": "si1-13.webp",
+      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/si1-13.webp",
+      "sha256": "13b5b44e97a0bf558a96a5343ab54f49827a0c05d39c8f5967886bea75a04a00"
+    },
+    {
+      "cardId": "sv8-1",
+      "file": "sv8-1.webp",
+      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/sv8-1.webp",
+      "sha256": "954178c71825e5e3fa45ae8478d1acc2e83e9d6cb0aa849edd44fd75c506ec13"
+    },
+    {
+      "cardId": "xy12-74",
+      "file": "xy12-74.png",
+      "source": "https://github.com/NolanAmblard/Pokemon-Card-Scanner/blob/e16aa5a0c96331a4fbc8a12179fee7b2ac39cedc/evolutionsCardsImages/074.png",
+      "sha256": "245bbead70acf46573b7a221403de356ed311e975a37d2a29567cfd9f4b13200"
+    },
+    {
+      "file": "back.jpg",
+      "source": "https://github.com/Arc29/Card-flipping-game/blob/09a82c1156fe06ba99b889bac93482bd54f9ca83/src/resources/images/s-l1600.jpg",
+      "sha256": "fb5a824b67bae5bbdaf9bc2d775a6fd5dd19329f1b5ceb13f680babb58078631"
+    }
+  ]
+}

@@ -7,7 +7,7 @@ function Input({ className, type = "text", ...props }: ComponentProps<"input">) 
     <input
       type={type}
       className={cn(
-        "h-12 w-full rounded-xl border-2 border-ink/15 bg-white px-4 text-base text-ink outline-none transition-colors placeholder:text-mist focus-visible:border-brand disabled:opacity-50",
+        "h-12 w-full rounded-[5px] border border-ink/25 bg-white px-4 text-base text-ink outline-none transition-colors placeholder:text-mist focus-visible:border-bolt focus-visible:ring-1 focus-visible:ring-bolt disabled:opacity-50",
         className,
       )}
       {...props}

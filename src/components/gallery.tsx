@@ -6,13 +6,13 @@ import { CardDialog } from "@/components/card-dialog";
 import { HoloCard } from "@/components/holo-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CHASE_RARITIES, EXAMPLE_CARDS, type ExampleCard } from "@/data/cards";
+import { EXAMPLE_CARDS, isChase, type ExampleCard } from "@/data/cards";
 import { cn } from "@/lib/utils";
 
 const FILTERS = [
   { id: "all", label: "All" },
   { id: "pikachu", label: "Pikachu" },
-  { id: "illustration", label: "Illustration" },
+  { id: "holo", label: "Holo" },
   { id: "chase", label: "Chase" },
   { id: "classic", label: "Classics" },
   { id: "trainer", label: "Trainers" },
@@ -21,17 +21,17 @@ const FILTERS = [
 type FilterId = (typeof FILTERS)[number]["id"];
 
 function matches(card: ExampleCard, filter: FilterId, query: string) {
-  const haystack = `${card.name} ${card.rarity} ${card.number}`.toLowerCase();
+  const haystack = `${card.name} ${card.setName} ${card.rarity} ${card.number} ${card.artist ?? ""}`.toLowerCase();
   if (query && !haystack.includes(query)) return false;
   switch (filter) {
     case "pikachu":
       return card.name.toLowerCase().includes("pikachu");
-    case "illustration":
-      return card.rarity === "Illustration Rare";
+    case "holo":
+      return card.rarity.includes("Holo");
     case "chase":
-      return CHASE_RARITIES.has(card.rarity);
+      return isChase(card);
     case "classic":
-      return card.setName.includes("Classic");
+      return card.releaseDate < "2004-01-01";
     case "trainer":
       return card.supertype === "Trainer";
     default:
@@ -51,16 +51,16 @@ export function Gallery() {
   );
 
   return (
-    <section id="binder" className="scroll-mt-24 bg-stage pb-20 text-paper md:pb-28">
+    <section id="binder" className="scroll-mt-24 bg-stage pb-10 text-ink md:pb-14">
       <div className="mx-auto max-w-6xl px-5">
-        <p className="text-xs font-bold uppercase tracking-[0.22em] text-sun">03 — The binder</p>
+        <p className="text-sm font-bold text-brand">The binder</p>
         <div className="mt-3 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <h2 className="font-display text-5xl leading-[0.92] tracking-tight md:text-6xl">
+          <h2 className="font-display text-3xl leading-tight md:text-4xl">
             Tilt the foil.
           </h2>
-          <p className="max-w-sm text-sm leading-relaxed text-paper/70">
-            Move a pointer across a card. The shine follows. Every sleeve here is sample
-            data from the 30th Celebration sets.
+          <p className="max-w-sm text-sm leading-relaxed text-mist">
+            Real Pokémon TCG artwork, with the original names, sets, and card numbers.
+            Tilt a card, then open it to flip, zoom, and explore its details.
           </p>
         </div>
 
@@ -75,10 +75,10 @@ export function Gallery() {
                   aria-pressed={pressed}
                   onClick={() => setFilter(item.id)}
                   className={cn(
-                    "rounded-full border px-3 py-1.5 text-xs font-bold uppercase tracking-[0.14em]",
+                    "min-h-11 rounded-md border px-3.5 py-2 text-sm font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bolt",
                     pressed
-                      ? "border-sun bg-sun text-ink"
-                      : "border-white/20 text-paper hover:border-white/50",
+                      ? "border-ink bg-ink text-white"
+                      : "border-line bg-[#f2f2f2] text-ink hover:bg-[#e5e5e5]",
                   )}
                 >
                   {item.label}
@@ -89,20 +89,20 @@ export function Gallery() {
           <Input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search the sample binder"
+            placeholder="Search cards, sets, or illustrators"
             aria-label="Search example cards"
-            className="border-white/15 bg-white/5 text-paper placeholder:text-paper/40 focus-visible:border-sun lg:max-w-xs"
+            className="border-line bg-white text-ink placeholder:text-mist focus-visible:border-bolt lg:max-w-xs"
           />
         </div>
 
-        <p className="mt-5 text-xs font-bold uppercase tracking-[0.16em] text-paper/60">
+        <p className="mt-5 text-sm font-bold text-mist">
           {shown.length} {shown.length === 1 ? "card" : "cards"}
         </p>
 
         {shown.length === 0 ? (
-          <div className="mt-6 rounded-3xl border border-dashed border-white/25 px-6 py-16 text-center">
-            <p className="font-display text-4xl">Nothing in that sleeve.</p>
-            <p className="mt-2 text-paper/70">No example cards match. Clear it and look again.</p>
+          <div className="mt-6 rounded-md border border-dashed border-line bg-[#f2f2f2] px-6 py-12 text-center">
+            <p className="font-display text-2xl">Nothing in that sleeve.</p>
+            <p className="mt-2 text-mist">No example cards match. Clear it and look again.</p>
             <Button
               className="mt-6"
               variant="sun"

@@ -1,11 +1,11 @@
 # ThePokeID
 
-Brand site for [ThePokeID](https://x.com/thepokeID), Brandon Sim's Pokémon trading-card desk. One page: an animated hero, a sample pull wall, an example pack rip, a holo binder, a "What's your favourite?" picker, scroll-driven drops, and a preview waitlist.
+Brand site for [ThePokeID](https://x.com/thepokeID). One page: authentic Pokémon card scans, interactive foil and card inspection, a demo pack rip, a "What's your favourite?" picker, scroll-driven drops, and a preview waitlist.
 
 ## Run locally
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
@@ -16,18 +16,56 @@ npm run build
 npm start
 ```
 
+Use Node.js 24 for development and the built-in regression tests. Next.js requires
+Node.js 20.9 or newer. To use the same origin as the default local metadata, run
+`npm run dev -- --port 4327`.
+
+Validation:
+
+```bash
+npm run lint
+npm test
+npm run build
+```
+
 ## Deploy
 
 Import the repo into Vercel. Framework preset is Next.js. No environment variables are required.
 
 Optional: set `NEXT_PUBLIC_SITE_URL` to the production origin (for example `https://thepokeid.com`) so canonical URLs, the sitemap, and JSON-LD use that host. On Vercel, `VERCEL_URL` is used when the variable is unset.
 
-## Example data
+## Card collection
 
-Card names, rarities, and image URLs are a curated snapshot of the public [Pokémon TCG API](https://pokemontcg.io) for the 30th Celebration sets. Images are loaded from that API's CDN. They are not committed as files.
+Twelve genuine Pokémon TCG fronts and a printed card-back scan are bundled in
+`public/cards`. Names, HP, set numbers, rarities, and illustrators are matched to
+the public Pokémon TCG dataset; the Exeggcute illustrator was read from the scan
+where the dataset omitted it. Source commits, URLs, and checksums are recorded in
+`public/cards/sources.json`. No runtime connection to an image CDN is required.
 
-Pulls, the pack, drops, and the waitlist are placeholders. The waitlist stores an email in `localStorage` only. Nothing is sent to a server.
+Cards tilt with the pointer and open a keyboard-accessible inspector. Tap or
+press the flip control to see the back, and zoom to inspect the original scan;
+enlarged scans can be panned on mobile. Reduced motion is respected. The selected
+favourite and featured desk card also open the inspector.
+
+Pulls, the mixed-set demo pack, drops, and the waitlist are demonstrations. Chase
+highlights are editorial selections, separate from official rarity. The pack
+does not represent official collation or pull rates. The waitlist stores an email
+in `localStorage` only; nothing is sent to a server.
+
+Favourites and preview-list entries sync across tabs on the same origin. When
+browser storage is blocked or full, the site displays an error instead of
+claiming the entry was saved.
 
 ## Brand assets
 
+The interface uses a light editorial layout, colored icon navigation, and locally
+bundled Lato/Roboto typography inspired by Pokémon's website. Navigation hovers
+animate their background and icons; reduced-motion preferences disable those
+animations. The brand strip scrolls away while the section navigation stays
+available. Mobile navigation uses an accessible drawer.
+
 `public/brand` holds the supplied logo, avatar, and X banner. The logo background was removed so it can sit on the page.
+
+Web fonts are bundled in `src/fonts` with their licenses and provenance. Builds
+do not download Google Fonts or card artwork. Card scans are served locally, with
+optimized thumbnails and original files in the inspector.

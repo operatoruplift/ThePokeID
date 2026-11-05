@@ -15,21 +15,21 @@ const LINKS = [
 
 export function SiteFooter() {
   return (
-    <footer className="bg-ink text-paper">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-[1.3fr_0.7fr_0.8fr]">
+    <footer className="bg-[#1f1f1f] text-white">
+      <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 md:grid-cols-[1.3fr_0.7fr_0.8fr]">
         <div>
           <Image src="/brand/logo.webp" alt="" width={72} height={72} className="size-16" />
-          <p className="mt-4 font-display text-4xl tracking-tight">ThePokeID</p>
-          <p className="mt-2 max-w-sm text-sm leading-relaxed text-paper/75">
-            A Brandon Sim card brand. The question stands: what&apos;s your favourite?
+          <p className="mt-4 font-display text-3xl">ThePokeID</p>
+          <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/80">
+            A place for Pokémon cards. The question stands: what&apos;s your favourite?
           </p>
         </div>
         <nav aria-label="Footer">
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-paper/50">Desk</p>
-          <ul className="mt-3 space-y-2">
+          <p className="text-base font-bold text-white">Explore the desk</p>
+          <ul className="mt-3 grid grid-cols-2 gap-x-4 md:grid-cols-1">
             {LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="text-sm hover:text-sun">
+                <Link href={link.href} className="inline-flex min-h-11 items-center text-sm text-white/80 underline-offset-4 hover:text-white hover:underline">
                   {link.label}
                 </Link>
               </li>
@@ -37,23 +37,23 @@ export function SiteFooter() {
           </ul>
         </nav>
         <div>
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-paper/50">X</p>
+          <p className="text-base font-bold text-white">Follow on X</p>
           <a
             href={siteConfig.x}
             target="_blank"
             rel="noreferrer"
-            className="lip mt-3 inline-flex h-12 items-center rounded-xl bg-brand px-5 text-sm font-semibold uppercase tracking-[0.14em] text-white [--lip:var(--brand-deep)]"
+            className="mt-3 inline-flex min-h-12 items-center rounded-md bg-[#454545] px-5 text-sm font-bold text-white transition-colors hover:bg-[#5a5a5a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sun"
           >
             {siteConfig.handle}
           </a>
         </div>
       </div>
-      <p className="mx-auto max-w-6xl px-5 pb-12 text-xs leading-relaxed text-paper/60">
+      <p className="mx-auto max-w-6xl border-t border-white/15 px-5 py-6 text-xs leading-relaxed text-white/70">
         Independent fan project. Not affiliated with, endorsed by, or sponsored by Nintendo,
         The Pokémon Company, Creatures Inc., or GAME FREAK. Pokémon and related marks belong
-        to their owners. Card images load from the public Pokémon TCG API at pokemontcg.io
-        for demonstration and are not stored in this repository. Sample pulls, the pack, and
-        the drops are placeholders, not inventory and not offers to sell.
+        to their owners. Card scans are bundled for this reference collection; names and set
+        details are matched to Pokémon TCG data. Demo pulls, the pack, and the drops are
+        not inventory and not offers to sell.
       </p>
     </footer>
   );
