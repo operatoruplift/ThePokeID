@@ -1,10 +1,11 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useSyncExternalStore } from "react";
+import { useRef, useState, useSyncExternalStore } from "react";
 
+import { CardDialog } from "@/components/card-dialog";
 import { HoloCard } from "@/components/holo-card";
-import { cardById } from "@/data/cards";
+import { cardById, type ExampleCard } from "@/data/cards";
 import { DROPS, type DropStory, type DropTone } from "@/data/desk";
 import { cn } from "@/lib/utils";
 
@@ -48,7 +49,7 @@ function StoryCopy({ story }: { story: DropStory }) {
   );
 }
 
-function SnapStories() {
+function SnapStories({ onSelect }: { onSelect: (card: ExampleCard) => void }) {
   return (
     <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2">
       {DROPS.map((story) => {
@@ -62,7 +63,7 @@ function SnapStories() {
             )}
           >
             <StoryCopy story={story} />
-            <HoloCard card={card} showMeta={false} className="mx-auto max-w-[200px]" />
+            <HoloCard card={card} onSelect={() => onSelect(card)} showMeta={false} className="mx-auto max-w-[200px]" />
           </article>
         );
       })}
@@ -70,7 +71,7 @@ function SnapStories() {
   );
 }
 
-function ScrubStories() {
+function ScrubStories({ onSelect }: { onSelect: (card: ExampleCard) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -91,7 +92,7 @@ function ScrubStories() {
               >
                 <div className="mx-auto grid w-full max-w-6xl items-center gap-8 px-8 md:grid-cols-[1.1fr_200px] lg:px-12">
                   <StoryCopy story={story} />
-                  <HoloCard card={card} showMeta={false} className="mx-auto w-full max-w-[240px]" />
+                  <HoloCard card={card} onSelect={() => onSelect(card)} showMeta={false} className="mx-auto w-full max-w-[240px]" />
                 </div>
               </article>
             );
@@ -106,6 +107,7 @@ function ScrubStories() {
 }
 
 export function Drops() {
+  const [active, setActive] = useState<ExampleCard | null>(null);
   // Hydrate the server's layout first, then apply the browser preference.
   const reduce = useSyncExternalStore(
     subscribeReducedMotion,
@@ -118,18 +120,19 @@ export function Drops() {
       <h2 className="sr-only">05 — From the desk. Example drops, not confirmed sales.</h2>
       {reduce ? (
         <div className="py-8">
-          <SnapStories />
+          <SnapStories onSelect={setActive} />
         </div>
       ) : (
         <>
           <div className="py-4 md:hidden">
-            <SnapStories />
+            <SnapStories onSelect={setActive} />
           </div>
           <div className="hidden md:block">
-            <ScrubStories />
+            <ScrubStories onSelect={setActive} />
           </div>
         </>
       )}
+      <CardDialog card={active} onClose={() => setActive(null)} />
     </section>
   );
 }

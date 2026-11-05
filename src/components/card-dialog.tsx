@@ -4,6 +4,7 @@ import { RotateCw, ZoomIn, ZoomOut } from "lucide-react";
 import { useId, useState } from "react";
 
 import { CardBack } from "@/components/card-face";
+import { CardSurface } from "@/components/card-surface";
 import { HoloCard } from "@/components/holo-card";
 import { Button } from "@/components/ui/button";
 import {
@@ -69,7 +70,7 @@ function CardInspector({ card }: { card: ExampleCard }) {
                   <HoloCard card={card} large showMeta={false} fill className="h-full" />
                 </div>
                 <div className="card-inspector-back absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)]" aria-hidden={!back}>
-                  <CardBack />
+                  <CardSurface className="h-full w-full"><CardBack /></CardSurface>
                 </div>
               </div>
             </button>

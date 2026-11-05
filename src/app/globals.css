@@ -116,6 +116,11 @@ body {
 .hero-card-art > div { height: 230px; }
 .hero-card-art .fan-card > div { box-shadow: 0 5px 12px #0000001a; }
 .hero-card-art .fan-card { animation: none; }
+.fan-position { z-index: 1; }
+.fan-position:nth-child(3) { z-index: 2; }
+.fan-position:nth-child(4) { z-index: 4; }
+.fan-position:nth-child(5) { z-index: 3; }
+.fan-position:is(:hover, :focus-within) { z-index: 20; }
 
 .brand-feature {
   font-size: 13px;
@@ -465,6 +470,7 @@ body {
   mix-blend-mode: soft-light;
   opacity: 0.2;
   animation: foil-drift 8s linear infinite;
+  transition: opacity 140ms ease;
 }
 
 .foil-soft .holo-foil {
@@ -482,8 +488,22 @@ body {
 
 .holo.is-hot .holo-foil {
   mix-blend-mode: color-dodge;
-  opacity: 0.72;
+  opacity: 0.62;
+  background-position: calc(var(--px) * 100%) calc(var(--py) * 100%);
   animation: none;
+}
+
+.card-surface.is-hot .card-surface-art {
+  box-shadow: 0 12px 24px #16345c30, 0 0 0 1px #ffffff66;
+}
+
+.card-surface.is-hot .holo-spark {
+  opacity: 0.3;
+}
+
+.holo-card-trigger,
+.card-surface button:not(:disabled) {
+  cursor: pointer;
 }
 
 .holo-spark {

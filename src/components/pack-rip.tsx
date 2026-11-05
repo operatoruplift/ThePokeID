@@ -1,13 +1,15 @@
 "use client";
 
 import { useReducedMotion } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { CardBack } from "@/components/card-face";
+import { CardSurface } from "@/components/card-surface";
 import { CardDialog } from "@/components/card-dialog";
 import { HoloCard } from "@/components/holo-card";
 import { Button } from "@/components/ui/button";
 import { dealPack, type ExampleCard } from "@/data/cards";
+import { OPEN_DEMO_PACK } from "@/lib/card-events";
 import { cn } from "@/lib/utils";
 
 const SPARKS = [
@@ -22,73 +24,6 @@ const SPARKS = [
 ];
 
 type Phase = "sealed" | "shaking" | "tearing" | "revealing" | "open";
-
-function PackArt() {
-  return (
-    <svg viewBox="0 0 230 340" className="h-[340px] w-[230px]" aria-hidden>
-      <defs>
-        <linearGradient id="pack-red" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#ff3a30" />
-          <stop offset="1" stopColor="#9b0400" />
-        </linearGradient>
-        <linearGradient id="pack-gloss" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#ffffff" stopOpacity="0.55" />
-          <stop offset="0.45" stopColor="#ffffff" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <rect x="10" y="10" width="210" height="320" rx="22" fill="url(#pack-red)" />
-      <rect x="10" y="176" width="210" height="154" rx="22" fill="#f7f3ee" />
-      <rect x="10" y="168" width="210" height="26" fill="#161616" />
-      <circle cx="115" cy="181" r="38" fill="#f7f3ee" stroke="#1a0b0d" strokeWidth="8" />
-      <circle cx="115" cy="181" r="16" fill="#ffffff" stroke="#1a0b0d" strokeWidth="4" />
-      <text
-        x="115"
-        y="96"
-        textAnchor="middle"
-        fontFamily="Arial Black, sans-serif"
-        fontSize="32"
-        fill="#ffd000"
-        stroke="#2454e6"
-        strokeWidth="5"
-        paintOrder="stroke"
-      >
-        POKEID
-      </text>
-      <text
-        x="115"
-        y="258"
-        textAnchor="middle"
-        fontFamily="Arial, sans-serif"
-        fontSize="13"
-        letterSpacing="3"
-        fill="#1a0b0d"
-      >
-        DESK PACK
-      </text>
-      <text
-        x="115"
-        y="304"
-        textAnchor="middle"
-        fontFamily="Arial Black, sans-serif"
-        fontSize="44"
-        fill="#e10600"
-      >
-        30
-      </text>
-      <rect x="10" y="10" width="210" height="320" rx="22" fill="url(#pack-gloss)" />
-      <rect
-        x="10"
-        y="10"
-        width="210"
-        height="320"
-        rx="22"
-        fill="none"
-        stroke="#1a0b0d"
-        strokeWidth="6"
-      />
-    </svg>
-  );
-}
 
 function PackCard({
   card,
@@ -145,30 +80,31 @@ export function PackRip() {
     };
   }, []);
 
-  function later(ms: number, fn: () => void) {
-    const id = window.setTimeout(fn, ms);
-    timers.current.push(id);
-  }
-
-  function clearTimers() {
+  const startReveal = useCallback((nextSeed: number) => {
     timers.current.forEach((id) => window.clearTimeout(id));
     timers.current = [];
-  }
+    setSeed(nextSeed);
+    setPhase(reduce ? "open" : "shaking");
+    if (reduce) return;
+    timers.current = [
+      window.setTimeout(() => setPhase("tearing"), 480),
+      window.setTimeout(() => setPhase("revealing"), 980),
+      window.setTimeout(() => setPhase("open"), 2480),
+    ];
+  }, [reduce]);
+
+  useEffect(() => {
+    const reveal = (event: Event) => {
+      const nextSeed = (event as CustomEvent<{ seed: number }>).detail?.seed;
+      if (Number.isSafeInteger(nextSeed) && nextSeed > 0) startReveal(nextSeed);
+    };
+    window.addEventListener(OPEN_DEMO_PACK, reveal);
+    return () => window.removeEventListener(OPEN_DEMO_PACK, reveal);
+  }, [startReveal]);
 
   function rip() {
     if (phase === "shaking" || phase === "tearing" || phase === "revealing") return;
-    if (phase === "open") {
-      setSeed((value) => value + 1);
-    }
-    if (reduce) {
-      setPhase("open");
-      return;
-    }
-    clearTimers();
-    setPhase("shaking");
-    later(480, () => setPhase("tearing"));
-    later(980, () => setPhase("revealing"));
-    later(980 + 180 * 4 + 780, () => setPhase("open"));
+    startReveal(phase === "open" ? seed + 1 : seed);
   }
 
   const showCards = phase === "revealing" || phase === "open";
@@ -198,13 +134,15 @@ export function PackRip() {
             Five cards. One breath. Then the hit.
           </h2>
           <p className="max-w-sm text-sm leading-relaxed text-mist">
-            Real cards from different sets, dealt in a five-card demo. The wrapper is PokeID
-            art; this is not an official pack or a promise of pull rates. Seed {String(seed).padStart(2, "0")} repeats the same deal.
+            Real Pokémon card backs, five genuine cards, and a final reveal. These mixed-set
+            demos do not represent official packs or pull rates. Seed {String(seed).padStart(2, "0")} repeats the same deal.
           </p>
         </div>
 
         <div className="relative mt-8 grid min-h-[400px] min-w-0 grid-cols-[minmax(0,1fr)] place-items-center">
           <div
+            inert={away ? true : undefined}
+            aria-hidden={away}
             className={cn(
               "relative col-start-1 row-start-1",
               phase === "shaking" && "is-shaking",
@@ -212,13 +150,11 @@ export function PackRip() {
               showCards && "pointer-events-none",
             )}
           >
-            <PackArt />
-            {phase === "tearing" ? (
-              <p className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-hand text-7xl text-sun">
-                riip
-              </p>
-            ) : null}
-            {phase === "tearing" ? <div className="tear-line absolute top-1/2 right-[12%] left-[12%]" /> : null}
+            <CardSurface className="aspect-[63/88] w-[230px]">
+              <button type="button" onClick={rip} disabled={phase !== "sealed" && phase !== "open"} aria-label="Reveal five cards" className="absolute inset-0 block w-full rounded-lg focus-visible:outline-3 focus-visible:outline-offset-[-3px] focus-visible:outline-sun">
+                <CardBack />
+              </button>
+            </CardSurface>
           </div>
 
           {showCards ? (

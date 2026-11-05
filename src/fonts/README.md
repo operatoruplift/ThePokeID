@@ -10,6 +10,8 @@ The original Geist, Bricolage Grotesque, and Schoolbell files are retained below
 | --- | --- | --- |
 | `lato-latin-400-normal.woff2` | `@fontsource/lato@5.3.0` | SIL Open Font License 1.1; see `Lato-LICENSE.txt` |
 | `lato-latin-700-normal.woff2` | `@fontsource/lato@5.3.0` | SIL Open Font License 1.1; see `Lato-LICENSE.txt` |
+| `lato-latin-400-normal.woff` | `@fontsource/lato@5.3.0` | SIL Open Font License 1.1; see `Lato-LICENSE.txt` |
+| `lato-latin-700-normal.woff` | `@fontsource/lato@5.3.0` | SIL Open Font License 1.1; see `Lato-LICENSE.txt` |
 | `roboto-latin-wght-normal.woff2` | `@fontsource-variable/roboto@5.3.0` | SIL Open Font License 1.1; see `Roboto-LICENSE.txt` |
 | `geist-latin-wght-normal.woff2` | `@fontsource-variable/geist@5.3.0` | SIL Open Font License 1.1; see `Geist-LICENSE.txt` |
 | `bricolage-grotesque-latin-wght-normal.woff2` | `@fontsource-variable/bricolage-grotesque@5.3.0` | SIL Open Font License 1.1; see `BricolageGrotesque-LICENSE.txt` |
@@ -18,3 +20,6 @@ The original Geist, Bricolage Grotesque, and Schoolbell files are retained below
 The files and license texts were copied unmodified from the npm packages. Active
 fonts are loaded through `next/font/local` in `src/app/layout.tsx`; Lato includes
 regular and bold weights, and Roboto is variable from 100 to 900.
+
+The Lato WOFF files also power the deterministic `next/og` share poster; Satori
+does not support the WOFF2 files used by the page itself.

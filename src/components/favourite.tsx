@@ -5,6 +5,7 @@ import { useState, useSyncExternalStore } from "react";
 
 import { CardFace } from "@/components/card-face";
 import { CardDialog } from "@/components/card-dialog";
+import { CardSurface } from "@/components/card-surface";
 import { HoloCard } from "@/components/holo-card";
 import { cardById, type ExampleCard } from "@/data/cards";
 import { cardsFor, FAVOURITE_IDS } from "@/data/desk";
@@ -23,6 +24,7 @@ export function Favourite() {
   const picked = useSyncExternalStore(storage.subscribe, getSnapshot, () => null);
   const [error, setError] = useState("");
   const [inspected, setInspected] = useState<ExampleCard | null>(null);
+  const [focusedPick, setFocusedPick] = useState<string | null>(null);
 
   function choose(id: string) {
     setError(storage.write(id) ? "" : "Your browser couldn't save this pick. Allow browser storage and try again.");
@@ -95,6 +97,8 @@ export function Favourite() {
                     aria-label={`Choose ${card.name}, number ${card.number}, as your favourite`}
                     aria-pressed={pressed}
                     onClick={() => choose(card.id)}
+                    onFocus={() => setFocusedPick(card.id)}
+                    onBlur={() => setFocusedPick(null)}
                     className="block w-full text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bolt"
                   >
                     <span
@@ -103,7 +107,9 @@ export function Favourite() {
                         pressed ? "ring-4 ring-bolt ring-offset-2 ring-offset-white" : "ring-1 ring-ink/15",
                       )}
                     >
-                      <CardFace card={card} sizes="120px" />
+                      <CardSurface className="h-full w-full" focused={focusedPick === card.id}>
+                        <CardFace card={card} sizes="120px" />
+                      </CardSurface>
                     </span>
                     <span className="mt-1 block truncate text-[11px] font-semibold">
                       #{card.number}

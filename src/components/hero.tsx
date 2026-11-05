@@ -28,15 +28,15 @@ export function Hero() {
         </article>
 
         <div className="grid gap-4">
-          <Link href="/#binder" className="group overflow-hidden rounded-[5px] bg-[#4dad5b]">
+          <article className="overflow-hidden rounded-[5px] bg-[#4dad5b]">
             <div className="hero-card-art overflow-hidden bg-[#eef2ed]">
               <CardFan />
             </div>
             <div className="px-5 py-4 text-[#16351b]">
-              <h2 className="font-display text-[23px] leading-tight">A binder full of possibilities</h2>
+              <h2 className="font-display text-[23px] leading-tight"><Link href="/#binder" className="underline-offset-4 hover:underline">A binder full of possibilities</Link></h2>
               <p className="mt-2 text-sm">Discover {EXAMPLE_CARDS.length} real cards, from familiar faces to the chase.</p>
             </div>
-          </Link>
+          </article>
           <Link href="/#favourite" className="group flex items-center gap-4 rounded-[5px] bg-[#ee6b2f] px-5 py-4 text-[#342015] transition-colors hover:bg-[#e36126]">
             <BookOpen className="size-10 shrink-0" strokeWidth={1.5} aria-hidden />
             <div>

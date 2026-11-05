@@ -47,6 +47,11 @@ press the flip control to see the back, and zoom to inspect the original scan;
 enlarged scans can be panned on mobile. Reduced motion is respected. The selected
 favourite and featured desk card also open the inspector.
 
+All card areas use the shared `CardSurface` hover treatment, including the hero
+fan, feed thumbnails, favourite picker, story cards, and card backs. The four
+selection tiles and face-down reveal use the original blue Pokémon card back,
+not custom pack drawings. Choosing a tile starts its deterministic demo deal.
+
 Pulls, the mixed-set demo pack, drops, and the waitlist are demonstrations. Chase
 highlights are editorial selections, separate from official rarity. The pack
 does not represent official collation or pull rates. The waitlist stores an email
@@ -69,3 +74,10 @@ available. Mobile navigation uses an accessible drawer.
 Web fonts are bundled in `src/fonts` with their licenses and provenance. Builds
 do not download Google Fonts or card artwork. Card scans are served locally, with
 optimized thumbnails and original files in the inspector.
+
+## Share previews
+
+Open Graph and Twitter images are rendered with `next/og` at 1200×630 using the
+supplied logo and authentic card scans. Both routes use the versioned metadata
+ID `real-cards-v2`; bump that ID when changing the design to give social crawlers
+a fresh image URL. The shared composition is in `src/lib/social-image.tsx`.

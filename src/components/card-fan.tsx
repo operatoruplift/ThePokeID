@@ -1,7 +1,11 @@
 "use client";
 
+import { useState } from "react";
+
+import { CardDialog } from "@/components/card-dialog";
 import { CardFace } from "@/components/card-face";
-import { cardById } from "@/data/cards";
+import { CardSurface } from "@/components/card-surface";
+import { cardById, type ExampleCard } from "@/data/cards";
 
 const FAN_IDS = ["xy12-35", "base1-2", "base1-4", "ecard3-H30", "ex15-100"] as const;
 
@@ -14,30 +18,33 @@ const POSES = [
 ];
 
 export function CardFan() {
+  const [active, setActive] = useState<ExampleCard | null>(null);
   const cards = FAN_IDS.map((id) => cardById(id));
 
   return (
-    <div className="relative mx-auto h-[360px] w-full max-w-[520px]" aria-hidden>
+    <>
+    <div className="relative mx-auto h-[360px] w-full max-w-[520px]">
       <div className="absolute inset-x-10 bottom-6 h-24 rounded-full bg-brand/40 blur-3xl" />
       {cards.map((card, index) => {
         const pose = POSES[index];
         return (
           <div
             key={card.id}
-            className="absolute top-4 left-1/2 w-[132px] sm:w-[150px]"
+            className="fan-position absolute top-4 left-1/2 w-[132px] sm:w-[150px]"
             style={{
-              zIndex: pose.z,
               transform: `translateX(calc(-50% + ${pose.x}px)) translateY(${pose.y}px) rotate(${pose.rotate}deg)`,
             }}
           >
-            <div className="fan-card" style={{ animationDelay: `${index * 0.18}s` }}>
-              <div className="relative aspect-[63/88] overflow-hidden rounded-xl shadow-[0_18px_40px_rgba(0,0,0,0.45)] ring-1 ring-white/25">
+            <CardSurface className="fan-card aspect-[63/88] w-full">
+              <button type="button" onClick={() => setActive(card)} aria-label={`Inspect ${card.name} from ${card.setName}`} aria-haspopup="dialog" className="absolute inset-0 block w-full rounded-lg focus-visible:outline-3 focus-visible:outline-offset-[-3px] focus-visible:outline-sun">
                 <CardFace card={card} priority={index === 2} sizes="160px" />
-              </div>
-            </div>
+              </button>
+            </CardSurface>
           </div>
         );
       })}
     </div>
+    <CardDialog card={active} onClose={() => setActive(null)} />
+    </>
   );
 }
