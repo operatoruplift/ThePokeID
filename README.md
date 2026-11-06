@@ -1,6 +1,6 @@
 # ThePokeID
 
-Brand site for [ThePokeID](https://x.com/thepokeID). One page: authentic Pokémon card scans, interactive foil and card inspection, a demo pack rip, a "What's your favourite?" picker, scroll-driven drops, and a preview waitlist.
+Brand site for [ThePokeID](https://x.com/thepokeID). One page: authentic Pokémon card scans, interactive foil and card inspection, a demo pack you can rip open, a "What's your favourite?" picker, scroll-driven drops, and a preview waitlist.
 
 ## Run locally
 
@@ -65,8 +65,22 @@ the inspector.
 
 All card areas use the shared `CardSurface` hover treatment, including the hero
 fan, feed thumbnails, favourite picker, story cards, and card backs. The four
-selection tiles and face-down reveal use the original blue Pokémon card back,
-not custom pack drawings. Choosing a tile starts its deterministic demo deal.
+selection tiles and the face-down cards use the original blue Pokémon card back.
+
+The sample pack is a sealed foil pack in the site's finish, with ThePokeID's own
+artwork rather than an official pack design. Drag across it to tear the top strip
+along its perforation: the tear follows the pointer, light spills out of the
+opening, and letting go past halfway finishes the rip, while letting go earlier
+springs the strip back. Pressing the pack or the button rips it automatically,
+after a short shake. The strip flies off, the five cards rise out, and the pack
+drops away. The cards then turn over one at a time; tap, swipe, or use the arrow
+keys for the next. The fifth card is the hit: it waits face down, pulsing gold,
+until it is flipped on purpose. "Show all five" skips to the spread, where any
+card opens the inspector. Choosing a tile loads that named pack and rips it once
+the page has scrolled to it. Reduced motion skips the rip and shows the spread.
+The shake and the one-at-a-time swipe reveal follow
+[hongyime/pokemonpacks](https://github.com/hongyime/pokemonpacks) (Apache-2.0);
+no code was copied from it.
 
 Pulls, the mixed-set demo pack, drops, and the waitlist are demonstrations. Chase
 highlights are editorial selections, separate from official rarity. The pack

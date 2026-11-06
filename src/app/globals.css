@@ -955,22 +955,413 @@ body::before {
   }
 }
 
-.deal-flip {
-  animation: deal-flip 0.78s cubic-bezier(0.22, 1, 0.36, 1) both;
+/*
+ * The sample pack. A foil pack sits low on the stage with its five cards hidden
+ * inside; the top strip tears along a jagged perforation as --rip goes from 0 to
+ * 1, light spills out of the opening, the strip flies off, and the cards rise
+ * out while the pack drops away. Then the cards turn over one at a time.
+ */
+.pack-stage {
+  --pack-w: 236px;
+  --pack-h: 396px;
+  --strip-h: 58px;
+  --card-w: 196px;
+  position: relative;
+  height: 520px;
+}
+
+@media (max-width: 639px) {
+  .pack-stage {
+    --pack-w: 204px;
+    --pack-h: 342px;
+    --strip-h: 50px;
+    --card-w: 170px;
+    height: 460px;
+  }
+}
+
+.pack-stack {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: var(--card-w);
+  aspect-ratio: 63 / 88;
+  margin-left: calc(var(--card-w) / -2);
+  translate: 0 -50%;
+}
+
+/* Cards underneath sit a little lower and to the right, so the stack has thickness. */
+.pack-stack-card {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  translate: calc(var(--depth, 0) * 2px) calc(var(--depth, 0) * 2px);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
+}
+
+.booster-slot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  width: var(--pack-w);
+  height: var(--pack-h);
+  margin: calc(var(--pack-h) / -2) 0 0 calc(var(--pack-w) / -2);
+}
+
+.booster {
+  --foil: var(--holo-aurora);
+  --pack-ink: var(--ink);
+  --perf: rgb(30 34 48 / 0.4);
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--pack-ink);
+  cursor: pointer;
+  filter: drop-shadow(0 22px 24px rgb(30 34 48 / 0.3));
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.booster.is-eclipse {
+  --foil: var(--holo-eclipse-deep);
+  --pack-ink: white;
+  --perf: rgb(255 255 255 / 0.65);
+}
+
+.booster.is-sealed {
+  cursor: grab;
+  animation: booster-float 4.2s ease-in-out infinite;
+}
+
+.booster.is-sealed:active {
+  cursor: grabbing;
+}
+
+.booster:focus-visible {
+  outline: 3px solid var(--bolt);
+  outline-offset: 6px;
+  border-radius: 10px;
+}
+
+/* One foil sheet: the strip and the body share a background sized to the whole pack. */
+.booster-strip,
+.booster-body {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgb(0 0 0 / 0.2), transparent 13%, transparent 87%, rgb(0 0 0 / 0.2)),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.07) 0 1px, transparent 1px 7px),
+    var(--foil);
+  background-size: 100% var(--pack-h);
+}
+
+.booster-body {
+  top: calc(var(--strip-h) - 3px);
+  bottom: 0;
+  z-index: 2;
+  background-position: 0 calc(3px - var(--strip-h));
+}
+
+/* Peels up from the notch on the left, pivoting where it is still attached. */
+.booster-strip {
+  top: 0;
+  z-index: 3;
+  height: var(--strip-h);
+  transform-origin: 100% 100%;
+  /* Clockwise about the right end, so the torn left end lifts away from the pack. */
+  transform: translateY(calc(var(--rip, 0) * -6px)) rotate(calc(var(--rip, 0) * 16deg));
+}
+
+/* Heat-sealed crimps along the top and bottom edges. */
+.booster-strip::before,
+.booster-body::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 17px;
+  background: repeating-linear-gradient(180deg, rgb(255 255 255 / 0.28) 0 1px, rgb(0 0 0 / 0.1) 1px 2px, transparent 2px 4px);
+}
+
+.booster-strip::before {
+  top: 0;
+}
+
+.booster-body::before {
+  bottom: 0;
+}
+
+/* A slow sheen across the foil. */
+.booster-body::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 38%, rgb(255 255 255 / 0.45) 50%, transparent 62%);
+  background-size: 280% 100%;
+  mix-blend-mode: soft-light;
+  animation: booster-sheen 4.8s ease-in-out infinite;
+}
+
+.booster-strip-label {
+  position: absolute;
+  right: 0;
+  bottom: 11px;
+  left: 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.booster-front {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 13%;
+  text-align: center;
+}
+
+.booster-lid {
+  display: grid;
+  width: 56%;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 4px solid transparent;
+  border-radius: 50%;
+  background:
+    linear-gradient(var(--pearl), var(--pearl)) padding-box,
+    conic-gradient(from 210deg, #ffffff, #ffd96b, #73e0c4, #6cb8ff, #a68cff, #f08bd6, #ffffff) border-box;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.2);
+}
+
+.booster-lid img {
+  width: 68%;
+  height: auto;
+}
+
+.booster-name {
+  margin-top: 8%;
+  font-family: var(--font-lato), sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.booster-count {
+  margin-top: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.booster-perf {
+  position: absolute;
+  top: calc(var(--strip-h) - 2px);
+  right: 12px;
+  left: 12px;
+  z-index: 4;
+  border-top: 1.5px dashed var(--perf);
+  opacity: calc(1 - var(--rip, 0) * 3);
+}
+
+/* The tear notch on the left edge, where the rip starts. */
+.booster-notch {
+  position: absolute;
+  top: calc(var(--strip-h) - 8px);
+  left: -1px;
+  z-index: 4;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 8px solid var(--pearl);
+  opacity: calc(1 - var(--rip, 0) * 3);
+}
+
+/* A glint that sweeps along the perforation, inviting a drag. */
+.booster-hint {
+  position: absolute;
+  top: calc(var(--strip-h) - 6px);
+  left: 6%;
+  z-index: 4;
+  width: 26%;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.9), transparent);
+  opacity: 0;
+}
+
+.booster.is-sealed .booster-hint {
+  animation: booster-hint 2.6s ease-in-out 1s infinite;
+}
+
+/* Light spilling out of the opening as the strip lifts. */
+.booster-light {
+  position: absolute;
+  top: calc(var(--strip-h) - 38px);
+  right: 6%;
+  left: 6%;
+  z-index: 1;
+  height: 46px;
+  border-radius: 50% 50% 0 0;
+  background: radial-gradient(ellipse at 50% 100%, rgb(255 250 225), rgb(255 217 107 / 0.65) 40%, transparent 72%);
+  opacity: var(--rip, 0);
+  transform: scaleY(calc(0.35 + var(--rip, 0) * 0.65));
+  transform-origin: 50% 100%;
+}
+
+/* The point of the tear, bright while the foil is coming apart. */
+.booster-spark {
+  position: absolute;
+  top: calc(var(--strip-h) - 3px);
+  left: calc(var(--rip, 0) * 100%);
+  z-index: 5;
+  width: 12px;
+  height: 12px;
+  margin: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, white, #ffd96b 45%, transparent 70%);
+  box-shadow: 0 0 16px 5px rgb(255 217 107 / 0.8);
+  opacity: calc(var(--rip, 0) * (1 - var(--rip, 0)) * 4);
+}
+
+.booster.is-open .booster-strip {
+  opacity: 0;
+  transform: translate(80px, -160px) rotate(38deg);
+  transition: transform 700ms cubic-bezier(0.2, 0.7, 0.3, 1), opacity 450ms ease 220ms;
+}
+
+.booster.is-open .booster-light {
+  animation: booster-burst 950ms ease-out both;
+}
+
+.booster.is-open :is(.booster-perf, .booster-notch, .booster-spark) {
+  opacity: 0;
+}
+
+@keyframes booster-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -6px; }
+}
+
+@keyframes booster-sheen {
+  0%, 30% { background-position: 120% 0; }
+  70%, 100% { background-position: -20% 0; }
+}
+
+@keyframes booster-hint {
+  0% { opacity: 0; translate: 0 0; }
+  15% { opacity: 1; }
+  60% { opacity: 1; translate: 260% 0; }
+  75%, 100% { opacity: 0; translate: 290% 0; }
+}
+
+@keyframes booster-burst {
+  0% { opacity: 1; transform: scale(1, 1); }
+  40% { opacity: 1; transform: scale(1.5, 2.4); }
+  100% { opacity: 0; transform: scale(1.7, 2.8); }
+}
+
+/* The card being revealed: drag it aside, or tap it. */
+.reveal-card {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.reveal-card:active {
+  cursor: grabbing;
+}
+
+.reveal-flip {
+  position: absolute;
+  inset: 0;
   transform-style: preserve-3d;
 }
 
-@keyframes deal-flip {
-  0% {
+/* The hit waits face down, pulsing gold, until it is flipped on purpose. */
+.reveal-card.is-hit-waiting {
+  animation: hit-waiting 1.6s ease-in-out infinite;
+}
+
+.reveal-card.is-hit::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  z-index: -1;
+  border-radius: 18px;
+  background: conic-gradient(from 0deg, #ffd96b, #f08bd6, #a68cff, #6cb8ff, #73e0c4, #ffd96b);
+  filter: blur(16px);
+  opacity: 0.75;
+  animation: hit-glow 3s linear infinite;
+}
+
+.reveal-hit-plate {
+  position: absolute;
+  top: -34px;
+  left: 50%;
+  translate: -50% 0;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@keyframes hit-waiting {
+  0%, 100% { filter: drop-shadow(0 0 0 rgb(232 177 63 / 0)); }
+  50% { filter: drop-shadow(0 0 20px rgb(232 177 63 / 0.9)); }
+}
+
+@keyframes hit-glow {
+  to { rotate: 360deg; }
+}
+
+/* All five on the table. */
+.pack-spread {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 44px 4px 8px;
+  scroll-snap-type: x mandatory;
+}
+
+@media (min-width: 1024px) {
+  .pack-spread {
+    justify-content: center;
+  }
+}
+
+.spread-card {
+  animation: spread-in 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+@keyframes spread-in {
+  from {
     opacity: 0;
-    transform: translateY(28px) rotateY(180deg);
-  }
-  28% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) rotateY(0deg);
+    transform: translateY(26px) scale(0.96);
   }
 }
 
@@ -983,48 +1374,6 @@ body::before {
 
 .pack-back {
   transform: rotateY(180deg);
-}
-
-.is-shaking {
-  animation: shake 0.12s linear 4;
-}
-
-@keyframes shake {
-  0%,
-  100% {
-    transform: rotate(0);
-  }
-  25% {
-    transform: rotate(-2.4deg) translateX(-4px);
-  }
-  75% {
-    transform: rotate(2.4deg) translateX(4px);
-  }
-}
-
-.is-away {
-  transform: translateY(-90px) scale(0.94);
-  opacity: 0;
-  transition:
-    transform 0.45s ease,
-    opacity 0.45s ease;
-}
-
-.tear-line {
-  height: 3px;
-  background: white;
-  box-shadow: 0 0 18px white;
-  transform-origin: left center;
-  animation: slash 0.35s ease forwards;
-}
-
-@keyframes slash {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
 }
 
 .stamp {
@@ -1076,17 +1425,6 @@ body::before {
   }
 }
 
-.pack-glow {
-  animation: pack-pulse 3.4s ease-in-out infinite;
-}
-
-@keyframes pack-pulse {
-  50% {
-    opacity: 0.4;
-    transform: scale(1.18);
-  }
-}
-
 /* A graded slab: smoked case with a silver rim, so it reads on the charcoal band. */
 .slab {
   border-radius: 10px;
@@ -1105,13 +1443,16 @@ body::before {
   .marquee,
   .card-wall,
   .holo-foil,
-  .deal-flip,
-  .is-shaking,
   .stamp,
   .spark,
-  .tear-line,
   .fan-card,
-  .pack-glow {
+  .booster.is-sealed,
+  .booster-body::after,
+  .booster.is-sealed .booster-hint,
+  .booster.is-open .booster-light,
+  .reveal-card.is-hit-waiting,
+  .reveal-card.is-hit::before,
+  .spread-card {
     animation: none;
   }
 
@@ -1138,7 +1479,7 @@ body::before {
     display: none;
   }
 
-  .is-away {
+  .booster.is-open .booster-strip {
     transition: none;
   }
 }
