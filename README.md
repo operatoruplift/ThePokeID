@@ -64,10 +64,17 @@ claiming the entry was saved.
 ## Brand assets
 
 The interface uses a light editorial layout, colored icon navigation, and locally
-bundled Lato/Roboto typography inspired by Pokémon's website. Navigation hovers
-animate their background and icons; reduced-motion preferences disable those
-animations. The brand strip scrolls away while the section navigation stays
-available. Mobile navigation uses an accessible drawer.
+bundled Lato/Roboto typography inspired by Pokémon's website. Header motion is
+based on Pokémon.com's published [main.css](https://assets.pokemon.com/static2/_ui/css/main.css)
+and [gus.css](https://assets.pokemon.com/static2/_ui/css/gus.css): navigation tiles
+fade to their section color over 300ms with a 100ms icon-color transition, without
+the previous sliding background or rotating icon hop. The utility strip uses the
+475ms downward bounce (6px at 40%, 1px at 60%) and fades neighboring promotions to
+20% opacity over 200ms. Keyboard focus receives the same treatment; reduced
+motion disables animation and transitions. Hover effects only run on devices
+that support hover. The desktop navigation becomes a fixed 57px label-only bar
+after scrolling past the header, with its original space reserved to prevent a
+layout jump. Mobile navigation uses an accessible drawer.
 
 `public/brand` holds the supplied logo, avatar, and X banner. The logo background was removed so it can sit on the page.
 
