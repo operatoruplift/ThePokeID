@@ -5,79 +5,80 @@
     {
       "cardId": "xy12-35",
       "file": "xy12-35.png",
-      "source": "https://github.com/NolanAmblard/Pokemon-Card-Scanner/blob/e16aa5a0c96331a4fbc8a12179fee7b2ac39cedc/evolutionsCardsImages/035.png",
-      "sha256": "833c8e1fda02cc56d1e2f4634530868b97bc30adc2b7a48cac77c18debf95c82"
+      "source": "https://images.pokemontcg.io/xy12/35_hires.png",
+      "sha256": "b75b095e312c714ba54150f04cca94338cff03411e961a342f290d6e939221ef"
     },
     {
       "cardId": "base1-4",
-      "file": "base1-4.webp",
-      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/base1-4.webp",
-      "sha256": "81d81f318757f3c1fe583f46ca2accb20f3e9bed1031c4c04c28001234d06574"
+      "file": "base1-4.png",
+      "source": "https://images.pokemontcg.io/base1/4_hires.png",
+      "sha256": "7514f2ab2012ecf30b7ae5ffb9be3e52b1a948949c9ed016449b24feac3eafc6"
     },
     {
       "cardId": "base1-2",
-      "file": "base1-2.webp",
-      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/base1-2.webp",
-      "sha256": "eaffd8881951e0e51f9d0013d7577fec43edb882d6e1b3927597e4c2ebf85bcd"
+      "file": "base1-2.png",
+      "source": "https://images.pokemontcg.io/base1/2_hires.png",
+      "sha256": "8ec49f92aae56f35754958bfb3bc69557e3c8f354ad4ef1396f52422983c1a83"
     },
     {
       "cardId": "ecard3-H30",
-      "file": "ecard3-H30.webp",
-      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/ecard3-H30.webp",
-      "sha256": "370d8fb7ae70fb68eb8f84e73b523b73317f6f967f9f570f8e748b91eafa198a"
+      "file": "ecard3-H30.png",
+      "source": "https://images.pokemontcg.io/ecard3/H30_hires.png",
+      "sha256": "f4a34cb7aa3149d9b757a5070f4cb60493e7787c627950e5d1c375597b0eb718"
     },
     {
       "cardId": "ecard3-H31",
-      "file": "ecard3-H31.webp",
-      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/ecard3-H31.webp",
-      "sha256": "7baf4d7d6d317e0b73b17059b38b759381ab04d8365984bdeb405877b0a00a7f"
+      "file": "ecard3-H31.png",
+      "source": "https://images.pokemontcg.io/ecard3/H31_hires.png",
+      "sha256": "a2fbad74ec9532301948ecd32a7cc3f5323946b97b253da47b431c3682bd8b1e"
     },
     {
       "cardId": "ex15-100",
-      "file": "ex15-100.webp",
-      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/ex15-100.webp",
-      "sha256": "d73a3c4bd06632159c6d85da8ac77138d0f054d9083c7954b1a4949373722144"
+      "file": "ex15-100.png",
+      "source": "https://images.pokemontcg.io/ex15/100_hires.png",
+      "sha256": "a2df3f7c5b5f78c79ff05651b25d6496b275f71cec0ee06a45a62153f0040d80"
     },
     {
       "cardId": "gym2-2",
-      "file": "gym2-2.webp",
-      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/gym2-2.webp",
-      "sha256": "9d7cc8b1e75f079617c33d7a67a9f398424f3339ac8ed1473ddbdf34bb607c0c"
+      "file": "gym2-2.png",
+      "source": "https://images.pokemontcg.io/gym2/2_hires.png",
+      "sha256": "7e897311437837a5b7d52342c17534e698a1a3f945989ccfacf6c1e065b16562"
     },
     {
       "cardId": "pop5-16",
-      "file": "pop5-16.webp",
-      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/pop5-16.webp",
-      "sha256": "18b40f1757d6a4f7f3991e4558fd09480c0e15b9f15265b4763fe59764f3ad0e"
+      "file": "pop5-16.png",
+      "source": "https://images.pokemontcg.io/pop5/16_hires.png",
+      "sha256": "56cdaf03e00877e9e29abe34a47dcb0503414652c285a3685b7ddf094bfd8e00"
     },
     {
       "cardId": "ru1-7",
-      "file": "ru1-7.webp",
-      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/ru1-7.webp",
-      "sha256": "b411e3a694c74aaa6e439ba79cb8448405d98fdda2dc7be5316db45aa9ab9521"
+      "file": "ru1-7.png",
+      "source": "https://images.pokemontcg.io/ru1/7_hires.png",
+      "sha256": "8008eb9a66d77b5ef236cd75c5208d819da203510c7ff168e2199a6b0447f494"
     },
     {
       "cardId": "si1-13",
-      "file": "si1-13.webp",
-      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/si1-13.webp",
-      "sha256": "13b5b44e97a0bf558a96a5343ab54f49827a0c05d39c8f5967886bea75a04a00"
+      "file": "si1-13.png",
+      "source": "https://images.pokemontcg.io/si1/13_hires.png",
+      "sha256": "442e26c76be69b9f4720664bf2390ae8c09ec36fe16373ba8222f0a9e4770d4a"
     },
     {
       "cardId": "sv8-1",
-      "file": "sv8-1.webp",
-      "source": "https://github.com/mgzwarrior/mgz-pkmn/blob/31754a6d95dfeee8307c2984667539c34427b768/site/public/cards/sv8-1.webp",
-      "sha256": "954178c71825e5e3fa45ae8478d1acc2e83e9d6cb0aa849edd44fd75c506ec13"
+      "file": "sv8-1.png",
+      "source": "https://images.pokemontcg.io/sv8/1_hires.png",
+      "sha256": "865607d6d6848652989d1a7d04ab1aa14ea76908dcfd0d164defdaa747b9f3b4"
     },
     {
       "cardId": "xy12-74",
       "file": "xy12-74.png",
-      "source": "https://github.com/NolanAmblard/Pokemon-Card-Scanner/blob/e16aa5a0c96331a4fbc8a12179fee7b2ac39cedc/evolutionsCardsImages/074.png",
-      "sha256": "245bbead70acf46573b7a221403de356ed311e975a37d2a29567cfd9f4b13200"
+      "source": "https://images.pokemontcg.io/xy12/74_hires.png",
+      "sha256": "d4b67b58968ad63ffc10bef05c3ce876d051e4df8fa9e050e48c710554e7b261"
     },
     {
       "file": "back.jpg",
       "source": "https://github.com/Arc29/Card-flipping-game/blob/09a82c1156fe06ba99b889bac93482bd54f9ca83/src/resources/images/s-l1600.jpg",
       "sha256": "fb5a824b67bae5bbdaf9bc2d775a6fd5dd19329f1b5ceb13f680babb58078631"
     }
-  ]
+  ],
+  "frontsRetrieved": "2026-11-06"
 }

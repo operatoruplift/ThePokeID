@@ -16,11 +16,27 @@ test("every displayed card has a verified bundled scan instead of a remote or ge
       assert.ok(src.startsWith("/cards/"));
       const entry = manifest.assets.find(asset => asset.cardId === card.id && src === `/cards/${asset.file}`);
       assert.ok(entry, `No verified artwork source for ${card.id}`);
-      assert.match(entry.source, /^https:\/\/github\.com\//);
+      assert.match(entry.source, /^https:\/\/(github\.com|images\.pokemontcg\.io)\//);
       const bytes = readFileSync(new URL(entry.file, assetRoot));
       assert.ok(bytes.length > 1000);
       assert.equal(createHash("sha256").update(bytes).digest("hex"), entry.sha256, card.id);
     }
+  }
+});
+
+/** Width and height from a PNG's IHDR chunk. */
+function pngSize(bytes) {
+  assert.equal(bytes.subarray(1, 4).toString("ascii"), "PNG", "card fronts are kept as the source PNGs");
+  return { width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20) };
+}
+
+test("card fronts are full-resolution scans that stay sharp on high-density screens", () => {
+  // Binder, slab, and story cards are drawn up to 300 CSS px wide, which needs
+  // 600 device pixels at 2x. The 360px copies used before were visibly blurry.
+  for (const card of EXAMPLE_CARDS) {
+    const { width, height } = pngSize(readFileSync(new URL(card.image.replace("/cards/", ""), assetRoot)));
+    assert.ok(width >= 600, `${card.id} is only ${width}px wide`);
+    assert.ok(Math.abs(width / height - 63 / 88) < 0.02, `${card.id} is not card-shaped: ${width}x${height}`);
   }
 });
 

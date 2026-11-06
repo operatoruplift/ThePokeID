@@ -1,15 +1,14 @@
 # Reference card artwork
 
 These are authentic printed Pokémon TCG card scans, not generated or redrawn
-card designs. Files were copied without image changes from the source commits
-in `sources.json`; that manifest records SHA-256 checksums for every scan.
+card designs. Files are stored exactly as downloaded; `sources.json` records each
+file's source URL and SHA-256 checksum.
 
-- Ten WebP fronts: `mgzwarrior/mgz-pkmn` at
-  `31754a6d95dfeee8307c2984667539c34427b768`, `site/public/cards/`.
-  Its repository MIT license is retained as `mgz-pkmn-LICENSE.txt`.
-- Evolutions Pikachu and Brock's Grit: `NolanAmblard/Pokemon-Card-Scanner` at
-  `e16aa5a0c96331a4fbc8a12179fee7b2ac39cedc`,
-  `evolutionsCardsImages/035.png` and `074.png`.
+- Twelve card fronts: the high-resolution scans the Pokémon TCG API serves at
+  `images.pokemontcg.io/{set}/{number}_hires.png`, retrieved 2026-11-06. Vintage
+  scans are 600×825 and modern scans 733–734×1024, the largest the API publishes.
+  They replaced smaller, recompressed copies of the same scans; each pair was
+  compared pixel by pixel (including 1st Edition stamps) before the swap.
 - Printed card-back scan: `Arc29/Card-flipping-game` at
   `09a82c1156fe06ba99b889bac93482bd54f9ca83`,
   `src/resources/images/s-l1600.jpg`.

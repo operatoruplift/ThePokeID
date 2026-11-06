@@ -37,7 +37,7 @@ export function CardFan() {
           >
             <CardSurface className="fan-card aspect-[63/88] w-full">
               <button type="button" onClick={() => setActive(card)} aria-label={`Inspect ${card.name} from ${card.setName}`} aria-haspopup="dialog" className="absolute inset-0 block w-full rounded-lg focus-visible:outline-3 focus-visible:outline-offset-[-3px] focus-visible:outline-sun">
-                <CardFace card={card} priority={index === 2} sizes="160px" />
+                <CardFace card={card} priority={index === 2} sizes="(min-width: 640px) 150px, 132px" />
               </button>
             </CardSurface>
           </div>

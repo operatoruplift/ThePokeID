@@ -54,7 +54,7 @@ function PackCard({
         style={!reduce && !hot ? { animationDelay: `${index * 180}ms` } : undefined}
       >
         <div className="pack-face" inert={!hot && !reduce ? true : undefined}>
-          <HoloCard card={card} fill showMeta={false} onSelect={onSelect} className="h-full" />
+          <HoloCard card={card} fill showMeta={false} onSelect={onSelect} sizes="(min-width: 640px) 176px, 142px" className="h-full" />
         </div>
         {reduce || hot ? null : (
           <div className="pack-face pack-back" aria-hidden>

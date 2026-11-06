@@ -16,6 +16,8 @@ type HoloCardProps = {
   fill?: boolean;
   /** Maximum 3D rotation in degrees; 0 keeps the card still but shiny. */
   tilt?: number;
+  /** How wide the card is drawn, so the browser fetches a scan at least that sharp. */
+  sizes?: string;
   className?: string;
 };
 
@@ -27,6 +29,7 @@ export function HoloCard({
   showMeta = true,
   fill = false,
   tilt,
+  sizes = "(max-width: 768px) 46vw, 240px",
   className,
 }: HoloCardProps) {
   const [focused, setFocused] = useState(false);
@@ -43,7 +46,7 @@ export function HoloCard({
         card={card}
         large={large}
         priority={priority}
-        sizes={large ? "(max-width: 768px) 80vw, 360px" : "(max-width: 768px) 46vw, 220px"}
+        sizes={large ? "(max-width: 768px) 80vw, 360px" : sizes}
       />
     </CardSurface>
   );

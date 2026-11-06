@@ -13,7 +13,7 @@ function Ticket({ card, priority = false, onSelect }: { card: ExampleCard; prior
   return (
     <article className="mb-2 flex gap-3 rounded-[8px] border border-line bg-white p-2.5 text-ink">
       <div className="relative aspect-[63/88] w-14 shrink-0 rounded-md bg-white">
-        <HoloCard card={card} priority={priority} fill showMeta={false} className="h-full" onSelect={onSelect} />
+        <HoloCard card={card} priority={priority} fill showMeta={false} sizes="64px" className="h-full" onSelect={onSelect} />
       </div>
       <div className="min-w-0 py-0.5">
         <h3 className="truncate font-display text-lg leading-tight">{card.name}</h3>

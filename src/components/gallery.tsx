@@ -118,7 +118,7 @@ export function Gallery() {
           <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {shown.map((card) => (
               <li key={card.id}>
-                <HoloCard card={card} onSelect={() => setActive(card)} />
+                <HoloCard card={card} onSelect={() => setActive(card)} sizes="(min-width: 1280px) 210px, (min-width: 1024px) 26vw, (min-width: 640px) 32vw, 46vw" />
               </li>
             ))}
           </ul>

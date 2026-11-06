@@ -37,10 +37,12 @@ Optional: set `NEXT_PUBLIC_SITE_URL` to the production origin (for example `http
 ## Card collection
 
 Twelve genuine Pokémon TCG fronts and a printed card-back scan are bundled in
-`public/cards`. Names, HP, set numbers, rarities, and illustrators are matched to
-the public Pokémon TCG dataset; the Exeggcute illustrator was read from the scan
-where the dataset omitted it. Source commits, URLs, and checksums are recorded in
-`public/cards/sources.json`. No runtime connection to an image CDN is required.
+`public/cards`. The fronts are the Pokémon TCG API's high-resolution scans (600×825
+for vintage cards, 733–734×1024 for modern ones), so cards stay sharp at binder
+size on high-density screens. Names, HP, set numbers, rarities, and illustrators
+are matched to the public Pokémon TCG dataset; the Exeggcute illustrator was read
+from the scan where the dataset omitted it. Source URLs and checksums are recorded
+in `public/cards/sources.json`. No runtime connection to an image CDN is required.
 
 Cards react to the pointer in 3D. Each card turns to face the cursor, up to 18°
 toward any edge, leans after it, and lifts off the page with a small pop. Its
@@ -103,7 +105,9 @@ the finishes but drops the springs and sheens. Bundled Lato and Roboto set the t
 
 Web fonts are bundled in `src/fonts` with their licenses and provenance. Builds
 do not download Google Fonts or card artwork. Card scans are served locally, with
-optimized thumbnails and original files in the inspector.
+original files in the inspector. Every other card declares the width it is drawn
+at, so the browser fetches a thumbnail at least that sharp for the screen's pixel
+density, encoded at quality 85 to keep fine print and foil texture.
 
 ## Share previews
 

@@ -64,7 +64,7 @@ function SnapStories({ onSelect }: { onSelect: (card: ExampleCard) => void }) {
             )}
           >
             <StoryCopy story={story} />
-            <HoloCard card={card} onSelect={() => onSelect(card)} showMeta={false} className="mx-auto max-w-[200px]" />
+            <HoloCard card={card} onSelect={() => onSelect(card)} showMeta={false} sizes="200px" className="mx-auto max-w-[200px]" />
           </article>
         );
       })}
@@ -93,7 +93,7 @@ function ScrubStories({ onSelect }: { onSelect: (card: ExampleCard) => void }) {
               >
                 <div className="mx-auto grid w-full max-w-6xl items-center gap-8 px-8 md:grid-cols-[1.1fr_200px] lg:px-12">
                   <StoryCopy story={story} />
-                  <HoloCard card={card} onSelect={() => onSelect(card)} showMeta={false} className="mx-auto w-full max-w-[240px]" />
+                  <HoloCard card={card} onSelect={() => onSelect(card)} showMeta={false} sizes="240px" className="mx-auto w-full max-w-[240px]" />
                 </div>
               </article>
             );

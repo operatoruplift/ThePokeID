@@ -61,7 +61,7 @@ export function Favourite() {
           <div className="relative mx-auto w-full max-w-[280px]">
             {selected ? (
               <>
-                <HoloCard card={selected} showMeta={false} onSelect={() => setInspected(selected)} />
+                <HoloCard card={selected} showMeta={false} sizes="280px" onSelect={() => setInspected(selected)} />
                 <p className="stamp gold-plate pointer-events-none absolute top-8 right-0 rounded-md px-3 py-2 font-display text-xl">
                   Locked in
                 </p>
@@ -108,7 +108,7 @@ export function Favourite() {
                       )}
                     >
                       <CardSurface className="h-full w-full" focused={focusedPick === card.id}>
-                        <CardFace card={card} sizes="120px" />
+                        <CardFace card={card} sizes="(min-width: 768px) 190px, (min-width: 400px) 23vw, 46vw" />
                       </CardSurface>
                     </span>
                     <span className="mt-1 block truncate text-[11px] font-semibold">
