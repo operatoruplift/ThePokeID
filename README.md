@@ -93,12 +93,13 @@ scrolled to it. The sounds are made with Web Audio, play only after the pack has
 been touched, and can be muted; the setting is remembered in `localStorage`.
 
 three.js and the stage (about 150 KB gzipped) load only as the section nears the
-screen, and the stage stops drawing while the section is off screen. Until it is
-ready, and wherever WebGL 2 is missing or lost, a 2D pack runs the same rip in
-CSS: drag across it to tear the strip, where letting go past halfway finishes the
-rip and letting go earlier springs it back, then swipe through the cards. Reduced
-motion keeps the 2D pack, skips the rip, and shows the spread. The theater takes
-its cues from [addict.munden.org](https://addict.munden.org/) and
+screen. The stage stops drawing while the section is off screen, and draws fewer
+pixels on devices that cannot keep up. Until it is ready, and wherever WebGL 2 is
+missing or lost, a 2D pack runs the same rip in CSS: drag across it to tear the
+strip, where letting go past halfway finishes the rip and letting go earlier
+springs it back, then swipe through the cards. Reduced motion keeps the 2D pack,
+skips the rip, and shows the spread. The theater takes its cues from
+[addict.munden.org](https://addict.munden.org/) and
 [blockrips.com](https://blockrips.com/), and the shake and one-at-a-time reveal
 follow [hongyime/pokemonpacks](https://github.com/hongyime/pokemonpacks)
 (Apache-2.0); no code was copied from any of them.

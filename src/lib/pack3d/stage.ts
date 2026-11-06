@@ -307,6 +307,10 @@ class Stage implements PackStage {
   private frameId = 0;
   private last = 0;
   private ppu = 100;
+  /** Scales the pixel ratio down on devices that cannot keep up; never below 1. */
+  private quality = 1;
+  private frames = 0;
+  private slowFrames = 0;
   private disposed = false;
 
   // Pointer, in canvas coordinates for picking and stage-relative for leaning.
@@ -663,7 +667,8 @@ class Stage implements PackStage {
     this.camera.setViewOffset(width, height, width / 2 - cx, height / 2 - cy, width, height);
     this.camera.updateProjectionMatrix();
 
-    const ratio = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(4.2e6 / (width * height)));
+    const best = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(4.2e6 / (width * height)));
+    const ratio = Math.max(Math.min(1, best), best * this.quality);
     this.renderer.setPixelRatio(ratio);
     this.renderer.setSize(width, height, false);
     this.composer.setPixelRatio(ratio);
@@ -694,12 +699,30 @@ class Stage implements PackStage {
     // Long gaps (a busy main thread, a background tab) step at most a tenth of a second.
     const dt = Math.min(0.1, Math.max(0, (now - this.last) / 1000));
     this.last = now;
+    this.adapt(dt);
     this.update(dt);
     this.render();
   };
 
   private render() {
     this.composer.render();
+  }
+
+  /**
+   * If most of the last two seconds of frames ran slower than 35 a second, draw
+   * fewer pixels: a step down each time, until the canvas matches CSS pixels.
+   */
+  private adapt(dt: number) {
+    this.frames += 1;
+    if (dt > 1 / 35) this.slowFrames += 1;
+    if (this.frames < 120) return;
+    const slow = this.slowFrames / this.frames > 0.6;
+    this.frames = 0;
+    this.slowFrames = 0;
+    const best = Math.min(window.devicePixelRatio || 1, 2);
+    if (!slow || best * this.quality <= 1) return;
+    this.quality = Math.max(1 / best, this.quality * 0.75);
+    this.layout();
   }
 
   setVisible(visible: boolean) {
@@ -1374,6 +1397,8 @@ class Stage implements PackStage {
   };
 
   private up = (event: PointerEvent) => {
+    // On touch screens the first lift, not the first touch, is what lets audio start.
+    this.sound.unlock();
     const tear = this.tearDrag;
     if (tear && tear.id === event.pointerId) {
       this.tearDrag = null;
