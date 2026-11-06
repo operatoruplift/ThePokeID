@@ -17,7 +17,7 @@ const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 type CardSurfaceProps = ComponentPropsWithoutRef<"div"> & {
   children: ReactNode;
   contentClassName?: string;
-  /** Maximum rotation in degrees across the card's width. */
+  /** Maximum rotation in degrees toward each edge. */
   tilt?: number;
   /** Use when a surrounding control, rather than a child, owns keyboard focus. */
   focused?: boolean;
@@ -27,6 +27,8 @@ function resetPosition(element: HTMLDivElement | null) {
   if (!element) return;
   element.style.setProperty("--rx", "0deg");
   element.style.setProperty("--ry", "0deg");
+  element.style.setProperty("--tx", "0px");
+  element.style.setProperty("--ty", "0px");
   element.style.setProperty("--px", "0.5");
   element.style.setProperty("--py", "0.32");
 }
@@ -36,7 +38,7 @@ export function CardSurface({
   children,
   className,
   contentClassName,
-  tilt = 12,
+  tilt = 14,
   focused = false,
   onPointerEnter,
   onPointerMove,
@@ -48,15 +50,23 @@ export function CardSurface({
 }: CardSurfaceProps) {
   const surfaceRef = useRef<HTMLDivElement>(null);
   const motionQueryRef = useRef<MediaQueryList | null>(null);
+  const frameRef = useRef<number | null>(null);
   const [hovered, setHovered] = useState(false);
   const [focusWithin, setFocusWithin] = useState(false);
 
   useEffect(() => {
     const query = window.matchMedia(REDUCED_MOTION_QUERY);
     motionQueryRef.current = query;
-    const reset = () => resetPosition(surfaceRef.current);
+    const reset = () => {
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
+      resetPosition(surfaceRef.current);
+    };
     query.addEventListener("change", reset);
-    return () => query.removeEventListener("change", reset);
+    return () => {
+      query.removeEventListener("change", reset);
+      reset();
+    };
   }, []);
 
   useEffect(() => {
@@ -65,11 +75,13 @@ export function CardSurface({
 
   function enter(event: PointerEvent<HTMLDivElement>) {
     onPointerEnter?.(event);
-    if (!event.defaultPrevented && event.pointerType !== "touch") setHovered(true);
+    if (!event.defaultPrevented && event.pointerType !== "touch") {
+      setHovered(true);
+      updatePosition(event);
+    }
   }
 
-  function move(event: PointerEvent<HTMLDivElement>) {
-    onPointerMove?.(event);
+  function updatePosition(event: PointerEvent<HTMLDivElement>) {
     if (event.defaultPrevented || event.pointerType === "touch" || motionQueryRef.current?.matches) return;
     const element = event.currentTarget;
     const rect = element.getBoundingClientRect();
@@ -77,22 +89,39 @@ export function CardSurface({
     const px = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
     const py = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
     const rotation = Math.max(0, Math.min(20, tilt));
-    element.style.setProperty("--px", px.toFixed(4));
-    element.style.setProperty("--py", py.toFixed(4));
-    element.style.setProperty("--rx", `${(0.5 - py) * rotation}deg`);
-    element.style.setProperty("--ry", `${(px - 0.5) * rotation}deg`);
+    if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+    frameRef.current = requestAnimationFrame(() => {
+      element.style.setProperty("--px", px.toFixed(4));
+      element.style.setProperty("--py", py.toFixed(4));
+      element.style.setProperty("--rx", `${(0.5 - py) * rotation * 2}deg`);
+      element.style.setProperty("--ry", `${(px - 0.5) * rotation * 2}deg`);
+      element.style.setProperty("--tx", `${(px - 0.5) * 18}px`);
+      element.style.setProperty("--ty", `${(py - 0.5) * 18}px`);
+      frameRef.current = null;
+    });
+  }
+
+  function move(event: PointerEvent<HTMLDivElement>) {
+    onPointerMove?.(event);
+    updatePosition(event);
+  }
+
+  function reset() {
+    if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+    frameRef.current = null;
+    resetPosition(surfaceRef.current);
   }
 
   function leave(event: PointerEvent<HTMLDivElement>) {
     onPointerLeave?.(event);
     setHovered(false);
-    resetPosition(surfaceRef.current);
+    reset();
   }
 
   function cancel(event: PointerEvent<HTMLDivElement>) {
     onPointerCancel?.(event);
     setHovered(false);
-    resetPosition(surfaceRef.current);
+    reset();
   }
 
   function focus(event: FocusEvent<HTMLDivElement>) {
@@ -104,14 +133,14 @@ export function CardSurface({
     onBlurCapture?.(event);
     if (event.relatedTarget instanceof Node && event.currentTarget.contains(event.relatedTarget)) return;
     setFocusWithin(false);
-    resetPosition(surfaceRef.current);
+    reset();
   }
 
   return (
     <div
       {...props}
       ref={surfaceRef}
-      className={cn("card-surface holo", (hovered || focusWithin || focused) && "is-hot", className)}
+      className={cn("card-surface holo", hovered && "is-hovered", (hovered || focusWithin || focused) && "is-hot", className)}
       data-card-surface
       onPointerEnter={enter}
       onPointerMove={move}

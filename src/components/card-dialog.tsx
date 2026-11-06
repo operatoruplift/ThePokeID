@@ -66,10 +66,10 @@ function CardInspector({ card }: { card: ExampleCard }) {
               onClick={flip}
             >
               <div className={cn("card-inspector-rotator absolute inset-0 [transform-style:preserve-3d] motion-safe:transition-transform motion-safe:duration-500", back && "[transform:rotateY(180deg)]")}>
-                <div className="card-inspector-face absolute inset-0 [backface-visibility:hidden]" aria-hidden={back}>
+                <div className="card-inspector-face absolute inset-0 [backface-visibility:hidden]" aria-hidden={back} inert={back}>
                   <HoloCard card={card} large showMeta={false} fill className="h-full" />
                 </div>
-                <div className="card-inspector-back absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)]" aria-hidden={!back}>
+                <div className="card-inspector-back absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)]" aria-hidden={!back} inert={!back}>
                   <CardSurface className="h-full w-full"><CardBack /></CardSurface>
                 </div>
               </div>

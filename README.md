@@ -42,7 +42,12 @@ the public Pokémon TCG dataset; the Exeggcute illustrator was read from the sca
 where the dataset omitted it. Source commits, URLs, and checksums are recorded in
 `public/cards/sources.json`. No runtime connection to an image CDN is required.
 
-Cards tilt with the pointer and open a keyboard-accessible inspector. Tap or
+Cards follow the pointer with perspective rotation up to 14° toward each edge,
+sideways movement, lift, scale, and a shifting shadow alongside their foil shine.
+The artwork moves inside a stationary hit area so its motion does not feed back
+into pointer coordinates, and settles back when the pointer leaves. Touch input
+keeps the cards still for scrolling and tapping; reduced motion disables the 3D
+movement. Cards open a keyboard-accessible inspector. Tap or
 press the flip control to see the back, and zoom to inspect the original scan;
 enlarged scans can be panned on mobile. Reduced motion is respected. The selected
 favourite and featured desk card also open the inspector.
@@ -67,8 +72,9 @@ The interface uses a light editorial layout, colored icon navigation, and locall
 bundled Lato/Roboto typography inspired by Pokémon's website. Header motion is
 based on Pokémon.com's published [main.css](https://assets.pokemon.com/static2/_ui/css/main.css)
 and [gus.css](https://assets.pokemon.com/static2/_ui/css/gus.css): navigation tiles
-fade to their section color over 300ms with a 100ms icon-color transition, without
-the previous sliding background or rotating icon hop. The utility strip uses the
+fade to their section color over 300ms with a 100ms icon-color transition. A red
+and white Poké Ball springs up in place of the section icon on hover or keyboard
+focus, and peeks up behind the label in the compact bar. The utility strip uses the
 475ms downward bounce (6px at 40%, 1px at 60%) and fades neighboring promotions to
 20% opacity over 200ms. Keyboard focus receives the same treatment; reduced
 motion disables animation and transitions. Hover effects only run on devices

@@ -143,7 +143,17 @@ export function SiteHeader() {
                     aria-current={active === link.id ? "location" : undefined}
                     onClick={() => setActive(link.id)}
                   >
-                    <Icon className="nav-icon" aria-hidden="true" />
+                    <span className="nav-icon-slot" aria-hidden="true">
+                      <Icon className="nav-icon" />
+                      <svg className="nav-pokeball" viewBox="0 0 32 32" fill="none">
+                        <circle cx="16" cy="16" r="14" fill="white" />
+                        <path d="M2 16a14 14 0 0 1 28 0Z" fill="#e3350d" />
+                        <circle cx="16" cy="16" r="14" stroke="#313131" strokeWidth="2.5" />
+                        <path d="M2 16h28" stroke="#313131" strokeWidth="3" />
+                        <circle cx="16" cy="16" r="4.5" fill="white" stroke="#313131" strokeWidth="2.5" />
+                        <circle cx="16" cy="16" r="1.5" fill="#dedede" />
+                      </svg>
+                    </span>
                     <span className="nav-label">{link.label}</span>
                   </Link>
                 );
@@ -184,15 +194,15 @@ export function SiteHeader() {
                         </Link>
                       );
                     })}
-                </nav>
-                <a href={siteConfig.x} target="_blank" rel="noreferrer" className="mobile-social-link">
-                  Follow {siteConfig.handle}
-                  <ArrowUpRight aria-hidden="true" />
-                </a>
-              </DialogContent>
-            </Dialog>
+                  </nav>
+                  <a href={siteConfig.x} target="_blank" rel="noreferrer" className="mobile-social-link">
+                    Follow {siteConfig.handle}
+                    <ArrowUpRight aria-hidden="true" />
+                  </a>
+                </DialogContent>
+              </Dialog>
+            </div>
           </div>
-        </div>
         </nav>
       </div>
     </header>
