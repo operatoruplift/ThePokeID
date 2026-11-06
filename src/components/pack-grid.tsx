@@ -17,8 +17,8 @@ export function PackGrid() {
     <div id="packs" className="scroll-mt-28">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <p className="text-sm font-bold text-[#1b6b9e]">Explore the desk</p>
-          <h2 className="mt-2 font-display text-[28px] leading-tight md:text-[32px]">Pick your next reveal</h2>
+          <p className="eyebrow">Explore the desk</p>
+          <h2 className="mt-3 font-display text-[28px] leading-tight md:text-[32px]">Pick your next reveal</h2>
         </div>
         <p className="hidden max-w-[12rem] text-right text-xs leading-relaxed text-mist sm:block">
           Mixed-set demos. Nothing here is for sale.
@@ -27,8 +27,8 @@ export function PackGrid() {
       <ul className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
         {PACKS.map((pack) => (
           <li key={pack.name}>
-            <article className="flex h-full flex-col rounded-[5px] border border-line bg-[#f2f2f2] p-3">
-              <div className="grid place-items-center rounded-[3px] bg-white px-2 py-4">
+            <article className="pack-tile flex h-full flex-col rounded-[10px] border border-line bg-pearl p-3">
+              <div className="grid place-items-center rounded-[6px] bg-white px-2 py-4">
                 <CardSurface className="aspect-[63/88] w-full max-w-[132px]">
                   <a href="#rip" onClick={() => openDemoPack(pack.seed)} aria-label={`Reveal ${pack.name} demo cards`} className="absolute inset-0 block rounded-lg focus-visible:outline-3 focus-visible:outline-offset-[-3px] focus-visible:outline-sun">
                     <CardBack />
@@ -37,7 +37,7 @@ export function PackGrid() {
               </div>
               <h3 className="mt-3 font-display text-xl leading-tight text-ink">{pack.name}</h3>
               <p className="mt-1 flex-1 text-xs text-mist">{pack.line}</p>
-              <Button asChild variant="sun" size="sm" className="mt-3 w-full">
+              <Button asChild variant="gold" size="sm" className="mt-3 w-full">
                 <a href="#rip" onClick={() => openDemoPack(pack.seed)}>Reveal cards</a>
               </Button>
             </article>

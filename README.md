@@ -77,23 +77,27 @@ claiming the entry was saved.
 
 ## Brand assets
 
-The interface uses a light editorial layout, colored icon navigation, and locally
-bundled Lato/Roboto typography inspired by Pokémon's website. Header motion is
-based on Pokémon.com's published [main.css](https://assets.pokemon.com/static2/_ui/css/main.css)
-and [gus.css](https://assets.pokemon.com/static2/_ui/css/gus.css): each navigation
-tile fills with its section color, rising out of the colored base over 200ms like
-Pokémon.com's fill, with a 100ms text-color transition. On hover or keyboard
-focus, a red and white Poké Ball pops up from below the tile's bottom edge in place
-of the section icon. It springs past its slot on a damped-spring curve, spins
-upright, rocks like a catch, and flashes its button. In the compact bar it pops
-up beside the label. Touchscreen taps play the same pop. The utility strip uses
-the 475ms downward bounce (6px at 40%, 1px at 60%) and fades neighboring
-promotions to 20% opacity over 200ms. Keyboard focus receives the same treatment;
-reduced motion shows the Poké Ball without the pop and disables the other
-animation and transitions. Hover effects run when any input supports hover. The
-desktop navigation becomes a fixed 57px label-only bar after scrolling past the
-header, with its original space reserved to prevent a layout jump. Mobile
-navigation uses an accessible drawer.
+The header follows Pokémon.com's current layout: a utility row of small links that
+scrolls away, then a pinned bar with the logo and text links. Hovering or focusing a
+link, or scrolling to its section, colors the label and raises a Poké Ball of the
+same color from the bar's bottom edge, so its top half shows, centered under the
+label. The ball springs up and sinks back when the pointer leaves. Section colors
+keep at least 4.5:1 contrast on white. The utility links use the 475ms downward
+bounce (6px at 40%, 1px at 60%) from Pokémon.com's published
+[gus.css](https://assets.pokemon.com/static2/_ui/css/gus.css). Hover effects run when
+any input supports hover. On phones the bar keeps the logo and an accessible
+drawer, where each section shows its colored Poké Ball.
+
+The finish takes after the Pokémon TCG 30th Celebration premium collection boxes,
+using ThePokeID's own motifs rather than their logos or artwork. Pearl surfaces sit
+over an original line-art pattern of Poké Balls, cards, and sparkles, framed by
+gold corners. Two holo finishes, aurora (lime to violet) and eclipse (indigo to
+gold), are cut by pearl lid circles with rainbow rims. A rainbow foil edge runs
+under the header and along the dark bands. Section labels use spaced capitals with
+a foil rule, primary buttons and plates are gold foil, and charcoal bands with
+silver type carry the slab, the list, and the footer. Text on holo grounds only
+sits over stops that keep 4.5:1 contrast. Reduced motion keeps the Poké Ball and
+the finishes but drops the springs and sheens. Bundled Lato and Roboto set the type.
 
 `public/brand` holds the supplied logo, avatar, and X banner. The logo background was removed so it can sit on the page.
 

@@ -11,7 +11,7 @@ const pulls = cardsFor(FLOOR_IDS);
 
 function Ticket({ card, priority = false, onSelect }: { card: ExampleCard; priority?: boolean; onSelect: () => void }) {
   return (
-    <article className="mb-2 flex gap-3 rounded-[5px] border border-line bg-[#f5f5f5] p-2.5 text-ink">
+    <article className="mb-2 flex gap-3 rounded-[8px] border border-line bg-white p-2.5 text-ink">
       <div className="relative aspect-[63/88] w-14 shrink-0 rounded-md bg-white">
         <HoloCard card={card} priority={priority} fill showMeta={false} className="h-full" onSelect={onSelect} />
       </div>
@@ -37,7 +37,7 @@ export function LiveFloor() {
           <span className="relative size-2 rounded-full bg-brand" />
         </span>
       </div>
-      <div className="h-[420px] overflow-y-auto rounded-[5px] border border-line bg-white p-2 motion-reduce:h-auto">
+      <div className="h-[420px] overflow-y-auto rounded-[10px] border border-line bg-pearl p-2 motion-reduce:h-auto">
         <ul>
           {pulls.map((card, index) => (
             <li key={card.id}><Ticket card={card} priority={index < 2} onSelect={() => setActive(card)} /></li>

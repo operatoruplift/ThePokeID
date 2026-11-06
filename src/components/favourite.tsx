@@ -39,15 +39,15 @@ export function Favourite() {
   return (
     <section id="favourite" className="scroll-mt-24 bg-stage text-ink">
       <div className="mx-auto max-w-6xl px-5 py-10 md:py-14">
-        <p className="text-sm font-bold text-brand">The question</p>
-        <h2 className="mt-2 max-w-3xl font-display text-3xl leading-tight md:text-4xl">
+        <p className="eyebrow">The question</p>
+        <h2 className="mt-3 max-w-3xl font-display text-3xl leading-tight md:text-4xl">
           What&apos;s your favourite?
         </h2>
         <p className="mt-4 max-w-lg text-base leading-relaxed text-mist">
           The banner already asks. Save a favourite on this device, then tap it for a closer look.
         </p>
 
-        <div className="relative mt-6 aspect-[2/1] overflow-hidden rounded-md bg-ink sm:aspect-[3/1]">
+        <div className="holo-rim relative mt-6 aspect-[2/1] overflow-hidden rounded-[12px] sm:aspect-[3/1]">
           <Image
             src="/brand/banner.jpg"
             alt="What's your favourite? Banner art with Pikachu and the number 30 over a collage of cards."
@@ -62,7 +62,7 @@ export function Favourite() {
             {selected ? (
               <>
                 <HoloCard card={selected} showMeta={false} onSelect={() => setInspected(selected)} />
-                <p className="stamp pointer-events-none absolute top-8 right-0 rounded-md border-2 border-ink bg-sun px-3 py-2 font-display text-xl text-ink">
+                <p className="stamp gold-plate pointer-events-none absolute top-8 right-0 rounded-md px-3 py-2 font-display text-xl">
                   Locked in
                 </p>
                 <p className="mt-3 font-display text-2xl leading-tight">{selected.name}</p>
@@ -72,15 +72,15 @@ export function Favourite() {
                 <button
                   type="button"
                   onClick={clear}
-                  className="mt-2 min-h-11 text-sm font-bold text-brand underline-offset-4 hover:underline"
+                  className="mt-2 min-h-11 text-sm font-bold text-ink underline underline-offset-4 hover:no-underline"
                 >
                   Clear pick
                 </button>
               </>
             ) : (
-              <div className="grid aspect-[63/88] place-items-center rounded-md border-2 border-dashed border-line bg-[#f2f2f2] px-6 text-center">
+              <div className="grid aspect-[63/88] place-items-center rounded-[10px] border-2 border-dashed border-line bg-pearl px-6 text-center">
                 <div>
-                  <p className="font-display text-3xl text-brand">Pick one.</p>
+                  <p className="foil-text font-display text-3xl">Pick one.</p>
                   <p className="mt-2 text-sm text-mist">Pikachu is the banner. Charizard is allowed.</p>
                 </div>
               </div>
@@ -104,7 +104,7 @@ export function Favourite() {
                     <span
                       className={cn(
                         "relative block aspect-[63/88] rounded-md bg-white",
-                        pressed ? "ring-4 ring-bolt ring-offset-2 ring-offset-white" : "ring-1 ring-ink/15",
+                        pressed ? "ring-4 ring-[#a97a12] ring-offset-2 ring-offset-white" : "ring-1 ring-ink/15",
                       )}
                     >
                       <CardSurface className="h-full w-full" focused={focusedPick === card.id}>

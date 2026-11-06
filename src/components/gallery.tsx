@@ -53,8 +53,8 @@ export function Gallery() {
   return (
     <section id="binder" className="scroll-mt-24 bg-stage pb-10 text-ink md:pb-14">
       <div className="mx-auto max-w-6xl px-5">
-        <p className="text-sm font-bold text-brand">The binder</p>
-        <div className="mt-3 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <p className="eyebrow">The binder</p>
+        <div className="mt-4 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <h2 className="font-display text-3xl leading-tight md:text-4xl">
             Tilt the foil.
           </h2>
@@ -78,7 +78,7 @@ export function Gallery() {
                     "min-h-11 rounded-md border px-3.5 py-2 text-sm font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bolt",
                     pressed
                       ? "border-ink bg-ink text-white"
-                      : "border-line bg-[#f2f2f2] text-ink hover:bg-[#e5e5e5]",
+                      : "border-line bg-pearl text-ink hover:bg-white",
                   )}
                 >
                   {item.label}
@@ -100,12 +100,12 @@ export function Gallery() {
         </p>
 
         {shown.length === 0 ? (
-          <div className="mt-6 rounded-md border border-dashed border-line bg-[#f2f2f2] px-6 py-12 text-center">
+          <div className="mt-6 rounded-[10px] border border-dashed border-line bg-pearl px-6 py-12 text-center">
             <p className="font-display text-2xl">Nothing in that sleeve.</p>
             <p className="mt-2 text-mist">No example cards match. Clear it and look again.</p>
             <Button
               className="mt-6"
-              variant="sun"
+              variant="gold"
               onClick={() => {
                 setFilter("all");
                 setQuery("");

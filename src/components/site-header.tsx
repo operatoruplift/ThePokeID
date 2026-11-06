@@ -2,18 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowUpRight,
-  BookOpen,
-  Heart,
-  House,
-  Layers3,
-  Menu,
-  Newspaper,
-  PackageOpen,
-  Sparkles,
-} from "lucide-react";
-import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
+import { ArrowUpRight, Menu } from "lucide-react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -26,79 +16,68 @@ import {
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
+/** Section colors, each at least 4.5:1 against white so the hovered label stays readable. */
 const LINKS = [
-  { href: "/#top", id: "top", label: "Home", icon: House, color: "#919191" },
-  { href: "/#packs", id: "packs", label: "Packs", icon: PackageOpen, color: "#e3350d" },
-  { href: "/#floor", id: "floor", label: "Pulls", icon: Layers3, color: "#ee6b2f" },
-  { href: "/#rip", id: "rip", label: "Pack rip", icon: Sparkles, color: "#e6bc2f" },
-  { href: "/#binder", id: "binder", label: "Binder", icon: BookOpen, color: "#4dad5b" },
-  { href: "/#favourite", id: "favourite", label: "Favourite", icon: Heart, color: "#30a7d7" },
-  { href: "/#list", id: "list", label: "Updates", icon: Newspaper, color: "#1b53ba" },
+  { href: "/#top", id: "top", label: "Home", color: "#5a6577" },
+  { href: "/#packs", id: "packs", label: "Packs", color: "#d1301a" },
+  { href: "/#floor", id: "floor", label: "Pulls", color: "#b9520f" },
+  { href: "/#rip", id: "rip", label: "Pack rip", color: "#8c6a00" },
+  { href: "/#binder", id: "binder", label: "Binder", color: "#22803a" },
+  { href: "/#favourite", id: "favourite", label: "Favourite", color: "#1773ad" },
+  { href: "/#list", id: "list", label: "Updates", color: "#6c43c9" },
 ] as const;
 
-/** Long enough for the pop, the rock, and the button flash to play through. */
-const TAP_POP_MS = 1600;
+/** As on Pokémon.com, the logo leads home and the bar lists the sections. */
+const BAR_LINKS = LINKS.filter((link) => link.id !== "top");
 
 function navStyle(color: string): CSSProperties {
   return { "--nav-color": color } as CSSProperties;
 }
 
-function PokeBall() {
+/** A single-color Poké Ball; only its top half rises above the bar's bottom edge. */
+function NavBall() {
   return (
-    <span className="nav-pokeball">
-      <svg viewBox="0 0 40 40" fill="none">
-        <circle cx="20" cy="20" r="19.25" fill="white" />
-        <path d="M3 20a17 17 0 0 1 34 0Z" fill="#e3350d" />
-        <path d="M9.4 12.4a12.2 12.2 0 0 1 7.4-5.8" stroke="white" strokeOpacity="0.65" strokeWidth="2.4" strokeLinecap="round" />
-        <circle cx="20" cy="20" r="17" stroke="#262626" strokeWidth="2.6" />
-        <path d="M3 20h34" stroke="#262626" strokeWidth="3.2" />
-        <circle cx="20" cy="20" r="5.8" fill="white" stroke="#262626" strokeWidth="2.6" />
-        <circle cx="20" cy="20" r="2.5" fill="#f2f2f2" stroke="#bdbdbd" strokeWidth="1" />
-        <circle className="nav-pokeball-glint" cx="20" cy="20" r="3.4" fill="#fff4b8" />
+    <span className="nav-ball" aria-hidden="true">
+      <svg viewBox="0 0 26 26">
+        <circle cx="13" cy="13" r="13" fill="currentColor" />
+        <rect x="0" y="12" width="26" height="2" fill="white" />
+        <circle cx="13" cy="13" r="5.4" fill="white" />
+        <circle cx="13" cy="13" r="2.7" fill="currentColor" />
       </svg>
     </span>
   );
 }
 
+function MiniBall() {
+  return (
+    <svg className="utility-ball" viewBox="0 0 16 16" aria-hidden="true">
+      <circle cx="8" cy="8" r="7.25" fill="white" stroke="#262626" strokeWidth="1.5" />
+      <path d="M1.5 8a6.5 6.5 0 0 1 13 0Z" fill="#e3350d" />
+      <path d="M1 8h14" stroke="#262626" strokeWidth="1.5" />
+      <circle cx="8" cy="8" r="2.3" fill="white" stroke="#262626" strokeWidth="1.3" />
+    </svg>
+  );
+}
+
 export function SiteHeader() {
-  const headerRef = useRef<HTMLElement>(null);
-  const [compact, setCompact] = useState(false);
+  const utilityRef = useRef<HTMLDivElement>(null);
+  const [stuck, setStuck] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("top");
-  const [popping, setPopping] = useState<string | null>(null);
-  const popTimer = useRef<number | null>(null);
-
-  useEffect(
-    () => () => {
-      if (popTimer.current !== null) window.clearTimeout(popTimer.current);
-    },
-    [],
-  );
-
-  // Touchscreens have no hover, so a tap plays the Poké Ball pop instead.
-  function popOnTap(event: PointerEvent<HTMLAnchorElement>, id: string) {
-    if (event.pointerType === "mouse") return;
-    if (popTimer.current !== null) window.clearTimeout(popTimer.current);
-    setPopping(id);
-    popTimer.current = window.setTimeout(() => {
-      popTimer.current = null;
-      setPopping(null);
-    }, TAP_POP_MS);
-  }
 
   useEffect(() => {
-    const updateHeader = () => {
-      const header = headerRef.current;
-      if (!header) return;
-      // Keep the full header's space reserved, as Pokémon.com's main-filler does.
-      setCompact(window.innerWidth >= 768 && window.scrollY > header.offsetHeight - 57);
+    const update = () => {
+      // The utility row scrolls away; once it has, the bar is pinned and casts a shadow.
+      const utility = utilityRef.current;
+      const offset = utility && utility.offsetParent !== null ? utility.offsetHeight : 0;
+      setStuck(window.scrollY > offset);
     };
-    updateHeader();
-    window.addEventListener("scroll", updateHeader, { passive: true });
-    window.addEventListener("resize", updateHeader);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
     return () => {
-      window.removeEventListener("scroll", updateHeader);
-      window.removeEventListener("resize", updateHeader);
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
     };
   }, []);
 
@@ -129,115 +108,88 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header ref={headerRef} className={cn("site-header", compact && "is-compact")}>
-      <div className="brand-strip">
-        <div className="brand-strip-inner">
-          <Link href="/#top" className="brand-home" onClick={() => setActive("top")}>
-            <Image src="/brand/logo.webp" alt="" width={56} height={56} className="brand-logo" />
-            <span>
-              <span className="brand-name">ThePokeID</span>
+    <header className={cn("site-header", stuck && "is-stuck")}>
+      <div ref={utilityRef} className="utility-bar">
+        <div className="utility-inner">
+          <Link href="/#rip" className="utility-link" onClick={() => setActive("rip")}>
+            <span className="utility-link-content">
+              <MiniBall />
+              Rip a sample pack
             </span>
           </Link>
-          <Link href="/#rip" className="brand-feature brand-feature-packs" onClick={() => setActive("rip")}>
-            <span className="brand-feature-content">
-              <PackageOpen className="brand-feature-icon" aria-hidden="true" />
-              <span>
-                <span className="brand-feature-title">One pack. One hit.</span>
-                <span className="brand-feature-subtitle">Try the example rip</span>
-              </span>
+          <Link href="/#favourite" className="utility-link" onClick={() => setActive("favourite")}>
+            <span className="utility-link-content">
+              <MiniBall />
+              Find your favourite
             </span>
           </Link>
-          <Link href="/#binder" className="brand-feature brand-feature-binder" onClick={() => setActive("binder")}>
-            <span className="brand-feature-content">
-              <BookOpen className="brand-feature-icon" aria-hidden="true" />
-              <span>
-                <span className="brand-feature-title">Find your favourite</span>
-                <span className="brand-feature-subtitle">Explore the card collection</span>
-              </span>
-            </span>
-          </Link>
-          <a href={siteConfig.x} target="_blank" rel="noreferrer" className="brand-feature brand-feature-social">
-            <span className="brand-feature-content">
-              <ArrowUpRight className="brand-feature-icon" aria-hidden="true" />
-              <span>
-                <span className="brand-feature-title">The real hits</span>
-                <span className="brand-feature-subtitle">Follow {siteConfig.handle}</span>
-              </span>
+          <span className="utility-divider" aria-hidden="true" />
+          <a href={siteConfig.x} target="_blank" rel="noreferrer" className="utility-link">
+            <span className="utility-link-content">
+              Follow {siteConfig.handle}
+              <ArrowUpRight className="utility-external" aria-hidden="true" />
             </span>
           </a>
         </div>
       </div>
 
-      <div className="main-nav-slot">
-        <nav className="main-nav" aria-label="Page">
-          <div className="main-nav-inner">
-            <div className="nav-tiles">
-              {LINKS.map((link) => {
-                const Icon = link.icon;
-                return (
+      <div className="main-bar">
+        <div className="main-bar-inner">
+          <Link href="/#top" className="nav-brand" onClick={() => setActive("top")}>
+            <Image src="/brand/logo.webp" alt="" width={44} height={44} className="nav-brand-logo" />
+            <span className="nav-brand-name">ThePokeID</span>
+          </Link>
+
+          <nav className="nav-links" aria-label="Page">
+            {BAR_LINKS.map((link) => (
+              <Link
+                key={link.id}
+                href={link.href}
+                className={cn("nav-link", active === link.id && "is-active")}
+                style={navStyle(link.color)}
+                aria-current={active === link.id ? "location" : undefined}
+                onClick={() => setActive(link.id)}
+              >
+                <span className="nav-label">{link.label}</span>
+                <NavBall />
+              </Link>
+            ))}
+          </nav>
+
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button variant="ghost" size="icon" className="mobile-menu-trigger" aria-label="Open menu">
+                <Menu aria-hidden="true" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="mobile-menu-panel top-0 right-0 left-auto h-full w-[min(100%,20rem)] translate-x-0 translate-y-0 rounded-none">
+              <DialogTitle>Explore ThePokeID</DialogTitle>
+              <DialogDescription>Your next favourite is on the desk.</DialogDescription>
+              <nav className="mobile-nav-list" aria-label="Mobile">
+                {LINKS.map((link) => (
                   <Link
                     key={link.id}
                     href={link.href}
-                    className={cn("nav-tile", active === link.id && "is-active", popping === link.id && "is-popping")}
+                    className={cn("mobile-nav-link", active === link.id && "is-active")}
                     style={navStyle(link.color)}
                     aria-current={active === link.id ? "location" : undefined}
-                    onClick={() => setActive(link.id)}
-                    onPointerDown={(event) => popOnTap(event, link.id)}
+                    onClick={() => {
+                      setActive(link.id);
+                      setOpen(false);
+                    }}
                   >
-                    <span className="nav-icon-slot" aria-hidden="true">
-                      <Icon className="nav-icon" />
-                      <PokeBall />
-                    </span>
-                    <span className="nav-label">{link.label}</span>
+                    <span className="mobile-nav-ball" aria-hidden="true" />
+                    <span>{link.label}</span>
                   </Link>
-                );
-              })}
-            </div>
-
-            <div className="mobile-nav-controls">
-              <Link href="/#top" className="mobile-nav-home" onClick={() => setActive("top")}>
-                <House aria-hidden="true" />
-                Explore the desk
-              </Link>
-              <Dialog open={open} onOpenChange={setOpen}>
-                <DialogTrigger asChild>
-                  <Button variant="ghost" size="icon" className="mobile-menu-trigger" aria-label="Open menu">
-                    <Menu aria-hidden="true" />
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="mobile-menu-panel top-0 right-0 left-auto h-full w-[min(100%,20rem)] translate-x-0 translate-y-0 rounded-none">
-                  <DialogTitle>Explore ThePokeID</DialogTitle>
-                  <DialogDescription>Your next favourite is on the desk.</DialogDescription>
-                  <nav className="mobile-nav-list" aria-label="Mobile">
-                    {LINKS.map((link) => {
-                      const Icon = link.icon;
-                      return (
-                        <Link
-                          key={link.id}
-                          href={link.href}
-                          className={cn("mobile-nav-link", active === link.id && "is-active")}
-                          style={navStyle(link.color)}
-                          aria-current={active === link.id ? "location" : undefined}
-                          onClick={() => {
-                            setActive(link.id);
-                            setOpen(false);
-                          }}
-                        >
-                          <Icon className="nav-icon" aria-hidden="true" />
-                          <span className="nav-label">{link.label}</span>
-                        </Link>
-                      );
-                    })}
-                  </nav>
-                  <a href={siteConfig.x} target="_blank" rel="noreferrer" className="mobile-social-link">
-                    Follow {siteConfig.handle}
-                    <ArrowUpRight aria-hidden="true" />
-                  </a>
-                </DialogContent>
-              </Dialog>
-            </div>
-          </div>
-        </nav>
+                ))}
+              </nav>
+              <a href={siteConfig.x} target="_blank" rel="noreferrer" className="mobile-social-link">
+                Follow {siteConfig.handle}
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
     </header>
   );

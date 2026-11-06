@@ -9,10 +9,11 @@ import { cardById, type ExampleCard } from "@/data/cards";
 import { DROPS, type DropStory, type DropTone } from "@/data/desk";
 import { cn } from "@/lib/utils";
 
+/** Pearl, then the two holo finishes of the collection boxes. */
 const toneClass: Record<DropTone, string> = {
-  paper: "bg-[#f2f2f2] text-ink",
-  sun: "bg-[#bd4c1b] text-white",
-  brand: "bg-[#14799f] text-white",
+  paper: "drop-pearl text-ink",
+  sun: "drop-eclipse text-white",
+  brand: "drop-aurora text-ink",
 };
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
@@ -58,7 +59,7 @@ function SnapStories({ onSelect }: { onSelect: (card: ExampleCard) => void }) {
           <article
             key={story.id}
             className={cn(
-              "flex w-[82%] max-w-md shrink-0 snap-center flex-col justify-between gap-6 rounded-md p-6 sm:w-[70%]",
+              "drop-panel is-snap flex w-[82%] max-w-md shrink-0 snap-center flex-col justify-between gap-6 rounded-[12px] p-6 sm:w-[70%]",
               toneClass[story.tone],
             )}
           >
@@ -88,7 +89,7 @@ function ScrubStories({ onSelect }: { onSelect: (card: ExampleCard) => void }) {
             return (
               <article
                 key={story.id}
-                className={cn("flex h-full w-1/3 items-center", toneClass[story.tone])}
+                className={cn("drop-panel flex h-full w-1/3 items-center", toneClass[story.tone])}
               >
                 <div className="mx-auto grid w-full max-w-6xl items-center gap-8 px-8 md:grid-cols-[1.1fr_200px] lg:px-12">
                   <StoryCopy story={story} />

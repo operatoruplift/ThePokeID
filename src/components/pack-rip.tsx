@@ -42,7 +42,7 @@ function PackCard({
   return (
     <li className="relative shrink-0 snap-center">
       {isHit && hot ? (
-        <span className="absolute -top-8 left-1/2 -translate-x-1/2 rounded-full bg-sun px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-ink">
+        <span className="gold-plate absolute -top-8 left-1/2 -translate-x-1/2 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em]">
           The hit
         </span>
       ) : null}
@@ -117,18 +117,13 @@ export function PackRip() {
         : "Hold on.";
 
   return (
-    <section id="rip" className="relative scroll-mt-28 overflow-hidden border-y border-line bg-[#f2f2f2] text-ink">
+    <section id="rip" className="relative scroll-mt-28 overflow-hidden border-y border-line bg-pearl text-ink">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-stage to-transparent" />
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 55% 45% at 50% 58%, rgba(48,167,215,0.14), transparent 70%)",
-        }}
-        aria-hidden
-      />
+      {/* A holo glow and foil ring behind the pack, like the rim of a premium box lid. */}
+      <div className="rip-glow pointer-events-none" aria-hidden />
+      <div className="rip-halo pointer-events-none" aria-hidden />
       <div className="relative mx-auto max-w-6xl px-5 py-12 md:px-8 md:py-16">
-        <p className="text-sm font-bold text-[#1b6b9e]">The sample pack</p>
+        <p className="eyebrow">The sample pack</p>
         <div className="mt-3 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <h2 className="max-w-xl font-display text-[28px] leading-tight md:text-[36px]">
             Five cards. One breath. Then the hit.
@@ -186,7 +181,7 @@ export function PackRip() {
         <div className="mt-8 flex flex-col items-center gap-4 text-center">
           <p role="status" className="text-sm text-mist">{status}</p>
           <Button
-            variant="sun"
+            variant="gold"
             size="lg"
             onClick={rip}
             disabled={phase === "shaking" || phase === "tearing" || phase === "revealing"}
