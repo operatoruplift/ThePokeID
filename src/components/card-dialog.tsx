@@ -48,8 +48,9 @@ function CardInspector({ card }: { card: ExampleCard }) {
           </Button>
         </div>
       </div>
-      <div className={cn("mt-5 grid min-w-0 items-start gap-6", !zoomed && "md:grid-cols-[minmax(0,360px)_minmax(0,1fr)]")}>
-        <div className="relative min-w-0">
+      <div className={cn("mt-5 grid min-w-0 items-start gap-6", !zoomed && "md:grid-cols-[minmax(0,360px)_minmax(0,1fr)] md:gap-10")}>
+        {/* Room below for the lifted card's shadow inside the scrolling dialog. */}
+        <div className="relative min-w-0 pb-4">
           <div
             className={cn("card-inspector-scan mx-auto w-full rounded-xl", zoomed ? "max-h-[70dvh] max-w-[560px] overflow-auto bg-[#f2f2f2] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bolt" : "max-w-[360px]")}
             role={zoomed ? "region" : undefined}
@@ -67,10 +68,10 @@ function CardInspector({ card }: { card: ExampleCard }) {
             >
               <div className={cn("card-inspector-rotator absolute inset-0 [transform-style:preserve-3d] motion-safe:transition-transform motion-safe:duration-500", back && "[transform:rotateY(180deg)]")}>
                 <div className="card-inspector-face absolute inset-0 [backface-visibility:hidden]" aria-hidden={back} inert={back}>
-                  <HoloCard card={card} large showMeta={false} fill className="h-full" />
+                  <HoloCard card={card} large showMeta={false} fill tilt={zoomed ? 0 : undefined} className="h-full" />
                 </div>
                 <div className="card-inspector-back absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)]" aria-hidden={!back} inert={!back}>
-                  <CardSurface className="h-full w-full"><CardBack /></CardSurface>
+                  <CardSurface className="h-full w-full" tilt={zoomed ? 0 : undefined}><CardBack /></CardSurface>
                 </div>
               </div>
             </button>

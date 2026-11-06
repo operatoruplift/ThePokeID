@@ -103,7 +103,7 @@ export function Favourite() {
                   >
                     <span
                       className={cn(
-                        "relative block aspect-[63/88] overflow-hidden rounded-md bg-white",
+                        "relative block aspect-[63/88] rounded-md bg-white",
                         pressed ? "ring-4 ring-bolt ring-offset-2 ring-offset-white" : "ring-1 ring-ink/15",
                       )}
                     >

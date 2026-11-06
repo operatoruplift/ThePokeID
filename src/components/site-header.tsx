@@ -13,7 +13,7 @@ import {
   PackageOpen,
   Sparkles,
 } from "lucide-react";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -36,8 +36,28 @@ const LINKS = [
   { href: "/#list", id: "list", label: "Updates", icon: Newspaper, color: "#1b53ba" },
 ] as const;
 
+/** Long enough for the pop, the rock, and the button flash to play through. */
+const TAP_POP_MS = 1600;
+
 function navStyle(color: string): CSSProperties {
   return { "--nav-color": color } as CSSProperties;
+}
+
+function PokeBall() {
+  return (
+    <span className="nav-pokeball">
+      <svg viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="19.25" fill="white" />
+        <path d="M3 20a17 17 0 0 1 34 0Z" fill="#e3350d" />
+        <path d="M9.4 12.4a12.2 12.2 0 0 1 7.4-5.8" stroke="white" strokeOpacity="0.65" strokeWidth="2.4" strokeLinecap="round" />
+        <circle cx="20" cy="20" r="17" stroke="#262626" strokeWidth="2.6" />
+        <path d="M3 20h34" stroke="#262626" strokeWidth="3.2" />
+        <circle cx="20" cy="20" r="5.8" fill="white" stroke="#262626" strokeWidth="2.6" />
+        <circle cx="20" cy="20" r="2.5" fill="#f2f2f2" stroke="#bdbdbd" strokeWidth="1" />
+        <circle className="nav-pokeball-glint" cx="20" cy="20" r="3.4" fill="#fff4b8" />
+      </svg>
+    </span>
+  );
 }
 
 export function SiteHeader() {
@@ -45,6 +65,26 @@ export function SiteHeader() {
   const [compact, setCompact] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("top");
+  const [popping, setPopping] = useState<string | null>(null);
+  const popTimer = useRef<number | null>(null);
+
+  useEffect(
+    () => () => {
+      if (popTimer.current !== null) window.clearTimeout(popTimer.current);
+    },
+    [],
+  );
+
+  // Touchscreens have no hover, so a tap plays the Poké Ball pop instead.
+  function popOnTap(event: PointerEvent<HTMLAnchorElement>, id: string) {
+    if (event.pointerType === "mouse") return;
+    if (popTimer.current !== null) window.clearTimeout(popTimer.current);
+    setPopping(id);
+    popTimer.current = window.setTimeout(() => {
+      popTimer.current = null;
+      setPopping(null);
+    }, TAP_POP_MS);
+  }
 
   useEffect(() => {
     const updateHeader = () => {
@@ -138,21 +178,15 @@ export function SiteHeader() {
                   <Link
                     key={link.id}
                     href={link.href}
-                    className={cn("nav-tile", active === link.id && "is-active")}
+                    className={cn("nav-tile", active === link.id && "is-active", popping === link.id && "is-popping")}
                     style={navStyle(link.color)}
                     aria-current={active === link.id ? "location" : undefined}
                     onClick={() => setActive(link.id)}
+                    onPointerDown={(event) => popOnTap(event, link.id)}
                   >
                     <span className="nav-icon-slot" aria-hidden="true">
                       <Icon className="nav-icon" />
-                      <svg className="nav-pokeball" viewBox="0 0 32 32" fill="none">
-                        <circle cx="16" cy="16" r="14" fill="white" />
-                        <path d="M2 16a14 14 0 0 1 28 0Z" fill="#e3350d" />
-                        <circle cx="16" cy="16" r="14" stroke="#313131" strokeWidth="2.5" />
-                        <path d="M2 16h28" stroke="#313131" strokeWidth="3" />
-                        <circle cx="16" cy="16" r="4.5" fill="white" stroke="#313131" strokeWidth="2.5" />
-                        <circle cx="16" cy="16" r="1.5" fill="#dedede" />
-                      </svg>
+                      <PokeBall />
                     </span>
                     <span className="nav-label">{link.label}</span>
                   </Link>

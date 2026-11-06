@@ -14,6 +14,8 @@ type HoloCardProps = {
   priority?: boolean;
   showMeta?: boolean;
   fill?: boolean;
+  /** Maximum 3D rotation in degrees; 0 keeps the card still but shiny. */
+  tilt?: number;
   className?: string;
 };
 
@@ -24,6 +26,7 @@ export function HoloCard({
   priority = false,
   showMeta = true,
   fill = false,
+  tilt,
   className,
 }: HoloCardProps) {
   const [focused, setFocused] = useState(false);
@@ -34,6 +37,7 @@ export function HoloCard({
     <CardSurface
       className={cn("w-full", fill ? "h-full" : "aspect-[63/88]", `foil-${tier}`)}
       focused={focused}
+      tilt={tilt}
     >
       <CardFace
         card={card}

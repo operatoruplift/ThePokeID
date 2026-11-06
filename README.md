@@ -42,15 +42,24 @@ the public Pokémon TCG dataset; the Exeggcute illustrator was read from the sca
 where the dataset omitted it. Source commits, URLs, and checksums are recorded in
 `public/cards/sources.json`. No runtime connection to an image CDN is required.
 
-Cards follow the pointer with perspective rotation up to 14° toward each edge,
-sideways movement, lift, scale, and a shifting shadow alongside their foil shine.
-The artwork moves inside a stationary hit area so its motion does not feed back
-into pointer coordinates, and settles back when the pointer leaves. Touch input
-keeps the cards still for scrolling and tapping; reduced motion disables the 3D
-movement. Cards open a keyboard-accessible inspector. Tap or
-press the flip control to see the back, and zoom to inspect the original scan;
-enlarged scans can be panned on mobile. Reduced motion is respected. The selected
-favourite and featured desk card also open the inspector.
+Cards react to the pointer in 3D. Each card turns to face the cursor, up to 18°
+toward any edge, leans after it, and lifts off the page with a small pop. Its
+shadow falls further as it rises, and directional shading, glare, and foil follow
+the light. The motion runs on a spring (`src/lib/card-tilt.ts`): cards overshoot
+slightly and wobble back to rest when the pointer leaves, and pressing pushes a
+card back down. Perspective scales with each card's size, so desk thumbnails tilt
+as visibly as the inspector scan, and cards wider than 240px travel no further in
+pixels than a 240px card. The artwork moves inside a stationary hit area so its
+motion does not feed back into pointer coordinates; resting cards drop their
+transforms. The graded slab tilts as one piece with its card seated inside, and
+keyboard focus presents a card in a three-quarter pose. On touchscreens, swipes
+and quick taps leave cards still; press and hold to tilt a card toward your
+finger. Reduced motion keeps a gentle 5° tilt without travel, pop, or bounce.
+
+Cards open a keyboard-accessible inspector. Tap or press the flip control to see
+the back, and zoom to inspect the original scan; the zoomed scan holds still and
+can be panned on mobile. The selected favourite and featured desk card also open
+the inspector.
 
 All card areas use the shared `CardSurface` hover treatment, including the hero
 fan, feed thumbnails, favourite picker, story cards, and card backs. The four
@@ -71,16 +80,20 @@ claiming the entry was saved.
 The interface uses a light editorial layout, colored icon navigation, and locally
 bundled Lato/Roboto typography inspired by Pokémon's website. Header motion is
 based on Pokémon.com's published [main.css](https://assets.pokemon.com/static2/_ui/css/main.css)
-and [gus.css](https://assets.pokemon.com/static2/_ui/css/gus.css): navigation tiles
-fade to their section color over 300ms with a 100ms icon-color transition. A red
-and white Poké Ball springs up in place of the section icon on hover or keyboard
-focus, and peeks up behind the label in the compact bar. The utility strip uses the
-475ms downward bounce (6px at 40%, 1px at 60%) and fades neighboring promotions to
-20% opacity over 200ms. Keyboard focus receives the same treatment; reduced
-motion disables animation and transitions. Hover effects only run on devices
-that support hover. The desktop navigation becomes a fixed 57px label-only bar
-after scrolling past the header, with its original space reserved to prevent a
-layout jump. Mobile navigation uses an accessible drawer.
+and [gus.css](https://assets.pokemon.com/static2/_ui/css/gus.css): each navigation
+tile fills with its section color, rising out of the colored base over 200ms like
+Pokémon.com's fill, with a 100ms text-color transition. On hover or keyboard
+focus, a red and white Poké Ball pops up from below the tile's bottom edge in place
+of the section icon. It springs past its slot on a damped-spring curve, spins
+upright, rocks like a catch, and flashes its button. In the compact bar it pops
+up beside the label. Touchscreen taps play the same pop. The utility strip uses
+the 475ms downward bounce (6px at 40%, 1px at 60%) and fades neighboring
+promotions to 20% opacity over 200ms. Keyboard focus receives the same treatment;
+reduced motion shows the Poké Ball without the pop and disables the other
+animation and transitions. Hover effects run when any input supports hover. The
+desktop navigation becomes a fixed 57px label-only bar after scrolling past the
+header, with its original space reserved to prevent a layout jump. Mobile
+navigation uses an accessible drawer.
 
 `public/brand` holds the supplied logo, avatar, and X banner. The logo background was removed so it can sit on the page.
 

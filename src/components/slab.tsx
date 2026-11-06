@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { CardDialog } from "@/components/card-dialog";
+import { TiltFrame } from "@/components/card-surface";
 import { HoloCard } from "@/components/holo-card";
 import { cardById } from "@/data/cards";
 
@@ -13,15 +14,16 @@ export function Slab() {
   return (
     <section className="bg-stage text-ink" aria-labelledby="slab-title">
       <div className="mx-auto grid max-w-6xl items-center gap-8 px-5 py-10 md:grid-cols-[240px_1fr] md:py-14">
-        <div className="slab mx-auto w-full max-w-[280px]">
+        {/* The slab moves as one piece; the encased card keeps its shine but stays seated. */}
+        <TiltFrame className="mx-auto w-full max-w-[280px]" frameClassName="slab" tilt={14}>
           <div className="relative aspect-[63/88] overflow-hidden rounded-lg">
-            <HoloCard card={card} large fill showMeta={false} className="h-full" onSelect={() => setOpen(true)} />
+            <HoloCard card={card} large fill showMeta={false} tilt={0} className="h-full" onSelect={() => setOpen(true)} />
           </div>
           <div className="mt-3 flex items-center justify-between text-white">
             <span className="font-display text-2xl leading-none">ID</span>
             <span className="text-right font-display text-2xl leading-none text-sun">#{card.number}</span>
           </div>
-        </div>
+        </TiltFrame>
         <div>
           <p className="text-sm font-bold text-brand">Desk plate</p>
           <h2 id="slab-title" className="mt-2 font-display text-3xl leading-tight md:text-4xl">
