@@ -592,13 +592,99 @@ body::before {
   box-shadow: 0 0 30px rgb(255 255 255 / 0.4);
 }
 
-/* In the swipeable cards, the lid sits behind the card at the bottom, clear of the copy. */
-.drop-panel.is-snap::before {
-  top: auto;
-  right: 50%;
-  bottom: -38%;
-  width: 115%;
-  translate: 50% 0;
+/* The story loop: an endless strip that drifts left, stops under the mouse, and drags. */
+.story-loop {
+  overflow: hidden;
+  padding-block: 18px;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+
+.story-loop:active {
+  cursor: grabbing;
+}
+
+.story-loop img {
+  -webkit-user-drag: none;
+}
+
+/* Stories share one grid cell, so the strip is as tall as the tallest; each slides on its own. */
+.story-track {
+  display: grid;
+}
+
+.story-track > .story-panel {
+  grid-area: 1 / 1;
+  will-change: transform;
+}
+
+.story-panel {
+  display: grid;
+  width: min(580px, 84vw);
+  min-height: 340px;
+  flex: 0 0 auto;
+  grid-template-columns: minmax(0, 1fr) 180px;
+  align-items: center;
+  gap: 24px;
+  padding: 28px 32px;
+  border-radius: 16px;
+  box-shadow: 0 14px 34px rgb(30 34 48 / 0.12);
+}
+
+.story-panel .story-card {
+  width: 180px;
+}
+
+/* On phones the copy sits above the card, and the lid moves down behind the card. */
+@media (max-width: 639px) {
+  .story-panel {
+    width: min(400px, 84vw);
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding: 24px;
+  }
+
+  .story-panel .story-card {
+    width: 150px;
+  }
+
+  .story-panel.drop-panel::before {
+    top: auto;
+    right: 50%;
+    bottom: -38%;
+    width: 115%;
+    translate: 50% 0;
+  }
+}
+
+.story-loop-toggle {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: white;
+  color: var(--ink);
+  transition: background-color 150ms ease;
+}
+
+.story-loop-toggle:hover {
+  background: var(--pearl);
+}
+
+.story-loop-toggle:focus-visible {
+  outline: 3px solid var(--bolt);
+  outline-offset: 2px;
+}
+
+.story-loop-toggle svg {
+  width: 18px;
+  height: 18px;
 }
 
 .drop-pearl {
