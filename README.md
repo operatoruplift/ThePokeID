@@ -1,6 +1,6 @@
 # ThePokeID
 
-Brand site for [ThePokeID](https://x.com/thepokeID). One page: authentic Pokémon card scans, interactive foil and card inspection, a demo pack you can rip open, a "What's your favourite?" picker, scroll-driven drops, and a preview waitlist.
+Brand site for [ThePokeID](https://x.com/thepokeID). One page: authentic Pokémon card scans, interactive foil and card inspection, a 3D demo pack you can rip open, a "What's your favourite?" picker, an endless loop of drop stories, and a preview waitlist.
 
 ## Run locally
 
@@ -67,20 +67,47 @@ All card areas use the shared `CardSurface` hover treatment, including the hero
 fan, feed thumbnails, favourite picker, story cards, and card backs. The four
 selection tiles and the face-down cards use the original blue Pokémon card back.
 
-The sample pack is a sealed foil pack in the site's finish, with ThePokeID's own
-artwork rather than an official pack design. Drag across it to tear the top strip
-along its perforation: the tear follows the pointer, light spills out of the
-opening, and letting go past halfway finishes the rip, while letting go earlier
-springs the strip back. Pressing the pack or the button rips it automatically,
-after a short shake. The strip flies off, the five cards rise out, and the pack
-drops away. The cards then turn over one at a time; tap, swipe, or use the arrow
-keys for the next. The fifth card is the hit: it waits face down, pulsing gold,
-until it is flipped on purpose. "Show all five" skips to the spread, where any
-card opens the inspector. Choosing a tile loads that named pack and rips it once
-the page has scrolled to it. Reduced motion skips the rip and shows the spread.
-The shake and the one-at-a-time swipe reveal follow
-[hongyime/pokemonpacks](https://github.com/hongyime/pokemonpacks) (Apache-2.0);
-no code was copied from it.
+The sample pack is a sealed foil pack with ThePokeID's own artwork rather than an
+official pack design, opened in a dark theater. Where WebGL 2 is available it is a
+real 3D object built with three.js. The pack is generated in code as a heat-sealed
+pillow with crimped, saw-toothed ends (`src/lib/pack3d/shape.ts`), and its printed
+foil, gloss and metal map, crease normals, and lettering are painted onto canvases
+when it loads (`src/lib/pack3d/art.ts`). The foil is an iridescent physical
+material reflecting a soft night-sky environment, with bloom on the brightest
+light. The pack floats among stars and leans toward the pointer.
+
+Swipe across the pack and the top strip tears along its perforation: the free foil
+curls up off the pack without stretching, light leaks through the widening gap,
+and a synthesized foil crackle follows the speed of the swipe (phones that can
+vibrate tick as it tears). Letting go past 60%, or flicking, finishes the tear;
+letting go earlier leaves the strip half torn until the next swipe. Pressing the
+pack or the button rips it after a short shake. The strip pops off and flies away,
+light and sparks burst from the opening, the five cards rise, and the pack drops
+away. Each card then turns over in 3D and leans toward the pointer, and a rainbow
+sheen slides across holo cards as they turn; tap or throw the card, or use the
+arrow keys, for the next. The fifth card is the hit: it waits face down in a gold
+glow until it is flipped on purpose, then lands with a flash, rays, a shimmer, and
+a gold plate. "Show all five" skips to the spread, where any card opens the
+inspector. Choosing a tile loads that named pack and rips it once the page has
+scrolled to it. The sounds are made with Web Audio, play only after the pack has
+been touched, and can be muted; the setting is remembered in `localStorage`.
+
+three.js and the stage (about 150 KB gzipped) load only as the section nears the
+screen, and the stage stops drawing while the section is off screen. Until it is
+ready, and wherever WebGL 2 is missing or lost, a 2D pack runs the same rip in
+CSS: drag across it to tear the strip, where letting go past halfway finishes the
+rip and letting go earlier springs it back, then swipe through the cards. Reduced
+motion keeps the 2D pack, skips the rip, and shows the spread. The theater takes
+its cues from [addict.munden.org](https://addict.munden.org/) and
+[blockrips.com](https://blockrips.com/), and the shake and one-at-a-time reveal
+follow [hongyime/pokemonpacks](https://github.com/hongyime/pokemonpacks)
+(Apache-2.0); no code was copied from any of them.
+
+The drops are three stories on an endless strip that drifts slowly to the left,
+with no scrollbar. Each story wraps from one end to the other by itself, so there
+are no hidden copies for keyboards or screen readers. The strip stops under the
+mouse or keyboard focus, can be dragged and flung either way, and has a pause
+button; reduced motion starts it paused.
 
 Pulls, the mixed-set demo pack, drops, and the waitlist are demonstrations. Chase
 highlights are editorial selections, separate from official rarity. The pack

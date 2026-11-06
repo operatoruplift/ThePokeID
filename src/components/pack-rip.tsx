@@ -1,16 +1,20 @@
 "use client";
 
 import { animate, motion, useMotionValue, useReducedMotion } from "framer-motion";
-import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { Volume2, VolumeX } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
 
 import { BoosterPack } from "@/components/booster-pack";
 import { CardBack } from "@/components/card-face";
 import { CardDialog } from "@/components/card-dialog";
 import { HoloCard } from "@/components/holo-card";
 import { PackReveal } from "@/components/pack-reveal";
+import { PackTheater } from "@/components/pack-theater";
 import { Button } from "@/components/ui/button";
 import { dealPack, type ExampleCard } from "@/data/cards";
 import { OPEN_DEMO_PACK } from "@/lib/card-events";
+import type { PackStage, StageEvents } from "@/lib/pack3d/stage";
+import { readSoundOn, soundSetting } from "@/lib/pack3d/sound";
 import { packForSeed } from "@/lib/sample-packs";
 
 /**
@@ -52,6 +56,8 @@ function SpreadCard({ card, index, hit, onSelect }: { card: ExampleCard; index: 
 export function PackRip() {
   const reduce = useReducedMotion() ?? false;
   const [seed, setSeed] = useState(1);
+  /** Counts every pack dealt, so the 3D stage re-deals even the same seed. */
+  const [deal, setDeal] = useState(0);
   const [phase, setPhase] = useState<Phase>("sealed");
   const [step, setStep] = useState(0);
   const [faceUp, setFaceUp] = useState(false);
@@ -71,6 +77,20 @@ export function PackRip() {
   const phaseRef = useRef<Phase>("sealed");
   const timers = useRef<number[]>([]);
   const primaryRef = useRef<HTMLButtonElement>(null);
+
+  // The 3D theater takes over from the 2D pack once it has loaded, between packs.
+  const [mode, setMode] = useState<"2d" | "3d">("2d");
+  const modeRef = useRef<"2d" | "3d">("2d");
+  const stageReady = useRef(false);
+  const stageRef = useRef<PackStage | null>(null);
+  const frameRef = useRef<HTMLDivElement>(null);
+  const theater = mode === "3d" && !reduce;
+  const sound = useSyncExternalStore(soundSetting.subscribe, readSoundOn, () => true);
+
+  const switchMode = useCallback((next: "2d" | "3d") => {
+    modeRef.current = next;
+    setMode(next);
+  }, []);
 
   const go = useCallback((next: Phase) => {
     phaseRef.current = next;
@@ -101,11 +121,13 @@ export function PackRip() {
       packOpacity.set(1);
       stackY.set(STACK_IN_PACK);
       setSeed(nextSeed);
+      setDeal((count) => count + 1);
       setStep(0);
       setFaceUp(false);
       go("sealed");
+      if (stageReady.current && modeRef.current === "2d") switchMode("3d");
     },
-    [settle, rip, packY, packRotate, packOpacity, stackY, go],
+    [settle, rip, packY, packRotate, packOpacity, stackY, go, switchMode],
   );
 
   const showAll = useCallback(() => {
@@ -140,6 +162,12 @@ export function PackRip() {
       showAll();
       return;
     }
+    if (modeRef.current === "3d") {
+      // The stage tears the pack and reports back through onTorn.
+      stageRef.current?.unlockSound();
+      go("ripping");
+      return;
+    }
     const current = ++run.current;
     go("ripping");
     await animate(packRotate, [0, -5, 5, -4, 4, -2, 0], { duration: 0.5, ease: "easeInOut" });
@@ -150,9 +178,22 @@ export function PackRip() {
   }, [reduce, showAll, go, packRotate, rip, openPack]);
 
   const torn = useCallback(() => {
+    if (modeRef.current === "3d") {
+      if (phaseRef.current === "sealed" || phaseRef.current === "ripping") go("opening");
+      return;
+    }
     if (phaseRef.current !== "sealed") return;
     void openPack();
-  }, [openPack]);
+  }, [openPack, go]);
+
+  /** The 3D cards are out of the pack: turn over the first one. */
+  const opened = useCallback(() => {
+    if (phaseRef.current !== "opening") return;
+    setStep(0);
+    setFaceUp(false);
+    go("reveal");
+    later(() => setFaceUp(true), 260);
+  }, [go, later]);
 
   const flip = useCallback(() => {
     if (phaseRef.current === "reveal") setFaceUp(true);
@@ -178,10 +219,33 @@ export function PackRip() {
     [faceUp, step, cards.length, showAll, later],
   );
 
+  const stageEvents: StageEvents = {
+    onPackTap: () => void ripOpen(),
+    onTorn: torn,
+    onOpened: opened,
+    onCardTap: () => (faceUp ? next(-1) : flip()),
+    onCardThrow: (direction) => next(direction),
+    onLost: () => undefined,
+  };
+
+  const stageUp = useCallback(() => {
+    stageReady.current = true;
+    // Swap in the 3D pack now if the 2D one has not been touched; otherwise at the next pack.
+    if (phaseRef.current === "sealed" && rip.get() === 0) switchMode("3d");
+  }, [rip, switchMode]);
+
+  const stageDown = useCallback(() => {
+    stageReady.current = false;
+    if (modeRef.current !== "3d") return;
+    switchMode("2d");
+    loadPack(seed);
+  }, [switchMode, loadPack, seed]);
+
   useEffect(() => {
     const fromTile = (event: Event) => {
       const nextSeed = (event as CustomEvent<{ seed: number }>).detail?.seed;
       if (!Number.isSafeInteger(nextSeed) || nextSeed <= 0) return;
+      stageRef.current?.unlockSound();
       loadPack(nextSeed);
       // Give the scroll to this section time to land, then rip it in view.
       later(() => void ripOpen(), reduce ? 0 : 700);
@@ -210,7 +274,7 @@ export function PackRip() {
   const card = cards[step];
   const status =
     phase === "sealed"
-      ? "Drag across the pack to rip it open, or press the button."
+      ? "Swipe across the top of the pack to tear it open, or press the button."
       : phase === "ripping" || phase === "opening"
         ? "Ripping…"
         : phase === "reveal"
@@ -232,27 +296,47 @@ export function PackRip() {
           ? { label: "Get another pack", action: () => loadPack(seed + 1) }
           : { label: "Ripping…", action: () => undefined };
 
-  const openingStack = phase === "sealed" || phase === "ripping" || phase === "opening";
+  const openingStack = !theater && (phase === "sealed" || phase === "ripping" || phase === "opening");
 
   return (
-    <section id="rip" className="relative scroll-mt-28 overflow-hidden border-y border-line bg-pearl text-ink" onKeyDown={keys}>
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-stage to-transparent" />
-      {/* A holo glow and foil ring behind the pack, like the rim of a premium box lid. */}
-      <div className="rip-glow pointer-events-none" aria-hidden />
-      <div className="rip-halo pointer-events-none" aria-hidden />
-      <div className="relative mx-auto max-w-6xl px-5 py-12 md:px-8 md:py-16">
-        <p className="eyebrow">The sample pack</p>
+    <section
+      id="rip"
+      className="rip-theater relative scroll-mt-28 overflow-hidden text-white"
+      data-mode={theater ? "3d" : "2d"}
+      data-phase={phase}
+      onKeyDown={keys}
+    >
+      <PackTheater
+        frameRef={frameRef}
+        stageRef={stageRef}
+        enabled={!reduce}
+        active={theater}
+        deal={deal}
+        packName={pack.name}
+        packFinish={pack.finish}
+        cards={cards}
+        view={{ phase, step, faceUp, exitDir }}
+        sound={sound}
+        events={stageEvents}
+        onReady={stageUp}
+        onRelease={stageDown}
+      />
+      {/* The 2D pack keeps a holo glow and foil ring behind it, like the rim of a premium box lid. */}
+      {theater ? null : <div className="rip-glow pointer-events-none" aria-hidden />}
+      {theater ? null : <div className="rip-halo pointer-events-none" aria-hidden />}
+      <div className="rip-content relative mx-auto max-w-6xl px-5 py-12 md:px-8 md:py-16">
+        <p className="eyebrow eyebrow-on-dark">The sample pack</p>
         <div className="mt-3 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <h2 className="max-w-xl font-display text-[28px] leading-tight md:text-[36px]">
             Five cards. One breath. Then the hit.
           </h2>
-          <p className="max-w-sm text-sm leading-relaxed text-mist">
+          <p className="max-w-sm text-sm leading-relaxed text-[#b4bccf]">
             Real Pokémon card backs, five genuine cards, and a final reveal. These mixed-set
             demos do not represent official packs or pull rates. Seed {String(seed).padStart(2, "0")} repeats the same deal.
           </p>
         </div>
 
-        <div className="pack-stage mt-8">
+        <div ref={frameRef} className="pack-stage mt-8">
           {openingStack ? (
             <motion.div className="pack-stack" style={{ y: stackY }} aria-hidden="true">
               {cards.map((stackCard, i) => (
@@ -263,7 +347,7 @@ export function PackRip() {
             </motion.div>
           ) : null}
 
-          {phase === "reveal" ? (
+          {phase === "reveal" && !theater ? (
             <PackReveal cards={cards} step={step} faceUp={faceUp} exitDir={exitDir} onFlip={flip} onNext={next} />
           ) : null}
 
@@ -282,7 +366,7 @@ export function PackRip() {
             </motion.div>
           ) : null}
 
-          {phase === "opening"
+          {phase === "opening" && !theater
             ? BURST.map((spark) => (
                 <span key={`${spark.left}-${spark.top}`} className="spark" style={{ left: spark.left, top: spark.top, animationDelay: spark.delay }} />
               ))
@@ -304,7 +388,7 @@ export function PackRip() {
         </div>
 
         <div className="mt-6 flex flex-col items-center gap-3 text-center">
-          <p role="status" className="min-h-5 text-sm text-mist">{status}</p>
+          <p role="status" className="min-h-5 text-sm text-[#b4bccf]">{status}</p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Button
               ref={primaryRef}
@@ -316,13 +400,27 @@ export function PackRip() {
               {primary.label}
             </Button>
             {phase === "reveal" ? (
-              <Button variant="outline" size="lg" onClick={showAll}>
+              <Button variant="outline" size="lg" className="rip-outline" onClick={showAll}>
                 Show all five
               </Button>
             ) : null}
+            {theater ? (
+              <button
+                type="button"
+                className="rip-sound"
+                onClick={() => soundSetting.write(sound ? "off" : "on")}
+                aria-pressed={sound}
+                aria-label="Rip sounds"
+                title={sound ? "Sound on" : "Sound off"}
+              >
+                {sound ? <Volume2 aria-hidden="true" /> : <VolumeX aria-hidden="true" />}
+              </button>
+            ) : null}
           </div>
           {phase === "reveal" ? (
-            <p className="text-xs text-mist">Tap or swipe the card, or use the arrow keys.</p>
+            <p className="text-xs text-[#b4bccf]">
+              {theater ? "Tap or throw the card, or use the arrow keys." : "Tap or swipe the card, or use the arrow keys."}
+            </p>
           ) : null}
         </div>
       </div>
