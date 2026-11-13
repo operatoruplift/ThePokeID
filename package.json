@@ -1,6 +1,12 @@
 {
   "name": "thepokeid",
   "version": "0.1.0",
+  "description": "One-page brand site for ThePokeID: genuine Pokémon card scans, a 3D card inspector and a foil pack you rip open.",
+  "homepage": "https://thepokeid.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/operatoruplift/thepokeid.git"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",
